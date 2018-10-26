@@ -58,6 +58,15 @@ public class FornecedorController {
 		return this.fornecedores.get(nome).toString();
 	}
 	
+	public boolean removeFornecedor(String nome) {
+		if (!fornecedores.containsKey(nome)) {
+			return false;
+		}
+		
+		this.fornecedores.remove(nome);
+		return true;
+	}
+	
 	public String listaFornecedores() {
 		String fornecedores = "Fornecedores:\n";
 		int cont = 0;

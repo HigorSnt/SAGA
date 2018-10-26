@@ -74,6 +74,15 @@ public class ClienteController {
 		return this.clientes.get(cpf).toString();
 	}
 	
+	public boolean removeCliente(String cpf) {
+		if (!clientes.containsKey(cpf)) {
+			return false;
+		}
+		
+		this.clientes.remove(cpf);
+		return false;
+	}
+	
 	public String listaClientes() {
 		String clientes = "Clientes:\n";
 		int cont = 0;
