@@ -66,7 +66,7 @@ public class Facade {
 	 * 
 	 * @return Um boolean informando se foi ou não bem sucedida a operação.
 	 */
-	public boolean editaNome(String cpf, String nome) {
+	public boolean editaNomeCliente(String cpf, String nome) {
 		cpf = cpf.trim();
 		nome = nome.trim();
 		
@@ -82,7 +82,7 @@ public class Facade {
 	 * 
 	 * @return Um boolean informando se foi ou não bem sucedida a operação.
 	 */
-	public boolean editaLocalizacao(String cpf, String localizacao) {
+	public boolean editaLocalizacaoCliente(String cpf, String localizacao) {
 		cpf = cpf.trim();
 		localizacao = localizacao.trim();
 		
@@ -98,7 +98,7 @@ public class Facade {
 	 * 
 	 * @return Um boolean informando se foi ou não bem sucedida a operação.
 	 */
-	public boolean editaEmail(String cpf, String email) {
+	public boolean editaEmailCliente(String cpf, String email) {
 		cpf = cpf.trim();
 		email = email.trim();
 		
@@ -113,7 +113,7 @@ public class Facade {
 	 * 
 	 * @return O nome do cliente que possui determinado CPF.
 	 */
-	public String retornaNome(String cpf) {
+	public String retornaNomeCliente(String cpf) {
 		cpf = cpf.trim();
 		
 		verificaExcecao(cpf);
@@ -127,7 +127,7 @@ public class Facade {
 	 * 
 	 * @return O local onde o cliente com determinado CPF trabalha.
 	 */
-	public String retornaLocalizacao(String cpf) {
+	public String retornaLocalizacaoCliente(String cpf) {
 		cpf = cpf.trim();
 		
 		verificaExcecao(cpf);
@@ -141,13 +141,20 @@ public class Facade {
 	 * 
 	 * @return O email do cliente com determinado CPF.
 	 */
-	public String retornaEmail(String cpf) {
+	public String retornaEmailCliente(String cpf) {
 		cpf = cpf.trim();
 		
 		verificaExcecao(cpf);
 		return this.cc.retornaEmail(cpf);
 	}
 	
+	/**
+	 * Método que exclui um cliente, caso ele tenha sido cadastrado.
+	 * 
+	 * @param cpf é o identificador único de um cliente.
+	 * 
+	 * @return Um boolean informando se foi ou não bem sucedida a operação.
+	 */
 	public boolean removeCliente(String cpf) {
 		cpf = cpf.trim();
 		
@@ -155,6 +162,170 @@ public class Facade {
 		return this.cc.removeCliente(cpf);
 	}
 	
+	/**
+	 * Método que faz a validação dos dados e, caso esteja tudo certo, solicita
+	 * o cadastro de um novo fornecedor.
+	 * 
+	 * @param nome é o identificador do fornecedor.
+	 * @param email é o email do fornecedor.
+	 * @param telefone é o telefone do fornecedor.
+	 * 
+	 * @return Um boolean informando se a operação foi ou não bem sucedida.
+	 */
+	public boolean cadastraFornecedor(String nome, String email, String telefone) {
+		nome = nome.trim();
+		email = email.trim();
+		telefone = telefone.trim();
+		
+		verificaExcecao(nome, email, telefone);
+		return this.fc.cadastraFornecedor(nome, email, telefone);
+	}
+	
+	/**
+	 * Dado um nome será verificado se o dado passado é válido e
+	 * em seguida pedirá para retornar a representação do respectivo fornecedor. 
+	 * 
+	 * @param nome é o identificador de um fornecedor.
+	 * 
+	 * @return A representação do fornecedor, caso ele esteja cadastrado.
+	 */
+	public String retornaFornecedor(String nome) {
+		nome = nome.trim();
+		verificaExcecao(nome);
+		
+		return this.fc.recuperaFornecedor(nome);
+	}
+	
+	/**
+	 * Lista todos os funcionários cadastrados com seus dados.
+	 * 
+	 * @return A representação de todos os fornecedores.
+	 */
+	public String listaFornecedoresCadastrados() {
+		return this.fc.listaFornecedores();
+	}
+	
+	/**
+	 * Dado um certo nome esse método permitirá atualizar o email de 
+	 * um fornecedor já cadastrado.
+	 * 
+	 * @param nome é o identificador do fornecedor.
+	 * @param email é o novo email do fornecedor.
+	 * 
+	 * @return Um boolean informando se foi ou não bem sucedida a operação.
+	 */
+	public boolean editaEmailFornecedor(String nome, String email) {
+		nome = nome.trim();
+		email = email.trim();
+		
+		verificaExcecao(nome, email);
+		return this.fc.editaEmail(nome, email);
+	}
+	
+	/**
+	 * Método que permite a edição do telefone de um fornecedor.
+	 * 
+	 * @param nome é o identificador único de um fornecedor.
+	 * @param telefone é o valor que irá substituir o antigo.
+	 * 
+	 * @return Um boolean informando se foi ou não bem sucedida a operação.
+	 */
+	public boolean editaTelefoneFornecedor(String nome, String telefone) {
+		nome = nome.trim();
+		telefone = telefone.trim();
+		
+		verificaExcecao(nome, telefone);
+		return this.fc.editaTelefone(nome, telefone);
+	}
+	
+	/**
+	 * Método que recupera o email de um fornecedor.
+	 * 
+	 * @param nome é o identificador único de um fornecedor.
+	 * 
+	 * @return O email do fornecedor com determinado nome.
+	 */
+	public String retornaEmailFornecedor(String nome) {
+		nome = nome.trim();
+		
+		verificaExcecao(nome);
+		return this.fc.retornaEmail(nome);
+	}
+	
+	/**
+	 * Método que recupera o telefone de um fornecedor.
+	 * 
+	 * @param nome é o identificador único de um fornecedor.
+	 * 
+	 * @return O telefone do fornecedor com determinado nome.
+	 */
+	public String retornaTelefoneFornecedor(String nome) {
+		nome = nome.trim();
+		
+		verificaExcecao(nome);
+		return this.fc.retornaTelefone(nome);
+	}
+	
+	/**
+	 * Método que exclui um fornecedor, caso ele tenha sido cadastrado.
+	 * 
+	 * @param nome é o identificador único de um fornecedor.
+	 * 
+	 * @return Um boolean informando se foi ou não bem sucedida a operação.
+	 */
+	public boolean removeFornecedor(String nome) {
+		nome = nome.trim();
+		
+		verificaExcecao(nome);
+		return this.fc.removeFornecedor(nome);
+	}
+	
+	/**
+	 * Cadastra um produto que irá ser comercializado.
+	 * 
+	 * @param nome é o identificador do fornecedor.
+	 * @param nomeProd é o nome do produto.
+	 * @param desc é a descrição do produto.
+	 * @param preco é o preço do produto.
+	 * 
+	 * @return Um boolean informando se foi ou não bem sucedida a operação. 
+	 */
+	public boolean cadastraProdutoFornecedor(String nome, String nomeProd, String desc, double preco) {
+		nome = nome.trim();
+		desc = desc.trim();
+		
+		verificaExcecao(nome, desc);
+		return this.fc.cadastraProduto(nome, nomeProd, desc, preco);
+	}
+	
+	/**
+	 * Dado um nome de um fornecedor será solicitado para retornar a representação de 
+	 * um produto com determinado nome e descrição.
+	 * 
+	 * @param nome é o nome do fornecedor.
+	 * @param nomeProd é o nome do produto.
+	 * @param desc é a descrição do produto.
+	 * 
+	 * @return A representação de um produto caso ele tenha sido cadastrado.
+	 */
+	public String retornaProdutoFornecedor(String nome, String nomeProd, String desc) {
+		nome = nome.trim();
+		nomeProd = nomeProd.trim();
+		desc = desc.trim();
+		String key = nomeProd + " " + desc;
+		verificaExcecao(nome, nomeProd, desc);
+		return this.fc.retornaProduto(nome, key);
+	}
+	
+	public String retornaProdutoEFornecedor(String nome) {
+		return this.fc.retornaProdutoEFornecedor(nome);
+	}
+	
+	/**
+	 * Método que verifica se os dados passados são válidos.
+	 * 
+	 * @param args são os dados a serem verificados.
+	 */
 	private void verificaExcecao(String... args) {
 		for (String s : args) {
 			if (s.equals(null)) {

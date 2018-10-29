@@ -86,7 +86,7 @@ public class FornecedorController {
 	 * 
 	 * @return O email do fornecedor, caso ele já tenha sido cadastrado.
 	 */
-	public String getEmail(String nome) {
+	public String retornaEmail(String nome) {
 		// Verificando se existe algum fornecedor com determinado nome.
 		if (!contemFornecedor(nome)) {
 			return "CLIENTE NÃO CADASTRADO";
@@ -103,7 +103,7 @@ public class FornecedorController {
 	 * 
 	 * @return O telefone do fornecedor, caso ele já tenha sido cadastrado.
 	 */
-	public String getTelefone(String nome) {
+	public String retornaTelefone(String nome) {
 		// Verificando se existe algum fornecedor com determinado nome.
 		if (!contemFornecedor(nome)) {
 			return "CLIENTE NÃO CADASTRADO";
@@ -144,6 +144,43 @@ public class FornecedorController {
 		}
 		
 		return this.fornecedores.get(nome).toString();
+	}
+	
+	/**
+	 * Cadastra um produto em um fornecedor.
+	 * 
+	 * @param nome é o nome do fornecedor.
+	 * @param nomeProd é o nome do produto que irá ser cadastrado.
+	 * @param desc é uma descrição do produto.
+	 * @param preco é o preco que irá ser comercializado.
+	 * 
+	 * @return Um boolean informando se foi ou não bem sucedida a operação.
+	 */
+	public boolean cadastraProduto(String nome, String nomeProd, String desc, double preco) {
+		return this.fornecedores.get(nome).cadastraProduto(nomeProd, desc, preco);
+	}
+	
+	/**
+	 * Método que retorna determinado produto de um fornecedor.
+	 * 
+	 * @param nome é o nome do fornecedor.
+	 * @param key é o identificador do produto.
+	 * 
+	 * @return A representação de um produto comercializado por um determinado fornecedor.
+	 */
+	public String retornaProduto(String nome, String key) {
+		return this.fornecedores.get(nome).retornaProduto(key);
+	}
+	
+	public String retornaProdutoEFornecedor(String nome) {
+		if (!contemFornecedor(nome)) {
+			return "FORNECEDOR NÃO CADASTRADO!";
+		}
+		return this.fornecedores.get(nome).retornaProdutosEFornecedor();
+	}
+	
+	public String fornecedoresEProdutos() {
+		
 	}
 	
 	/**

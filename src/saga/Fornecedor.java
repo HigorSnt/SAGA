@@ -89,12 +89,34 @@ public class Fornecedor {
 	 * @return Um boolean informando se foi ou não bem sucedido o cadastro.
 	 */
 	public boolean cadastraProduto(String nome, String desc, double preco) {
-		if (!this.produtos.containsKey(nome)) {
+		String key = nome + " " + desc;
+		if (!this.produtos.containsKey(key)) {
 			return false;
 		}
 		
-		this.produtos.put(nome, new Produto(nome, desc, preco));
+		this.produtos.put(key, new Produto(nome, desc, preco));
 		return true;
+	}
+	
+	public String retornaProduto(String key) {
+		if (!this.produtos.containsKey(key)) {
+			return "PRODUTO NÃO CADASTRADO!";
+		}
+		
+		return this.produtos.get(key).toString();
+	}
+	
+	public String retornaProdutosEFornecedor() {
+		String saida = "";
+		int cont = 0;
+		for(Produto p : this.produtos.values()) {
+			if (!(cont == 0) || !(cont == this.produtos.size() - 1)) {
+				saida += " | ";
+			}
+			saida += p.toString();
+			cont++;
+		}
+		return saida;
 	}
 
 	@Override
