@@ -79,6 +79,14 @@ public class Fornecedor {
 		this.telefone = telefone;
 	}
 	
+	public boolean editaPrecoProduto(String key, double preco) {
+		if (!this.produtos.containsKey(key)) {
+			return false;
+		}
+		this.produtos.get(key).setPreco(preco);
+		return true;
+	}
+
 	/**
 	 * Cadastra um produto comercializado pelo fornecedor 
 	 * 
@@ -106,19 +114,28 @@ public class Fornecedor {
 		return this.produtos.get(key).toString();
 	}
 	
-	public String retornaProdutosEFornecedor() {
+	public String retornaTodosProdutosDeFornecedor() {
 		String saida = "";
 		int cont = 0;
 		for(Produto p : this.produtos.values()) {
 			if (!(cont == 0) || !(cont == this.produtos.size() - 1)) {
 				saida += " | ";
 			}
-			saida += p.toString();
+			saida += this.nome + " - " + p.toString();
 			cont++;
 		}
 		return saida;
 	}
-
+	
+	public boolean removeProduto(String key) {
+		if (!this.produtos.containsKey(key)) {
+			return false;
+		}
+		
+		this.produtos.remove(key);
+		return true;
+	}
+	
 	@Override
 	public String toString() {
 		return this.nome + " - " + this.email + " - " + this.telefone;

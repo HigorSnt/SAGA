@@ -308,17 +308,63 @@ public class Facade {
 	 * 
 	 * @return A representação de um produto caso ele tenha sido cadastrado.
 	 */
-	public String retornaProdutoFornecedor(String nome, String nomeProd, String desc) {
+	public String retornaProdutoDeFornecedor(String nome, String nomeProd, String desc) {
 		nome = nome.trim();
 		nomeProd = nomeProd.trim();
 		desc = desc.trim();
 		String key = nomeProd + " " + desc;
+		
 		verificaExcecao(nome, nomeProd, desc);
 		return this.fc.retornaProduto(nome, key);
 	}
 	
-	public String retornaProdutoEFornecedor(String nome) {
-		return this.fc.retornaProdutoEFornecedor(nome);
+	public String listaProdutosDeFornecedor(String nome) {
+		nome = nome.trim();
+		
+		verificaExcecao(nome);
+		return this.fc.retornaTodosProdutosDeFornecedor(nome);
+	}
+	
+	public String listaTodosFornecedoresEProdutos() {
+		return this.fc.retornaTodosProdutosDeTodosFornecedores();
+	}
+	
+	/**
+	 * Altera o preço de um determinado produto comercializado por um certo 
+	 * 
+	 * @param nomeForn
+	 * @param nomeProd
+	 * @param desc
+	 * @param preco
+	 * @return
+	 */
+	public boolean editaPrecoProduto(String nomeForn, String nomeProd, String desc, double preco) {
+		nomeForn = nomeForn.trim();
+		nomeProd = nomeProd.trim();
+		desc = desc.trim();
+		verificaExcecao(nomeForn, nomeProd, desc);
+		String key = nomeProd + " " + desc;
+		
+		return this.fc.editaPrecoProduto(nomeForn, key, preco);
+	}
+	
+	/**
+	 * Remove o produto de um fornecedor.
+	 * 
+	 * @param nomeForn é o nome do fornecedor.
+	 * @param nomeProd é o nome do produto.
+	 * @param desc é a descrição do produto.
+	 * 
+	 * @return Um boolean informando se foi ou não bem sucedida a operação.
+	 */
+	public boolean removeProdutoDeFornecedor(String nomeForn, String nomeProd, String desc) {
+		nomeForn = nomeForn.trim();
+		nomeProd = nomeProd.trim();
+		desc = desc.trim();
+		verificaExcecao(nomeForn, nomeProd, desc);
+		
+		String key = nomeProd + " " + desc;
+		return this.fc.removeProduto(nomeForn, key);
 	}
 	
 	/**

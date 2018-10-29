@@ -172,15 +172,34 @@ public class FornecedorController {
 		return this.fornecedores.get(nome).retornaProduto(key);
 	}
 	
-	public String retornaProdutoEFornecedor(String nome) {
+	public String retornaTodosProdutosDeFornecedor(String nome) {
 		if (!contemFornecedor(nome)) {
 			return "FORNECEDOR NÃO CADASTRADO!";
 		}
-		return this.fornecedores.get(nome).retornaProdutosEFornecedor();
+		return this.fornecedores.get(nome).retornaTodosProdutosDeFornecedor();
+	}	
+
+	public String retornaTodosProdutosDeTodosFornecedores() {
+		String saida = "";
+		// Para evitar que saia um "|" no final da listagem será utilizado um contador
+		int cont = 0;
+		
+		for (Fornecedor f : this.fornecedores.values()) {
+			if ((cont != 0) || (cont != this.fornecedores.size() - 1)) {
+				saida += " | ";
+			}
+			saida += f.retornaTodosProdutosDeFornecedor();
+			cont++;
+		}
+		return saida;
 	}
 	
-	public String fornecedoresEProdutos() {
-		
+	public boolean editaPrecoProduto(String nomeForn, String key, double preco) {
+		return this.fornecedores.get(nomeForn).editaPrecoProduto(key, preco);
+	}
+	
+	public boolean removeProduto(String nomeForn, String key) {
+		return this.fornecedores.get(nomeForn).removeProduto(key);
 	}
 	
 	/**
@@ -194,7 +213,7 @@ public class FornecedorController {
 		int cont = 0;
 		
 		for (Fornecedor f : this.fornecedores.values()) {
-			if (!(cont == 0) || !(cont == this.fornecedores.size() - 1)) {
+			if ((cont != 0) || (cont != this.fornecedores.size() - 1)) {
 				fornecedores += " | ";
 			}
 			fornecedores += f.toString();
