@@ -6,7 +6,7 @@ package saga;
  * @author higor
  *
  */
-public class Cliente {
+public class Cliente implements Comparable<Cliente>{
 	/** CPF do cliente. */
 	private String cpf;
 	/** Nome do cliente. */
@@ -25,7 +25,16 @@ public class Cliente {
 	 * @param localizacao é o local onde o cliente trabalha.
 	 */
 	public Cliente(String cpf, String nome, String email, String localizacao) {
-		verificaExcecao(nome, email, localizacao);
+		if (cpf.replace(".", "").length() == 11) {
+			
+		}
+		if (nome.equals(null) || nome.equals("")) {
+			throw new NullPointerException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
+		} else if (email.equals(null) || email.equals("")) {
+			throw new NullPointerException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
+		} else if (localizacao.equals(null) || localizacao.equals("")) {
+			throw new NullPointerException("Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula.");
+		}
 		
 		this.cpf = cpf;
 		this.nome = nome;
@@ -99,20 +108,10 @@ public class Cliente {
 	public String getCpf() {
 		return this.cpf;
 	}
-	
-	/**
-	 * Método que verifica se os dados passados são válidos.
-	 * 
-	 * @param args são os dados a serem verificados.
-	 */
-	private void verificaExcecao(String... args) {
-		for (String s : args) {
-			if (s.equals(null)) {
-				throw new NullPointerException("ENTRADA NULA PASSADA!");
-			} else if (s.equals("")) {
-				throw new IllegalArgumentException("ENTRADA VAZIA PASSADA!");
-			}
-		}
+
+	@Override
+	public int compareTo(Cliente c) {
+		return this.getCpf().compareTo(c.getCpf());
 	}
 
 	@Override

@@ -13,7 +13,7 @@ import java.util.Map;
  * @author higor
  *
  */
-public class Fornecedor{
+public class Fornecedor implements Comparable<Fornecedor>{
 	
 	/** Nome do fornecedor. */
 	private String nome;
@@ -141,7 +141,7 @@ public class Fornecedor{
 		String saida = "";
 		int cont = 0;
 		
-		List<Produto> lista = new ArrayList<Produto>(this.produtos.values());
+		List<Produto> lista = new ArrayList<>(this.produtos.values());
 		Collections.sort(lista);
 		
 		for(Produto p : lista) {
@@ -177,6 +177,11 @@ public class Fornecedor{
 				throw new IllegalArgumentException("ENTRADA VAZIA PASSADA!");
 			}
 		}
+	}
+	
+	@Override
+	public int compareTo(Fornecedor o) {
+		return this.getNome().compareTo(o.getNome());
 	}
 
 	@Override

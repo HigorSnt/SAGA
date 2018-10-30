@@ -1,6 +1,9 @@
 package saga;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -193,7 +196,10 @@ public class ClienteController {
 		// Para evitar que saia um "|" no final da listagem será utilizado um contador
 		int cont = 0;
 		
-		for (Cliente c : this.clientes.values()) {
+		List<Cliente> lista = new ArrayList<>(this.clientes.values());
+		Collections.sort(lista);
+		
+		for (Cliente c : lista) {
 			if (!(cont == 0) || !(cont == this.clientes.size() - 1)) {
 				clientes += " | ";
 			}

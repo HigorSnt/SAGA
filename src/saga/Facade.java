@@ -24,12 +24,10 @@ public class Facade {
 	 * 
 	 * @return Um boolean informando se já o cadastro ocorreu com sucesso.
 	 */
-	public boolean cadastraCliente(String cpf, String nome, String email, String localizacao) {
+	public boolean adicionaCliente(String cpf, String nome, String email, String localizacao) {
 		cpf = cpf.trim();
 		nome = nome.trim();
 		localizacao = localizacao.trim();
-		
-		verificaExcecao(cpf, nome, email, localizacao);
 		
 		return this.cc.cadastraCliente(cpf, nome, email, localizacao);
 	}

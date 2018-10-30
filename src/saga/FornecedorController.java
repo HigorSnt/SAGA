@@ -1,6 +1,9 @@
 package saga;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -184,7 +187,10 @@ public class FornecedorController {
 		// Para evitar que saia um "|" no final da listagem será utilizado um contador
 		int cont = 0;
 		
-		for (Fornecedor f : this.fornecedores.values()) {
+		List<Fornecedor> lista = new ArrayList<>(this.fornecedores.values());
+		Collections.sort(lista);
+		
+		for (Fornecedor f : lista) {
 			if ((cont != 0) || (cont != this.fornecedores.size() - 1)) {
 				saida += " | ";
 			}
