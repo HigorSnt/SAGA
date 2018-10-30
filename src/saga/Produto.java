@@ -6,7 +6,7 @@ package saga;
  * @author higor
  *
  */
-public class Produto {
+public class Produto  implements Comparable <Produto> {
 	/** Nome do produto */
 	private String nome;
 	/** Descrição do produto */
@@ -22,6 +22,8 @@ public class Produto {
 	 * @param preco é o preço do produto.
 	 */
 	public Produto(String nome, String descricao, double preco){
+		verificaExcecao(nome, descricao);
+		
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
@@ -35,6 +37,10 @@ public class Produto {
 	public String getPreco() {
 		return "R$ " + String.format("%.2f", this.preco);
 	}
+	
+	public String getNomeDescricao() {
+		return this.nome + " " + this.descricao;
+	}
 
 	/**
 	 * Atualiza o preço do produto.
@@ -44,7 +50,27 @@ public class Produto {
 	public void setPreco(double preco) {
 		this.preco = preco;
 	}
-
+	
+	/**
+	 * Método que verifica se os dados passados são válidos.
+	 * 
+	 * @param args são os dados a serem verificados.
+	 */
+	private void verificaExcecao(String... args) {
+		for (String s : args) {
+			if (s.equals(null)) {
+				throw new NullPointerException("ENTRADA NULA PASSADA!");
+			} else if (s.equals("")) {
+				throw new IllegalArgumentException("ENTRADA VAZIA PASSADA!");
+			}
+		}
+	}
+	
+	@Override
+	public int compareTo(Produto o) {
+		return this.getNomeDescricao().compareTo(o.getNomeDescricao());
+	}
+	
 	@Override
 	public String toString() {
 		return this.nome + " - " + this.descricao + " - R$" + this.preco;

@@ -318,6 +318,13 @@ public class Facade {
 		return this.fc.retornaProduto(nome, key);
 	}
 	
+	/**
+	 * Lista todos os produtos que determinado fornecedor comercializa.
+	 * 
+	 * @param nome é o identificador do fornecedor.
+	 * 
+	 * @return Uma String com todos os produtos de um fornecedor.
+	 */
 	public String listaProdutosDeFornecedor(String nome) {
 		nome = nome.trim();
 		
@@ -325,6 +332,11 @@ public class Facade {
 		return this.fc.retornaTodosProdutosDeFornecedor(nome);
 	}
 	
+	/**
+	 * Lista todos os fornecedores e seus produtos.
+	 * 
+	 * @return Uma string com todos os fornecedores e produtos comercializados.
+	 */
 	public String listaTodosFornecedoresEProdutos() {
 		return this.fc.retornaTodosProdutosDeTodosFornecedores();
 	}

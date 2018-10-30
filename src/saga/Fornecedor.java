@@ -1,6 +1,10 @@
 package saga;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,7 +13,7 @@ import java.util.Map;
  * @author higor
  *
  */
-public class Fornecedor {
+public class Fornecedor{
 	
 	/** Nome do fornecedor. */
 	private String nome;
@@ -28,6 +32,8 @@ public class Fornecedor {
 	 * @param telefone é o telefone do fornecedor.
 	 */
 	public Fornecedor(String nome, String email, String telefone) {
+		verificaExcecao(nome, email, telefone);
+		
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
@@ -58,6 +64,7 @@ public class Fornecedor {
 	 * @param email é o novo email do fornecedor.
 	 */
 	public void setEmail(String email) {
+		verificaExcecao(email);
 		this.email = email;
 	}
 
@@ -76,10 +83,12 @@ public class Fornecedor {
 	 * @param telefone é o novo telefone do fornecedor.
 	 */
 	public void setTelefone(String telefone) {
+		verificaExcecao(telefone);
 		this.telefone = telefone;
 	}
 	
 	public boolean editaPrecoProduto(String key, double preco) {
+		verificaExcecao(key);
 		if (!this.produtos.containsKey(key)) {
 			return false;
 		}
@@ -97,6 +106,7 @@ public class Fornecedor {
 	 * @return Um boolean informando se foi ou não bem sucedido o cadastro.
 	 */
 	public boolean cadastraProduto(String nome, String desc, double preco) {
+		verificaExcecao(nome, desc);
 		String key = nome + " " + desc;
 		if (!this.produtos.containsKey(key)) {
 			return false;
@@ -106,7 +116,15 @@ public class Fornecedor {
 		return true;
 	}
 	
+	/**
+	 * Dado o nome e uma descrição é retornado um produto de um fornecedor.
+	 * 
+	 * @param key é o nome e a descrição do produto.
+	 * 
+	 * @return Uma string com a representação do produto.
+	 */
 	public String retornaProduto(String key) {
+		verificaExcecao(key);
 		if (!this.produtos.containsKey(key)) {
 			return "PRODUTO NÃO CADASTRADO!";
 		}
@@ -114,10 +132,19 @@ public class Fornecedor {
 		return this.produtos.get(key).toString();
 	}
 	
+	/**
+	 * Método que informa todos os produtos comercializados pelo fornecedor.
+	 * 
+	 * @return Uma string com todos os produtos comercializados pelo fornecedor.
+	 */
 	public String retornaTodosProdutosDeFornecedor() {
 		String saida = "";
 		int cont = 0;
-		for(Produto p : this.produtos.values()) {
+		
+		List<Produto> lista = new ArrayList<Produto>(this.produtos.values());
+		Collections.sort(lista);
+		
+		for(Produto p : lista) {
 			if (!(cont == 0) || !(cont == this.produtos.size() - 1)) {
 				saida += " | ";
 			}
@@ -128,6 +155,7 @@ public class Fornecedor {
 	}
 	
 	public boolean removeProduto(String key) {
+		verificaExcecao(key);
 		if (!this.produtos.containsKey(key)) {
 			return false;
 		}
@@ -136,6 +164,21 @@ public class Fornecedor {
 		return true;
 	}
 	
+	/**
+	 * Método que verifica se os dados passados são válidos.
+	 * 
+	 * @param args são os dados a serem verificados.
+	 */
+	private void verificaExcecao(String... args) {
+		for (String s : args) {
+			if (s.equals(null)) {
+				throw new NullPointerException("ENTRADA NULA PASSADA!");
+			} else if (s.equals("")) {
+				throw new IllegalArgumentException("ENTRADA VAZIA PASSADA!");
+			}
+		}
+	}
+
 	@Override
 	public String toString() {
 		return this.nome + " - " + this.email + " - " + this.telefone;

@@ -25,6 +25,8 @@ public class Cliente {
 	 * @param localizacao é o local onde o cliente trabalha.
 	 */
 	public Cliente(String cpf, String nome, String email, String localizacao) {
+		verificaExcecao(nome, email, localizacao);
+		
 		this.cpf = cpf;
 		this.nome = nome;
 		this.email = email;
@@ -46,6 +48,8 @@ public class Cliente {
 	 * @param nome é o novo nome do cliente.
 	 */
 	public void setNome(String nome) {
+		verificaExcecao(nome);
+		
 		this.nome = nome;
 	}
 
@@ -64,6 +68,7 @@ public class Cliente {
 	 * @param email é o novo email do cliente.
 	 */
 	public void setEmail(String email) {
+		verificaExcecao(email);
 		this.email = email;
 	}
 
@@ -82,6 +87,7 @@ public class Cliente {
 	 * @param localizacao é a nova localização do cliente.
 	 */
 	public void setLocalizacao(String localizacao) {
+		verificaExcecao(localizacao);
 		this.localizacao = localizacao;
 	}
 	
@@ -92,6 +98,21 @@ public class Cliente {
 	 */
 	public String getCpf() {
 		return this.cpf;
+	}
+	
+	/**
+	 * Método que verifica se os dados passados são válidos.
+	 * 
+	 * @param args são os dados a serem verificados.
+	 */
+	private void verificaExcecao(String... args) {
+		for (String s : args) {
+			if (s.equals(null)) {
+				throw new NullPointerException("ENTRADA NULA PASSADA!");
+			} else if (s.equals("")) {
+				throw new IllegalArgumentException("ENTRADA VAZIA PASSADA!");
+			}
+		}
 	}
 
 	@Override
