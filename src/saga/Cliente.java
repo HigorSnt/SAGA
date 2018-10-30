@@ -25,15 +25,20 @@ public class Cliente implements Comparable<Cliente>{
 	 * @param localizacao é o local onde o cliente trabalha.
 	 */
 	public Cliente(String cpf, String nome, String email, String localizacao) {
-		if (cpf.replace(".", "").length() == 11) {
-			
-		}
-		if (nome.equals(null) || nome.equals("")) {
+		if (cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: cpf invalido.");
+		}else if (nome.equals(null)) {
+			throw new NullPointerException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
+		} else if (nome.equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
+		} else if (email.equals(null)) {
 			throw new NullPointerException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
-		} else if (email.equals(null) || email.equals("")) {
-			throw new NullPointerException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
-		} else if (localizacao.equals(null) || localizacao.equals("")) {
+		}else if (email.equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
+		}else if (localizacao.equals(null)) {
 			throw new NullPointerException("Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula.");
+		} else if (localizacao.equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula.");
 		}
 		
 		this.cpf = cpf;
@@ -57,7 +62,11 @@ public class Cliente implements Comparable<Cliente>{
 	 * @param nome é o novo nome do cliente.
 	 */
 	public void setNome(String nome) {
-		verificaExcecao(nome);
+		if (nome.equals(null)) {
+			throw new NullPointerException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
+		} else if (nome.equals("")) {
+			throw new IllegalArgumentException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
+		}
 		
 		this.nome = nome;
 	}
@@ -77,7 +86,12 @@ public class Cliente implements Comparable<Cliente>{
 	 * @param email é o novo email do cliente.
 	 */
 	public void setEmail(String email) {
-		verificaExcecao(email);
+		if (email.equals(null)) {
+			throw new NullPointerException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
+		}else if (email.equals("")) {
+			throw new IllegalArgumentException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
+		}
+		
 		this.email = email;
 	}
 
@@ -96,7 +110,12 @@ public class Cliente implements Comparable<Cliente>{
 	 * @param localizacao é a nova localização do cliente.
 	 */
 	public void setLocalizacao(String localizacao) {
-		verificaExcecao(localizacao);
+		if (localizacao.equals(null)) {
+			throw new NullPointerException("Erro na edicao do cliente: novo valor nao pode ser vazia ou nula.");
+		} else if (localizacao.equals("")) {
+			throw new IllegalArgumentException("Erro na edicao do cliente: novo valor nao pode ser vazia ou nula.");
+		}
+		
 		this.localizacao = localizacao;
 	}
 	
@@ -111,7 +130,7 @@ public class Cliente implements Comparable<Cliente>{
 
 	@Override
 	public int compareTo(Cliente c) {
-		return this.getCpf().compareTo(c.getCpf());
+		return this.nome.compareTo(c.getNome());
 	}
 
 	@Override

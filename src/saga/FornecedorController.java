@@ -34,6 +34,10 @@ public class FornecedorController {
 	 * @return Um booleano informando se foi cadastrado ou não.
 	 */
 	public boolean cadastraFornecedor(String nome, String email, String telefone) {
+		nome = nome.trim();
+		email = email.trim();
+		telefone = telefone.trim();
+		
 		// Verificando se existe algum fornecedor com determinado nome.
 		if (!contemFornecedor(nome)) {
 			return false;

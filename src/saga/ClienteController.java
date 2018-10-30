@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Controla todas as atividades realizadas referentes à um cliente.
@@ -34,14 +35,14 @@ public class ClienteController {
 	 * 
 	 * @return Um boolean informando se foi possível ou não realizar o cadastro do usuário.
 	 */
-	public boolean cadastraCliente(String cpf, String nome, String email, String localizacao) {
+	public String cadastraCliente(String cpf, String nome, String email, String localizacao) {
 		// verificando se o cliente já foi cadastrado.
 		if (contemCliente(cpf)) {
-			return false;
+			throw new IllegalArgumentException("Erro no cadastro do cliente: cliente ja existe.");
 		}
 		
 		this.clientes.put(cpf, new Cliente(cpf, nome, email, localizacao));
-		return true;
+		return cpf;
 	}
 	
 	/**
@@ -53,103 +54,29 @@ public class ClienteController {
 	 * 
 	 * @return Um boolean informando se a operação foi ou não bem sucedida.
 	 */
-	public boolean editaNome(String cpf, String nome) {
-		// verificando se o cliente já foi cadastrado.
-		if (!contemCliente(cpf)) {
-			return false;
+	public void editaCliente(String cpf, String atributo, String novoValor) {
+		if (atributo.equals(null)) {
+			throw new NullPointerException("Erro na edicao do cliente: atributo nao pode ser vazio ou nulo.");
+		} else if (atributo.equals("")) {
+			throw new IllegalArgumentException("Erro na edicao do cliente: atributo nao pode ser vazio ou nulo.");
 		}
 		
-		this.clientes.get(cpf).setNome(nome);
-		return true;
-	}
-	
-	/**
-	 * Dado um certo CPF esse método permitirá atualizar o email de 
-	 * um cliente já cadastrado.
-	 * 
-	 * @param cpf é o identificador do cliente.
-	 * @param email é o novo email do cliente.
-	 * 
-	 * @return Um boolean informando se a operação foi ou não bem sucedida.
-	 */
-	public boolean editaEmail(String cpf, String email) {
+		atributo = atributo.trim().toUpperCase();
+		
 		// verificando se o cliente já foi cadastrado.
 		if (!contemCliente(cpf)) {
-			return false;
+			throw new IllegalAccessError("Erro na edicao do cliente: cliente nao existe.");
 		}
 		
-		this.clientes.get(cpf).setNome(email);
-		return true;
-	}
-	
-	/**
-	 * Dado um certo CPF esse método permitirá atualizar a localização de 
-	 * um cliente já cadastrado.
-	 * 
-	 * @param cpf é o identificador do cliente.
-	 * @param localizacao é a nova localização do cliente
-	 * 
-	 * @return Um boolean informando se a operação foi ou não bem sucedida.
-	 */
-	public boolean editaLocalizacao(String cpf, String localizacao) {
-		// verificando se o cliente já foi cadastrado.
-		if (!contemCliente(cpf)) {
-			return false;
+		if (atributo.equals("NOME")) {
+			this.clientes.get(cpf).setNome(novoValor);
+		}else if (atributo.equals("EMAIL")) {
+			this.clientes.get(cpf).setEmail(novoValor);
+		}else if (atributo.equals("LOCALIZACAO")) {
+			this.clientes.get(cpf).setLocalizacao(novoValor);
+		} else {
+			throw new IllegalAccessError("Erro na edicao do cliente: atributo nao existe.");
 		}
-		
-		this.clientes.get(cpf).setLocalizacao(localizacao);
-		return true;
-	}
-	
-	/**
-	 * Dado um CPF, retorna a localização do cliente. Caso o cliente não 
-	 * exista é dado um aviso.
-	 * 
-	 * @param cpf é o identificador do cliente.
-	 * 
-	 * @return O nome do cliente, caso ele já tenha sido cadastrado.
-	 */
-	public String retornaNome(String cpf) {
-		// verificando se o cliente já foi cadastrado.
-		if (!contemCliente(cpf)) {
-			return "CLIENTE NÃO CADASTRADO";
-		}
-		
-		return this.clientes.get(cpf).getNome();
-	}
-	
-	/**
-	 * Dado um CPF, retorna a localização do cliente. Caso o cliente não 
-	 * exista é dado um aviso.
-	 * 
-	 * @param cpf é o identificador do cliente.
-	 * 
-	 * @return O email do cliente, caso ele já tenha sido cadastrado.
-	 */
-	public String retornaEmail(String cpf) {
-		// verificando se o cliente já foi cadastrado.
-		if (!contemCliente(cpf)) {
-			return "CLIENTE NÃO CADASTRADO";
-		}
-		
-		return this.clientes.get(cpf).getEmail();
-	}
-	
-	/**
-	 * Dado um CPF, retorna a localização do cliente. Caso o cliente não 
-	 * exista é dado um aviso.
-	 * 
-	 * @param cpf é o identificador do cliente.
-	 * 
-	 * @return A localização do cliente, caso ele já tenha sido cadastrado.
-	 */
-	public String retornaLocalizacao(String cpf) {
-		// verificando se o cliente já foi cadastrado.
-		if (!contemCliente(cpf)) {
-			return "CLIENTE NÃO CADASTRADO";
-		}
-		
-		return this.clientes.get(cpf).getLocalizacao();
 	}
 	
 	/**
@@ -159,14 +86,13 @@ public class ClienteController {
 	 * 
 	 * @return Um boolean informado se a operação foi bem sucedida ou não.
 	 */
-	public boolean removeCliente(String cpf) {
+	public void removeCliente(String cpf) {
 		// verificando se o cliente já foi cadastrado.
 		if (!contemCliente(cpf)) {
-			return false;
+			throw new IllegalArgumentException("Erro na exibicao do cliente: cliente nao existe.");
 		}
 		
 		this.clientes.remove(cpf);
-		return false;
 	}
 	
 	/**
@@ -177,10 +103,10 @@ public class ClienteController {
 	 * 
 	 * @return Uma representação do cliente, ou um aviso caso não exista aquele cliente.
 	 */
-	public String recuperaCliente(String cpf) {
+	public String exibeCliente(String cpf) {
 		// verificando se o cliente já foi cadastrado.
 		if (!contemCliente(cpf)) {
-			return "CLIENTE NÃO CADASTRADO!";
+			throw new IllegalArgumentException("Erro na exibicao do cliente: cliente nao existe.");
 		}
 		
 		return this.clientes.get(cpf).toString();
@@ -191,23 +117,11 @@ public class ClienteController {
 	 * 
 	 * @return A representação de cada cliente.
 	 */
-	public String listaClientes() {
-		String clientes = "Clientes: ";
-		// Para evitar que saia um "|" no final da listagem será utilizado um contador
-		int cont = 0;
-		
+	public String exibeClientes() {
 		List<Cliente> lista = new ArrayList<>(this.clientes.values());
 		Collections.sort(lista);
 		
-		for (Cliente c : lista) {
-			if (!(cont == 0) || !(cont == this.clientes.size() - 1)) {
-				clientes += " | ";
-			}
-			clientes += c.toString();
-			cont++;
-		}
-		
-		return clientes;
+		 return lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
 	
 	/**
