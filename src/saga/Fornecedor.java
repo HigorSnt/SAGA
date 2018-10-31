@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Classe que molda um objeto do tipo Fornecedor.
@@ -32,7 +33,25 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @param telefone é o telefone do fornecedor.
 	 */
 	public Fornecedor(String nome, String email, String telefone) {
-		verificaExcecao(nome, email, telefone);
+		if (nome.trim().equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do fornecedor: nome nao pode ser vazio ou nulo.");
+		} else if (nome.equals(null)) {
+			throw new NullPointerException("Erro no cadastro do fornecedor: nome nao pode ser vazio ou nulo.");
+		}
+		if (email.trim().equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do fornecedor: email nao pode ser vazio ou nulo.");
+		} else if(email.equals(null)) {
+			throw new NullPointerException("Erro no cadastro do fornecedor: email nao pode ser vazio ou nulo.");
+		}
+		if (telefone.trim().equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do fornecedor: telefone nao pode ser vazio ou nulo.");
+		} else if (telefone.equals(null)) {
+			throw new NullPointerException("Erro no cadastro do fornecedor: telefone nao pode ser vazio ou nulo.");
+		}
+		
+		nome = nome.trim();
+		email = email.trim();
+		telefone = telefone.trim();
 		
 		this.nome = nome;
 		this.email = email;
@@ -64,7 +83,12 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @param email é o novo email do fornecedor.
 	 */
 	public void setEmail(String email) {
-		verificaExcecao(email);
+		if(email.trim().equals("")) {
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: novo valor nao pode ser vazio ou nulo.");
+		} else if (email.equals(null)) {
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: novo valor nao pode ser vazio ou nulo.");
+		}
+		
 		this.email = email;
 	}
 
@@ -83,37 +107,49 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @param telefone é o novo telefone do fornecedor.
 	 */
 	public void setTelefone(String telefone) {
-		verificaExcecao(telefone);
+		if (telefone.trim().equals("") || telefone.equals(null)) {
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: novo valors nao pode ser vazio ou nulo.");
+		}
+		
 		this.telefone = telefone;
 	}
 	
-	public boolean editaPrecoProduto(String key, double preco) {
-		verificaExcecao(key);
+	public void editaPrecoProduto(String key, double preco) {
 		if (!this.produtos.containsKey(key)) {
-			return false;
+			throw new IllegalArgumentException("Erro na edicao de produto: produto nao existe.");
 		}
+		
 		this.produtos.get(key).setPreco(preco);
-		return true;
 	}
 
 	/**
 	 * Cadastra um produto comercializado pelo fornecedor 
 	 * 
 	 * @param nome é o nome do produto.
-	 * @param desc é a descrição do produto.
+	 * @param descricao é a descrição do produto.
 	 * @param preco é o preço do produto.
 	 * 
 	 * @return Um boolean informando se foi ou não bem sucedido o cadastro.
 	 */
-	public boolean cadastraProduto(String nome, String desc, double preco) {
-		verificaExcecao(nome, desc);
-		String key = nome + " " + desc;
-		if (!this.produtos.containsKey(key)) {
-			return false;
+	public void cadastraProduto(String nome, String descricao, double preco) {
+		if (nome.trim().equals("") || nome.equals(null)) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
+		} else if (descricao.trim().equals("") || descricao.trim().equals(null)) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
+		}
+		if (preco <= 0) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: preco invalido.");
 		}
 		
-		this.produtos.put(key, new Produto(nome, desc, preco));
-		return true;
+		nome = nome.trim();
+		descricao = descricao.trim();
+		
+		String key = nome + " " + descricao;
+		if (this.produtos.containsKey(key)) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: produto ja existe.");
+		}
+		
+		this.produtos.put(key, new Produto(nome, descricao, preco));
 	}
 	
 	/**
@@ -124,9 +160,8 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @return Uma string com a representação do produto.
 	 */
 	public String retornaProduto(String key) {
-		verificaExcecao(key);
 		if (!this.produtos.containsKey(key)) {
-			return "PRODUTO NÃO CADASTRADO!";
+			throw new IllegalArgumentException("Erro na exibicao de produto: produto nao existe.");
 		}
 		
 		return this.produtos.get(key).toString();
@@ -137,46 +172,22 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * 
 	 * @return Uma string com todos os produtos comercializados pelo fornecedor.
 	 */
-	public String retornaTodosProdutosDeFornecedor() {
+	public String exibeProdutosFornecedor() {
 		String saida = "";
 		int cont = 0;
 		
 		List<Produto> lista = new ArrayList<>(this.produtos.values());
 		Collections.sort(lista);
-		
-		for(Produto p : lista) {
-			if (!(cont == 0) || !(cont == this.produtos.size() - 1)) {
-				saida += " | ";
-			}
-			saida += this.nome + " - " + p.toString();
-			cont++;
-		}
-		return saida;
+		return lista.stream().map(p -> this.nome + " - " + p.toString()).collect(Collectors.joining(" | "));		
 	}
 	
 	public boolean removeProduto(String key) {
-		verificaExcecao(key);
 		if (!this.produtos.containsKey(key)) {
 			return false;
 		}
 		
 		this.produtos.remove(key);
 		return true;
-	}
-	
-	/**
-	 * Método que verifica se os dados passados são válidos.
-	 * 
-	 * @param args são os dados a serem verificados.
-	 */
-	private void verificaExcecao(String... args) {
-		for (String s : args) {
-			if (s.equals(null)) {
-				throw new NullPointerException("ENTRADA NULA PASSADA!");
-			} else if (s.equals("")) {
-				throw new IllegalArgumentException("ENTRADA VAZIA PASSADA!");
-			}
-		}
 	}
 	
 	@Override

@@ -7,11 +7,11 @@ adicionaProduto fornecedor="Marcos" nome="Coxao de Pizza" descricao="Coxao de fr
 adicionaProduto fornecedor="Marcos" nome="Coxao de Frango" descricao="Coxao de frango com cheddar" preco=2.50
 
 expectError "Erro no cadastro de produto: fornecedor nao existe." adicionaProduto fornecedor="Helhao" nome="Tapioca com frango" descricao="Tapioca com queijo, manteiga e frango" preco=5.00
-expectError "Erro no cadastro de produto: nome nao pode ser vazio ou nulo." adicionaProduto fornecedor=Marcos" nome="" descricao="Pastel doce de carne" preco=2.00
+expectError "Erro no cadastro de produto: nome nao pode ser vazio ou nulo." adicionaProduto fornecedor="Marcos" nome="" descricao="Pastel doce de carne" preco=2.00
 expectError "Erro no cadastro de produto: descricao nao pode ser vazia ou nula." adicionaProduto fornecedor="Marcos" nome="Pastel doce" descricao="" preco=2.00
 expectError "Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo." adicionaProduto fornecedor="" nome="Pastel doce" descricao="Pastel doce de carne" preco=2.00
-expectError "Erro no cadastro de produto: preco invalido." fornecedor="Marcos" adicionaProduto nome="Pastel doce" descricao="Pastel doce de carne" preco=-1
-expectError "Erro no cadastro de produto: produto ja existe." fornecedor="Seu Olavo" adicionaProduto nome="X-frango" descricao="Hamburguer de frango com queijo e calabresa" preco=4.50
+expectError "Erro no cadastro de produto: preco invalido." adicionaProduto fornecedor="Marcos" nome="Pastel doce" descricao="Pastel doce de carne" preco=-1
+expectError "Erro no cadastro de produto: produto ja existe." adicionaProduto fornecedor="Seu Olavo" nome="X-frango" descricao="Hamburguer de frango com queijo e calabresa" preco=4.50
 
 ## Exibindo produtos ##
 

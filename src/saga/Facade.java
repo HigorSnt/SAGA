@@ -19,7 +19,8 @@ public class Facade {
 	///////////////////////////////////       MÉTODO QUE CHAMA O EASYACCEPT        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public static void main(String[] args) {
-		args = new String[] {"saga.Facade", "acceptance_test/use_case_1.txt"};
+		args = new String[] {"saga.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt",
+				"acceptance_test/use_case_3.txt"};
 		EasyAccept.main(args);
 	}
 	
@@ -95,8 +96,8 @@ public class Facade {
 	 * 
 	 * @return Um boolean informando se a operação foi ou não bem sucedida.
 	 */
-	public boolean cadastraFornecedor(String nome, String email, String telefone) {
-		return this.fc.cadastraFornecedor(nome, email, telefone);
+	public String adicionaFornecedor(String nome, String email, String telefone) {
+		return this.fc.adicionaFornecedor(nome, email, telefone);
 	}
 	
 	/**
@@ -107,10 +108,8 @@ public class Facade {
 	 * 
 	 * @return A representação do fornecedor, caso ele esteja cadastrado.
 	 */
-	public String retornaFornecedor(String nome) {
-		nome = nome.trim();
-		
-		return this.fc.recuperaFornecedor(nome);
+	public String exibeFornecedor(String nome) {
+		return this.fc.exibeFornecedor(nome);
 	}
 	
 	/**
@@ -118,65 +117,12 @@ public class Facade {
 	 * 
 	 * @return A representação de todos os fornecedores.
 	 */
-	public String listaFornecedoresCadastrados() {
-		return this.fc.listaFornecedores();
+	public String exibeFornecedores() {
+		return this.fc.exibeFornecedores();
 	}
 	
-	/**
-	 * Dado um certo nome esse método permitirá atualizar o email de 
-	 * um fornecedor já cadastrado.
-	 * 
-	 * @param nome é o identificador do fornecedor.
-	 * @param email é o novo email do fornecedor.
-	 * 
-	 * @return Um boolean informando se foi ou não bem sucedida a operação.
-	 */
-	public boolean editaEmailFornecedor(String nome, String email) {
-		nome = nome.trim();
-		email = email.trim();
-		
-		return this.fc.editaEmail(nome, email);
-	}
-	
-	/**
-	 * Método que permite a edição do telefone de um fornecedor.
-	 * 
-	 * @param nome é o identificador único de um fornecedor.
-	 * @param telefone é o valor que irá substituir o antigo.
-	 * 
-	 * @return Um boolean informando se foi ou não bem sucedida a operação.
-	 */
-	public boolean editaTelefoneFornecedor(String nome, String telefone) {
-		nome = nome.trim();
-		telefone = telefone.trim();
-		
-		return this.fc.editaTelefone(nome, telefone);
-	}
-	
-	/**
-	 * Método que recupera o email de um fornecedor.
-	 * 
-	 * @param nome é o identificador único de um fornecedor.
-	 * 
-	 * @return O email do fornecedor com determinado nome.
-	 */
-	public String retornaEmailFornecedor(String nome) {
-		nome = nome.trim();
-		
-		return this.fc.retornaEmail(nome);
-	}
-	
-	/**
-	 * Método que recupera o telefone de um fornecedor.
-	 * 
-	 * @param nome é o identificador único de um fornecedor.
-	 * 
-	 * @return O telefone do fornecedor com determinado nome.
-	 */
-	public String retornaTelefoneFornecedor(String nome) {
-		nome = nome.trim();
-		
-		return this.fc.retornaTelefone(nome);
+	public void editaFornecedor(String nome, String atributo, String novoValor) {
+		this.fc.editaFornecedor(nome,atributo, novoValor);
 	}
 	
 	/**
@@ -186,10 +132,8 @@ public class Facade {
 	 * 
 	 * @return Um boolean informando se foi ou não bem sucedida a operação.
 	 */
-	public boolean removeFornecedor(String nome) {
-		nome = nome.trim();
-		
-		return this.fc.removeFornecedor(nome);
+	public void removeFornecedor(String nome) {
+		this.fc.removeFornecedor(nome);
 	}
 	
 	///////////////////////////////////        MÉTODOS REFERENTES AO PRODUTO        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -204,11 +148,8 @@ public class Facade {
 	 * 
 	 * @return Um boolean informando se foi ou não bem sucedida a operação. 
 	 */
-	public boolean cadastraProdutoFornecedor(String nome, String nomeProd, String desc, double preco) {
-		nome = nome.trim();
-		desc = desc.trim();
-		
-		return this.fc.cadastraProduto(nome, nomeProd, desc, preco);
+	public String adicionaProduto(String fornecedor, String nome, String descricao, double preco) {
+		return this.fc.adicionaProduto(fornecedor, nome, descricao, preco);
 	}
 	
 	/**
@@ -217,17 +158,12 @@ public class Facade {
 	 * 
 	 * @param nome é o nome do fornecedor.
 	 * @param nomeProd é o nome do produto.
-	 * @param desc é a descrição do produto.
+	 * @param descricao é a descrição do produto.
 	 * 
 	 * @return A representação de um produto caso ele tenha sido cadastrado.
 	 */
-	public String retornaProdutoDeFornecedor(String nome, String nomeProd, String desc) {
-		nome = nome.trim();
-		nomeProd = nomeProd.trim();
-		desc = desc.trim();
-		String key = nomeProd + " " + desc;
-		
-		return this.fc.retornaProduto(nome, key);
+	public String exibeProduto(String nome, String descricao, String fornecedor) {
+		return this.fc.exibeProduto(nome, descricao, fornecedor);
 	}
 	
 	/**
@@ -237,9 +173,8 @@ public class Facade {
 	 * 
 	 * @return Uma String com todos os produtos de um fornecedor.
 	 */
-	public String listaProdutosDeFornecedor(String nome) {
-		nome = nome.trim();
-		return this.fc.retornaTodosProdutosDeFornecedor(nome);
+	public String exibeProdutosFornecedor(String fornecedor) {
+		return this.fc.exibeProdutosFornecedor(fornecedor);
 	}
 	
 	/**
@@ -247,26 +182,12 @@ public class Facade {
 	 * 
 	 * @return Uma string com todos os fornecedores e produtos comercializados.
 	 */
-	public String listaTodosFornecedoresEProdutos() {
-		return this.fc.retornaTodosProdutosDeTodosFornecedores();
+	public String exibeProdutos() {
+		return this.fc.exibeProdutos();
 	}
 	
-	/**
-	 * Altera o preço de um determinado produto comercializado por um certo 
-	 * 
-	 * @param nomeForn
-	 * @param nomeProd
-	 * @param desc
-	 * @param preco
-	 * @return
-	 */
-	public boolean editaPrecoProduto(String nomeForn, String nomeProd, String desc, double preco) {
-		nomeForn = nomeForn.trim();
-		nomeProd = nomeProd.trim();
-		desc = desc.trim();
-		String key = nomeProd + " " + desc;
-		
-		return this.fc.editaPrecoProduto(nomeForn, key, preco);
+	public void editaProduto(String nome, String descricao, String fornecedor, double novoPreco) {
+		this.fc.editaPrecoProduto(fornecedor, nome, descricao, novoPreco);
 	}
 	
 	/**
