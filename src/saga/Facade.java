@@ -194,18 +194,13 @@ public class Facade {
 	 * Remove o produto de um fornecedor.
 	 * 
 	 * @param nomeForn é o nome do fornecedor.
-	 * @param nomeProd é o nome do produto.
-	 * @param desc é a descrição do produto.
+	 * @param descricao é o nome do produto.
+	 * @param fornecedor é a descrição do produto.
 	 * 
 	 * @return Um boolean informando se foi ou não bem sucedida a operação.
 	 */
-	public boolean removeProdutoDeFornecedor(String nomeForn, String nomeProd, String desc) {
-		nomeForn = nomeForn.trim();
-		nomeProd = nomeProd.trim();
-		desc = desc.trim();
-		
-		String key = nomeProd + " " + desc;
-		return this.fc.removeProduto(nomeForn, key);
+	public void removeProduto(String nome, String descricao, String fornecedor) {
+		this.fc.removeProduto(nome, descricao, fornecedor);
 	}
 
 }

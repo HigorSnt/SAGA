@@ -173,21 +173,25 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @return Uma string com todos os produtos comercializados pelo fornecedor.
 	 */
 	public String exibeProdutosFornecedor() {
-		String saida = "";
-		int cont = 0;
-		
 		List<Produto> lista = new ArrayList<>(this.produtos.values());
 		Collections.sort(lista);
 		return lista.stream().map(p -> this.nome + " - " + p.toString()).collect(Collectors.joining(" | "));		
 	}
 	
-	public boolean removeProduto(String key) {
+	public void removeProduto(String nome, String descricao) {
+		if (nome.trim().equals("") || nome.equals(null)) {
+			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
+		} else if (descricao.trim().equals("") || descricao.trim().equals(null)) {
+			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
+		}
+		
+		String key = nome.trim() + " " + descricao.trim();
+		
 		if (!this.produtos.containsKey(key)) {
-			return false;
+			throw new IllegalArgumentException("Erro na remocao de produto: produto nao existe.");
 		}
 		
 		this.produtos.remove(key);
-		return true;
 	}
 	
 	@Override

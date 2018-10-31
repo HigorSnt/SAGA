@@ -211,8 +211,14 @@ public class FornecedorController {
 		this.fornecedores.get(fornecedor).editaPrecoProduto(nome.trim() + " " + descricao.trim(), novoPreco);
 	}
 	
-	public boolean removeProduto(String nomeForn, String key) {
-		return this.fornecedores.get(nomeForn).removeProduto(key);
+	public void removeProduto(String nome, String descricao, String fornecedor) {
+		if (fornecedor.trim().equals("") || fornecedor.equals(null)) {
+			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao pode ser vazio ou nulo.");
+		} else if (!contemFornecedor(fornecedor)) {
+			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao existe.");
+		}
+		
+		this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
 	}
 	
 	/**
