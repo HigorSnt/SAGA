@@ -22,7 +22,13 @@ public class Produto  implements Comparable <Produto> {
 	 * @param preco é o preço do produto.
 	 */
 	public Produto(String nome, String descricao, double preco){
-		verificaExcecao(nome, descricao);
+		if (nome.trim().equals("") || nome.equals(null)) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
+		} else if (descricao.trim().equals("") || descricao.equals(null)) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
+		} else if (preco <= 0) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: preco invalido.");
+		}
 		
 		this.nome = nome;
 		this.descricao = descricao;
@@ -35,7 +41,7 @@ public class Produto  implements Comparable <Produto> {
 	 * @return Uma string com o preço do produto.
 	 */
 	public String getPreco() {
-		return "R$ " + String.format("%.2f", this.preco);
+		return "R$" + String.format("%.2f", this.preco);
 	}
 	
 	public String getNomeDescricao() {
@@ -48,22 +54,11 @@ public class Produto  implements Comparable <Produto> {
 	 * @param preco é o preço de um determinado produto.
 	 */
 	public void setPreco(double preco) {
-		this.preco = preco;
-	}
-	
-	/**
-	 * Método que verifica se os dados passados são válidos.
-	 * 
-	 * @param args são os dados a serem verificados.
-	 */
-	private void verificaExcecao(String... args) {
-		for (String s : args) {
-			if (s.equals(null)) {
-				throw new NullPointerException("ENTRADA NULA PASSADA!");
-			} else if (s.equals("")) {
-				throw new IllegalArgumentException("ENTRADA VAZIA PASSADA!");
-			}
+		if (preco <= 0) {
+			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
 		}
+		
+		this.preco = preco;
 	}
 	
 	@Override

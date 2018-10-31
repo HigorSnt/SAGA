@@ -25,19 +25,13 @@ public class Cliente implements Comparable<Cliente>{
 	 * @param localizacao é o local onde o cliente trabalha.
 	 */
 	public Cliente(String cpf, String nome, String email, String localizacao) {
-		if (cpf.length() != 11) {
+		if (cpf.length() != 11 || (cpf.trim().equals("")) || (cpf.equals(null))) {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: cpf invalido.");
-		}else if (nome.equals(null)) {
-			throw new NullPointerException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
-		} else if (nome.equals("")) {
+		}else if (nome.equals(null) || (nome.trim().equals(""))) {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
-		} else if (email.equals(null)) {
-			throw new NullPointerException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
-		}else if (email.equals("")) {
+		} else if (email.equals(null) || (email.trim().equals(""))) {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
-		}else if (localizacao.equals(null)) {
-			throw new NullPointerException("Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula.");
-		} else if (localizacao.equals("")) {
+		}else if (localizacao.equals(null) || (localizacao.trim().equals(""))) {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula.");
 		}
 		
@@ -64,7 +58,7 @@ public class Cliente implements Comparable<Cliente>{
 	public void setNome(String nome) {
 		if (nome.equals(null)) {
 			throw new NullPointerException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
-		} else if (nome.equals("")) {
+		} else if (nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
 		}
 		
@@ -88,7 +82,7 @@ public class Cliente implements Comparable<Cliente>{
 	public void setEmail(String email) {
 		if (email.equals(null)) {
 			throw new NullPointerException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
-		}else if (email.equals("")) {
+		}else if (email.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
 		}
 		
@@ -112,7 +106,7 @@ public class Cliente implements Comparable<Cliente>{
 	public void setLocalizacao(String localizacao) {
 		if (localizacao.equals(null)) {
 			throw new NullPointerException("Erro na edicao do cliente: novo valor nao pode ser vazia ou nula.");
-		} else if (localizacao.equals("")) {
+		} else if (localizacao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao do cliente: novo valor nao pode ser vazia ou nula.");
 		}
 		
