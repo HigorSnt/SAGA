@@ -204,7 +204,7 @@ public class FornecedorController {
 			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao pode ser vazio ou nulo.");
 		} else if (novoPreco <= 0) {
 			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
-		} else if (contemFornecedor(fornecedor)) {
+		} else if (!contemFornecedor(fornecedor)) {
 			throw new IllegalAccessError("Erro na edicao de produto: fornecedor nao existe.");
 		}
 		

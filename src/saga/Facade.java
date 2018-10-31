@@ -187,7 +187,7 @@ public class Facade {
 	}
 	
 	public void editaProduto(String nome, String descricao, String fornecedor, double novoPreco) {
-		this.fc.editaPrecoProduto(fornecedor, nome, descricao, novoPreco);
+		this.fc.editaPrecoProduto(nome, descricao, fornecedor, novoPreco);
 	}
 	
 	/**
