@@ -55,9 +55,7 @@ public class ClienteController {
 	 * @return Um boolean informando se a operação foi ou não bem sucedida.
 	 */
 	public void editaCliente(String cpf, String atributo, String novoValor) {
-		if (atributo.equals(null)) {
-			throw new NullPointerException("Erro na edicao do cliente: atributo nao pode ser vazio ou nulo.");
-		} else if (atributo.equals("")) {
+		if (atributo.equals(null) || (atributo.trim().equals(""))) {
 			throw new IllegalArgumentException("Erro na edicao do cliente: atributo nao pode ser vazio ou nulo.");
 		}
 		
@@ -65,7 +63,7 @@ public class ClienteController {
 		
 		// verificando se o cliente já foi cadastrado.
 		if (!contemCliente(cpf)) {
-			throw new IllegalAccessError("Erro na edicao do cliente: cliente nao existe.");
+			throw new IllegalArgumentException("Erro na edicao do cliente: cliente nao existe.");
 		}
 		
 		if (atributo.equals("NOME")) {
@@ -75,7 +73,7 @@ public class ClienteController {
 		}else if (atributo.equals("LOCALIZACAO")) {
 			this.clientes.get(cpf).setLocalizacao(novoValor);
 		} else {
-			throw new IllegalAccessError("Erro na edicao do cliente: atributo nao existe.");
+			throw new IllegalArgumentException("Erro na edicao do cliente: atributo nao existe.");
 		}
 	}
 	

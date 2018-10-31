@@ -19,8 +19,8 @@ public class Facade {
 	///////////////////////////////////       MÉTODO QUE CHAMA O EASYACCEPT        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public static void main(String[] args) {
-		args = new String[] {"saga.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt",
-				"acceptance_test/use_case_3.txt"};
+		args = new String[] {"saga.Facade", "acceptance_tests/use_case_1.txt", "acceptance_tests/use_case_2.txt",
+				"acceptance_tests/use_case_3.txt"};
 		EasyAccept.main(args);
 	}
 	

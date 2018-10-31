@@ -56,9 +56,7 @@ public class Cliente implements Comparable<Cliente>{
 	 * @param nome é o novo nome do cliente.
 	 */
 	public void setNome(String nome) {
-		if (nome.equals(null)) {
-			throw new NullPointerException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
-		} else if (nome.trim().equals("")) {
+		if (nome.equals(null) || (nome.trim().equals(""))) {
 			throw new IllegalArgumentException("Erro na edicao do cliente: novo valor nao pode ser vazio ou nulo.");
 		}
 		
