@@ -22,10 +22,10 @@ class ClienteTest {
 		assertThrows(IllegalArgumentException.class, ()-> new Cliente("94412783134", "Wilson Andre", "     ", "Embedded"));
 		assertThrows(IllegalArgumentException.class, ()-> new Cliente("94412783134", "           ", "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
 		assertThrows(IllegalArgumentException.class, ()-> new Cliente("94412783134", "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", "       "));
-		assertThrows(NullPointerException.class, ()-> new Cliente("94412783134", "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", null));
-		assertThrows(NullPointerException.class, ()-> new Cliente("94412783134", "Wilson Andre", null, "Embedded"));
-		assertThrows(NullPointerException.class, ()-> new Cliente("94412783134", null, "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
-		assertThrows(NullPointerException.class, ()-> new Cliente(null, "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
+		assertThrows(IllegalArgumentException.class, ()-> new Cliente("94412783134", "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", null));
+		assertThrows(IllegalArgumentException.class, ()-> new Cliente("94412783134", "Wilson Andre", null, "Embedded"));
+		assertThrows(IllegalArgumentException.class, ()-> new Cliente("94412783134", null, "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
+		assertThrows(IllegalArgumentException.class, ()-> new Cliente(null, "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
 		assertThrows(IllegalArgumentException.class, ()-> new Cliente("", "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
 		
 		assertEquals("00023827490", c1.getCpf());
@@ -38,7 +38,7 @@ class ClienteTest {
 	@Test
 	public void testSetNome() {
 		assertThrows(IllegalArgumentException.class, ()-> c1.setNome("       "));
-		assertThrows(NullPointerException.class, ()-> c1.setNome(null));
+		assertThrows(IllegalArgumentException.class, ()-> c1.setNome(null));
 		
 		assertEquals("vitao@ccc.ufcg.edu.br", c1.getEmail());
 		c1.setEmail("vitao-cc@ccc.ufcg.edu.br");
@@ -48,7 +48,7 @@ class ClienteTest {
 	@Test
 	public void testSetEmail() {
 		assertThrows(IllegalArgumentException.class, ()-> c1.setEmail("       "));
-		assertThrows(NullPointerException.class, ()-> c1.setEmail(null));
+		assertThrows(IllegalArgumentException.class, ()-> c1.setEmail(null));
 		
 		assertEquals("Victor Emanuel", c1.getNome());
 		c1.setNome("Victor");
@@ -58,7 +58,7 @@ class ClienteTest {
 	@Test
 	public void testSetLocalizacao() {
 		assertThrows(IllegalArgumentException.class, ()-> c1.setLocalizacao("       "));
-		assertThrows(NullPointerException.class, ()-> c1.setLocalizacao(null));
+		assertThrows(IllegalArgumentException.class, ()-> c1.setLocalizacao(null));
 		
 		assertEquals("Labarc", c1.getLocalizacao());
 		c1.setLocalizacao("Analytics");

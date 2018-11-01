@@ -32,20 +32,14 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @param telefone é o telefone do fornecedor.
 	 */
 	public Fornecedor(String nome, String email, String telefone) {
-		if (nome.trim().equals("")) {
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro do fornecedor: nome nao pode ser vazio ou nulo.");
-		} else if (nome.equals(null)) {
-			throw new NullPointerException("Erro no cadastro do fornecedor: nome nao pode ser vazio ou nulo.");
 		}
-		if (email.trim().equals("")) {
+		if (email == null || email.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro do fornecedor: email nao pode ser vazio ou nulo.");
-		} else if(email.equals(null)) {
-			throw new NullPointerException("Erro no cadastro do fornecedor: email nao pode ser vazio ou nulo.");
 		}
-		if (telefone.trim().equals("")) {
+		if (telefone == null || telefone.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro do fornecedor: telefone nao pode ser vazio ou nulo.");
-		} else if (telefone.equals(null)) {
-			throw new NullPointerException("Erro no cadastro do fornecedor: telefone nao pode ser vazio ou nulo.");
 		}
 		
 		nome = nome.trim();
@@ -82,9 +76,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @param email é o novo email do fornecedor.
 	 */
 	public void setEmail(String email) {
-		if(email.trim().equals("")) {
-			throw new IllegalArgumentException("Erro na edicao do fornecedor: novo valor nao pode ser vazio ou nulo.");
-		} else if (email.equals(null)) {
+		if(email == null || email.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao do fornecedor: novo valor nao pode ser vazio ou nulo.");
 		}
 		
@@ -106,7 +98,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @param telefone é o novo telefone do fornecedor.
 	 */
 	public void setTelefone(String telefone) {
-		if (telefone.trim().equals("") || telefone.equals(null)) {
+		if (telefone == null || telefone.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao do fornecedor: novo valors nao pode ser vazio ou nulo.");
 		}
 		
@@ -125,9 +117,9 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @return Um boolean informando se foi ou não bem sucedido o cadastro.
 	 */
 	public void cadastraProduto(String nome, String descricao, double preco) {
-		if (nome.trim().equals("") || nome.equals(null)) {
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
-		} else if (descricao.trim().equals("") || descricao.trim().equals(null)) {
+		} else if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
 		}
 		if (preco <= 0) {
@@ -180,9 +172,9 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	}
 	
 	public String getPrecoProduto(String nome, String descricao) {
-		if (nome.trim().equals("") || nome.equals(null)) {
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
-		} else if (descricao.trim().equals("") || descricao.trim().equals(null)) {
+		} else if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
 		}
 		

@@ -24,9 +24,9 @@ class FornecedorTest {
 		assertThrows(IllegalArgumentException.class, ()-> new Fornecedor ("         ", "marcos@gmail.com", "83 99151-3570"));
 		assertThrows(IllegalArgumentException.class, ()-> new Fornecedor ("Marcos", "          ", "83 99151-3570"));
 		assertThrows(IllegalArgumentException.class, ()-> new Fornecedor ("Marcos", "marcos@gmail.com", "                   "));
-		assertThrows(NullPointerException.class, ()-> new Fornecedor (null, "marcos@gmail.com", "83 99151-3570"));
-		assertThrows(NullPointerException.class, ()-> new Fornecedor ("Marcos", null, "83 99151-3570"));
-		assertThrows(NullPointerException.class, ()-> new Fornecedor ("Marcos", "marcos@gmail.com", null));
+		assertThrows(IllegalArgumentException.class, ()-> new Fornecedor (null, "marcos@gmail.com", "83 99151-3570"));
+		assertThrows(IllegalArgumentException.class, ()-> new Fornecedor ("Marcos", null, "83 99151-3570"));
+		assertThrows(IllegalArgumentException.class, ()-> new Fornecedor ("Marcos", "marcos@gmail.com", null));
 		
 		assertEquals("Dona Alba - alba@gmail.com - 83 99945-1294", f2.toString());
 		assertEquals("Marcos", f1.getNome());
@@ -37,7 +37,7 @@ class FornecedorTest {
 	@Test
 	public void testSetEmail() {
 		assertThrows(IllegalArgumentException.class, ()-> f1.setEmail("              "));
-		assertThrows(NullPointerException.class, ()-> f1.setEmail(null));
+		assertThrows(IllegalArgumentException.class, ()-> f1.setEmail(null));
 		
 		f2.setEmail("dona_alba@gmail.com");
 		assertEquals("dona_alba@gmail.com", f2.getEmail());
@@ -46,7 +46,7 @@ class FornecedorTest {
 	@Test
 	public void testSetTelefone() {
 		assertThrows(IllegalArgumentException.class, ()-> f1.setTelefone("              "));
-		assertThrows(NullPointerException.class, ()-> f1.setTelefone(null));
+		assertThrows(IllegalArgumentException.class, ()-> f1.setTelefone(null));
 		
 		f2.setTelefone("83 999451294");
 		assertEquals("83 999451294", f2.getTelefone());
@@ -57,8 +57,8 @@ class FornecedorTest {
 		assertThrows(IllegalArgumentException.class, ()-> f1.cadastraProduto("X-frango", "Hamburguer de frango com queijo e calabresa", -4.0));
 		assertThrows(IllegalArgumentException.class, ()-> f1.cadastraProduto("", "Hamburguer de frango com queijo e calabresa", 5.00));
 		assertThrows(IllegalArgumentException.class, ()-> f1.cadastraProduto("X-frango", "", 5.00));
-		assertThrows(NullPointerException.class, ()-> f1.cadastraProduto(null, "Hamburguer de frango com queijo e calabresa", 5.00));
-		assertThrows(NullPointerException.class, ()-> f1.cadastraProduto("X-frango", null, 5.00));
+		assertThrows(IllegalArgumentException.class, ()-> f1.cadastraProduto(null, "Hamburguer de frango com queijo e calabresa", 5.00));
+		assertThrows(IllegalArgumentException.class, ()-> f1.cadastraProduto("X-frango", null, 5.00));
 		assertThrows(IllegalArgumentException.class, ()-> f1.cadastraProduto("X-frango", "Hamburguer de frango com queijo e calabresa", 0.00));
 		assertThrows(IllegalArgumentException.class, ()-> f1.cadastraProduto("X-frango", "Hamburguer de frango com queijo e calabresa", 7.00));
 	}
@@ -79,8 +79,8 @@ class FornecedorTest {
 		assertEquals("R$4,00", f1.getPrecoProduto("X-frango", "Hamburguer de frango com queijo e calabresa"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("", "Hamburguer de frango com queijo e calabresa"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("X-frango", ""));
-		assertThrows(NullPointerException.class, ()-> f1.getPrecoProduto(null, "Hamburguer de frango com queijo e calabresa"));
-		assertThrows(NullPointerException.class, ()-> f1.getPrecoProduto("X-frango", null));
+		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto(null, "Hamburguer de frango com queijo e calabresa"));
+		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("X-frango", null));
 	}
 	
 	@Test
@@ -95,8 +95,8 @@ class FornecedorTest {
 	public void testRemoveProduto() {
 		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto("        ", "Hamburguer de carne com queijo e calabresa"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto("X-frango", ""));
-		assertThrows(NullPointerException.class, ()-> f1.removeProduto(null, "Hamburguer de carne com queijo e calabresa"));
-		assertThrows(NullPointerException.class, ()-> f1.removeProduto("X-frango", null));
+		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto(null, "Hamburguer de carne com queijo e calabresa"));
+		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto("X-frango", null));
 		
 		assertEquals("X-burguer - Hamburguer de carne com queijo e calabresa - R$4,50", f1.retornaProduto("X-burguer Hamburguer de carne com queijo e calabresa"));
 		f1.removeProduto("X-burguer", "Hamburguer de carne com queijo e calabresa");

@@ -37,7 +37,7 @@ public class ClienteController {
 	 */
 	public String cadastraCliente(String cpf, String nome, String email, String localizacao) {
 		// verificando se o cliente já foi cadastrado.
-		if (contemCliente(cpf)) {
+		if (cpf == null || contemCliente(cpf) || cpf.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: cliente ja existe.");
 		}
 		
@@ -55,7 +55,7 @@ public class ClienteController {
 	 * @return Um boolean informando se a operação foi ou não bem sucedida.
 	 */
 	public void editaCliente(String cpf, String atributo, String novoValor) {
-		if (atributo.equals(null) || (atributo.trim().equals(""))) {
+		if (atributo == null || (atributo.trim().equals(""))) {
 			throw new IllegalArgumentException("Erro na edicao do cliente: atributo nao pode ser vazio ou nulo.");
 		}
 		
@@ -86,7 +86,7 @@ public class ClienteController {
 	 */
 	public void removeCliente(String cpf) {
 		// verificando se o cliente já foi cadastrado.
-		if (!contemCliente(cpf)) {
+		if (cpf == null || !contemCliente(cpf) || cpf.trim().equals("") || cpf.length() != 11) {
 			throw new IllegalArgumentException("Erro na exibicao do cliente: cliente nao existe.");
 		}
 		

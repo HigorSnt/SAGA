@@ -45,10 +45,11 @@ public class FornecedorController {
 	}
 	
 	public void editaFornecedor(String nome, String atributo, String novoValor) {
-		if (atributo.trim().equals("")) {
+		if (atributo == null || atributo.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao do fornecedor: atributo nao pode ser vazio ou nulo.");
-		} else if (atributo.equals(null)) {
-			throw new NullPointerException("Erro na edicao do fornecedor: atributo nao pode ser vazio ou nulo.");
+		}
+		if (!contemFornecedor(nome)) {
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: fornecedor nao existe.");
 		}
 		
 		atributo = atributo.trim().toUpperCase();
@@ -60,42 +61,8 @@ public class FornecedorController {
 		} else if (atributo.equals("TELEFONE")) {
 			this.fornecedores.get(nome).setTelefone(novoValor);
 		} else {
-			throw new IllegalAccessError("Erro na edicao do fornecedor: atributo nao existe.");
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: atributo nao existe.");
 		}
-	}
-	
-	/**
-	 * Dado um nome, retorna o email do cliente. Caso o cliente não 
-	 * exista é dado um aviso.
-	 * 
-	 * @param nome é o nome do fornecedor o qual se deseja recuperar o email.
-	 * 
-	 * @return O email do fornecedor, caso ele já tenha sido cadastrado.
-	 */
-	public String retornaEmail(String nome) {
-		// Verificando se existe algum fornecedor com determinado nome.
-		if (!contemFornecedor(nome)) {
-			return "CLIENTE NÃO CADASTRADO";
-		}
-		
-		return this.fornecedores.get(nome).getEmail();
-	}
-	
-	/**
-	 * Dado um nome, retorna o telefone do cliente. Caso o cliente não 
-	 * exista é dado um aviso.
-	 * 
-	 * @param nome é o nome do fornecedor o qual se deseja recuperar o email.
-	 * 
-	 * @return O telefone do fornecedor, caso ele já tenha sido cadastrado.
-	 */
-	public String retornaTelefone(String nome) {
-		// Verificando se existe algum fornecedor com determinado nome.
-		if (!contemFornecedor(nome)) {
-			return "CLIENTE NÃO CADASTRADO";
-		}
-		
-		return this.fornecedores.get(nome).getTelefone();
 	}
 	
 	/**
@@ -106,7 +73,7 @@ public class FornecedorController {
 	 * @return Um boolean informado se a operação foi bem sucedida ou não.
 	 */
 	public void removeFornecedor(String nome) {
-		if (nome.trim().equals("") || nome.equals(null)) {
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao do fornecedor: nome do fornecedor nao pode ser vazio.");
 		} else if (!contemFornecedor(nome)) {
 			throw new IllegalArgumentException("Erro na remocao do fornecedor: fornecedor nao existe.");
@@ -143,7 +110,7 @@ public class FornecedorController {
 	 * @return Um boolean informando se foi ou não bem sucedida a operação.
 	 */
 	public String adicionaProduto(String fornecedor, String nome, String descricao, double preco) {
-		if (fornecedor.trim().equals("") || fornecedor.equals(null)) {
+		if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo.");
 		} else if (!contemFornecedor(fornecedor)) {
 			throw new IllegalAccessError("Erro no cadastro de produto: fornecedor nao existe.");
@@ -162,11 +129,11 @@ public class FornecedorController {
 	 * @return A representação de um produto comercializado por um determinado fornecedor.
 	 */
 	public String exibeProduto(String nome, String descricao, String fornecedor) {
-		if (fornecedor.trim().equals("") || fornecedor.equals(null)) {
+		if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na exibicao de produto: fornecedor nao pode ser vazio ou nulo.");
-		} else if (nome.trim().equals("") || nome.equals(null)) {
+		} else if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na exibicao de produto: nome nao pode ser vazio ou nulo.");
-		} else if (descricao.trim().equals("") || descricao.equals(null)) {
+		} else if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na exibicao de produto: descricao nao pode ser vazia ou nula.");
 		} else if (!contemFornecedor(fornecedor)) {
 			throw new IllegalArgumentException("Erro na exibicao de produto: fornecedor nao existe.");
@@ -181,7 +148,7 @@ public class FornecedorController {
 	public String exibeProdutosFornecedor(String fornecedor) {
 		if (!contemFornecedor(fornecedor)) {
 			throw new IllegalAccessError("Erro na exibicao de produto: fornecedor nao existe.");
-		} else if (fornecedor.trim().equals("") || fornecedor.equals(null)) {
+		} else if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalAccessError("Erro na exibicao de produto: fornecedor nao pode ser vazio ou nulo.");
 		}
 		
@@ -196,11 +163,11 @@ public class FornecedorController {
 	}
 	
 	public void editaPrecoProduto(String nome, String descricao, String fornecedor, double novoPreco) {
-		if (nome.trim().equals("") || nome.equals(null)) {
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao de produto: nome nao pode ser vazio ou nulo.");
-		} else if (descricao.trim().equals("") || descricao.equals(null)) {
+		} else if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao de produto: descricao nao pode ser vazia ou nula.");
-		}else if (fornecedor.trim().equals("") || fornecedor.equals(null)) {
+		}else if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao pode ser vazio ou nulo.");
 		} else if (novoPreco <= 0) {
 			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
@@ -212,7 +179,7 @@ public class FornecedorController {
 	}
 	
 	public void removeProduto(String nome, String descricao, String fornecedor) {
-		if (fornecedor.trim().equals("") || fornecedor.equals(null)) {
+		if (fornecedor == null ||fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao pode ser vazio ou nulo.");
 		} else if (!contemFornecedor(fornecedor)) {
 			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao existe.");
