@@ -1,4 +1,4 @@
-package saga;
+package controllers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import models.Cliente;
+
 /**
  * Controla todas as atividades realizadas referentes à um cliente.
  * 
- * @author higor
+ * @author Higor Santos - 118110808.
  *
  */
 public class ClienteController {
@@ -33,7 +35,7 @@ public class ClienteController {
 	 * @param email é o email do cliente.
 	 * @param localizacao é o local onde o cliente trabalha.
 	 * 
-	 * @return Um boolean informando se foi possível ou não realizar o cadastro do usuário.
+	 * @return Retorna o cpf.
 	 */
 	public String cadastraCliente(String cpf, String nome, String email, String localizacao) {
 		// verificando se o cliente já foi cadastrado.
@@ -46,13 +48,11 @@ public class ClienteController {
 	}
 	
 	/**
-	 * Dado um certo CPF esse método permitirá modificar o nome de 
-	 * um cliente já cadastrado.
+	 * Dado um cert5o CPF esse método permitirá modificar o nome de um cliente já cadastrado.
 	 * 
 	 * @param cpf é o identificador do cliente.
-	 * @param nome é o novo nome do cliente.
-	 * 
-	 * @return Um boolean informando se a operação foi ou não bem sucedida.
+	 * @param atributo é o que será modificado.
+	 * @param novoValor é o valor que substituirá o antigo.
 	 */
 	public void editaCliente(String cpf, String atributo, String novoValor) {
 		if (atributo == null || (atributo.trim().equals(""))) {
@@ -80,9 +80,7 @@ public class ClienteController {
 	/**
 	 * Remove um cliente cadastrado, por meio do CPF.
 	 * 
-	 * @param cpf é o identificador do cliente.
-	 * 
-	 * @return Um boolean informado se a operação foi bem sucedida ou não.
+	 * @param cpf é o identificador de um cliente.
 	 */
 	public void removeCliente(String cpf) {
 		// verificando se o cliente já foi cadastrado.
@@ -99,7 +97,7 @@ public class ClienteController {
 	 * 
 	 * @param cpf é o identificador do cliente procurado.
 	 * 
-	 * @return Uma representação do cliente, ou um aviso caso não exista aquele cliente.
+	 * @return Uma representação do cliente.
 	 */
 	public String exibeCliente(String cpf) {
 		// verificando se o cliente já foi cadastrado.

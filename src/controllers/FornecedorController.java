@@ -1,4 +1,4 @@
-package saga;
+package controllers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import models.Fornecedor;
+
 /**
  * Controla todas as atividades realizadas referentes à um fornecedor.
  * 
- * @author higor
+ * @author Higor Santos - 118110808.
  *
  */
 public class FornecedorController {
@@ -28,11 +30,11 @@ public class FornecedorController {
 	/**
 	 * Cadastra um fornecedor.
 	 * 
-	 * @param nome é o nome do fornecedor.
+	 * @param nome é o identificador do fornecedor.
 	 * @param email é o email do fornecedor.
 	 * @param telefone é o telefone do fornecedor.
 	 * 
-	 * @return Um booleano informando se foi cadastrado ou não.
+	 * @return Retorna o nome cadastrado.
 	 */
 	public String adicionaFornecedor(String nome, String email, String telefone) {
 		// Verificando se existe algum fornecedor com determinado nome.
@@ -44,6 +46,13 @@ public class FornecedorController {
 		return nome;		
 	}
 	
+	/**
+	 * Permite editar o email e telefone de um fornecedor.
+	 * 
+	 * @param nome é o identificador do fornecedor.
+	 * @param atributo é o que será alterado.
+	 * @param novoValor é o valor que irá substituir o antigo.
+	 */
 	public void editaFornecedor(String nome, String atributo, String novoValor) {
 		if (atributo == null || atributo.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao do fornecedor: atributo nao pode ser vazio ou nulo.");
@@ -66,11 +75,9 @@ public class FornecedorController {
 	}
 	
 	/**
-	 * Remove um fornecedor cadastrado, por meio do nome.
+	 * Remove um fornecedor pelo nome.
 	 * 
-	 * @param nome é o identificador do forncedor.
-	 * 
-	 * @return Um boolean informado se a operação foi bem sucedida ou não.
+	 * @param nome é o identificador do fornecedor
 	 */
 	public void removeFornecedor(String nome) {
 		if (nome == null || nome.trim().equals("")) {
@@ -83,12 +90,11 @@ public class FornecedorController {
 	}
 	
 	/**
-	 * Método que serve pra recuperar um fornecedor já cadastrado por meio do nome
-	 * informado no ato do cadastro. Caso não tenha sido cadastrado retorna um aviso.
+	 * Exibe a representação textual de um fornecedor.
 	 * 
-	 * @param nome é o identificador do cliente procurado.
+	 * @param nome é o nome do fornecedor.
 	 * 
-	 * @return Uma representação do fornecedor, ou um aviso caso não exista aquele fornecedor.
+	 * @return Uma string com a representação textual de um fornecedor.
 	 */
 	public String exibeFornecedor(String nome) {
 		// Verificando se o fornecedor já foi cadastrado.
@@ -98,22 +104,22 @@ public class FornecedorController {
 		
 		return this.fornecedores.get(nome).toString();
 	}
-	
+
 	/**
-	 * Cadastra um produto em um fornecedor.
+	 * Método que permite o cadastro de um produto.
 	 * 
-	 * @param fornecedor é o nome do fornecedor.
-	 * @param nome é o nome do produto que irá ser cadastrado.
-	 * @param descricao é uma descrição do produto.
-	 * @param preco é o preco que irá ser comercializado.
+	 * @param fornecedor é o nome do fornecedor que comercializa o produto.
+	 * @param nome é o nome do produto.
+	 * @param descricao é a descrição do produto.
+	 * @param preco é o preço do produto.
 	 * 
-	 * @return Um boolean informando se foi ou não bem sucedida a operação.
+	 * @return Retorna o nome e a descrição do produto.
 	 */
 	public String adicionaProduto(String fornecedor, String nome, String descricao, double preco) {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo.");
 		} else if (!contemFornecedor(fornecedor)) {
-			throw new IllegalAccessError("Erro no cadastro de produto: fornecedor nao existe.");
+			throw new IllegalArgumentException("Erro no cadastro de produto: fornecedor nao existe.");
 		}
 		
 		this.fornecedores.get(fornecedor).cadastraProduto(nome, descricao, preco);
@@ -121,12 +127,13 @@ public class FornecedorController {
 	}
 	
 	/**
-	 * Método que retorna determinado produto de um fornecedor.
+	 * Método que exibe um produto comercializado por um fornecedor.
 	 * 
-	 * @param nome é o nome do fornecedor.
-	 * @param key é o identificador do produto.
+	 * @param nome é o nome do produto.
+	 * @param descricao é a descrição do produto.
+	 * @param fornecedor é o nome do fornecedor.
 	 * 
-	 * @return A representação de um produto comercializado por um determinado fornecedor.
+	 * @return Uma representação textual do produto.
 	 */
 	public String exibeProduto(String nome, String descricao, String fornecedor) {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
@@ -145,16 +152,28 @@ public class FornecedorController {
 		return this.fornecedores.get(fornecedor).retornaProduto(key);
 	}
 	
+	/**
+	 * Exibe todos os produtos de um determinado fornecedor.
+	 * 
+	 * @param fornecedor é o nome do fornecedor que se deseja saber os produtos.
+	 * 
+	 * @return Retorna a representação textual de todos os produtos de um fornecedor. 
+	 */
 	public String exibeProdutosFornecedor(String fornecedor) {
-		if (!contemFornecedor(fornecedor)) {
-			throw new IllegalAccessError("Erro na exibicao de produto: fornecedor nao existe.");
-		} else if (fornecedor == null || fornecedor.trim().equals("")) {
-			throw new IllegalAccessError("Erro na exibicao de produto: fornecedor nao pode ser vazio ou nulo.");
+		if (fornecedor == null || fornecedor.trim().equals("")) {
+			throw new IllegalArgumentException("Erro na exibicao de produto: fornecedor nao pode ser vazio ou nulo.");
+		} else if (!contemFornecedor(fornecedor)) {
+			throw new IllegalArgumentException("Erro na exibicao de produto: fornecedor nao existe.");
 		}
 		
 		return this.fornecedores.get(fornecedor).exibeProdutosFornecedor();
 	}
-
+	
+	/**
+	 * Exibe todos os produtos cadastrados em todos os fornecedores.
+	 * 
+	 * @return Uma string com todos os fornecedores e produtos em ordem alfabética.
+	 */
 	public String exibeProdutos() {
 		List<Fornecedor> lista = new ArrayList<>(this.fornecedores.values());
 		Collections.sort(lista);
@@ -162,6 +181,14 @@ public class FornecedorController {
 		return lista.stream().map(p -> p.exibeProdutosFornecedor()).collect(Collectors.joining(" | "));
 	}
 	
+	/**
+	 * Permite editar o preço de um produto.
+	 * 
+	 * @param nome é o nome do produto.
+	 * @param descricao é a descrição do produto.
+	 * @param fornecedor é o identificador do fornecedor que comercializa o produto.
+	 * @param novoPreco é o novo preço do produto.
+	 */
 	public void editaPrecoProduto(String nome, String descricao, String fornecedor, double novoPreco) {
 		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao de produto: nome nao pode ser vazio ou nulo.");
@@ -172,12 +199,19 @@ public class FornecedorController {
 		} else if (novoPreco <= 0) {
 			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
 		} else if (!contemFornecedor(fornecedor)) {
-			throw new IllegalAccessError("Erro na edicao de produto: fornecedor nao existe.");
+			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao existe.");
 		}
 		
 		this.fornecedores.get(fornecedor).editaPrecoProduto(nome.trim() + " " + descricao.trim(), novoPreco);
 	}
 	
+	/**
+	 * Permite remover um produto
+	 * 
+	 * @param nome é o nome do produto a ser removido.
+	 * @param descricao é a descrição do produto que será removido.
+	 * @param fornecedor é o identificador de quem vende o produto.
+	 */
 	public void removeProduto(String nome, String descricao, String fornecedor) {
 		if (fornecedor == null ||fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao pode ser vazio ou nulo.");

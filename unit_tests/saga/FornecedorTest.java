@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import models.Cliente;
+import models.Fornecedor;
+
 class FornecedorTest {
 	private Fornecedor f1;
 	private Fornecedor f2;
@@ -77,6 +80,7 @@ class FornecedorTest {
 		
 		f1.editaPrecoProduto("X-frango Hamburguer de frango com queijo e calabresa", 4.00);
 		assertEquals("R$4,00", f1.getPrecoProduto("X-frango", "Hamburguer de frango com queijo e calabresa"));
+		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("", "Hamburguer de frango com queijo e calabresa"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("X-frango", ""));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto(null, "Hamburguer de frango com queijo e calabresa"));
@@ -97,6 +101,7 @@ class FornecedorTest {
 		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto("X-frango", ""));
 		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto(null, "Hamburguer de carne com queijo e calabresa"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto("X-frango", null));
+		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo"));
 		
 		assertEquals("X-burguer - Hamburguer de carne com queijo e calabresa - R$4,50", f1.retornaProduto("X-burguer Hamburguer de carne com queijo e calabresa"));
 		f1.removeProduto("X-burguer", "Hamburguer de carne com queijo e calabresa");

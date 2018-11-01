@@ -1,9 +1,9 @@
-package saga;
+package models;
 
 /**
  * Classe que molda um objeto do tipo Produto.
  * 
- * @author higor
+ * @author Higor Santos - 118110808.
  *
  */
 public class Produto  implements Comparable <Produto> {
@@ -44,6 +44,11 @@ public class Produto  implements Comparable <Produto> {
 		return "R$" + String.format("%.2f", this.preco);
 	}
 	
+	/**
+	 * Informa o nome e a descrição do produto.
+	 * 
+	 * @return Uma string com o nome e a descrição do produto.
+	 */
 	public String getNomeDescricao() {
 		return this.nome + " " + this.descricao;
 	}

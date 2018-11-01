@@ -1,9 +1,9 @@
-package saga;
+package models;
 
 /**
  * Classe que molda um objeto do tipo Cliente.
  * 
- * @author higor
+ * @author Higor Santos - 118110808.
  *
  */
 public class Cliente implements Comparable<Cliente>{

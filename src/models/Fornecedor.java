@@ -1,4 +1,4 @@
-package saga;
+package models;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Classe que molda um objeto do tipo Fornecedor.
  * 
- * @author higor
+ * @author Higor Santos - 118110808.
  *
  */
 public class Fornecedor implements Comparable<Fornecedor>{
@@ -108,13 +108,11 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	///////////////////////////////////			ÁREA DO PRODUTO			\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 	/**
-	 * Cadastra um produto comercializado pelo fornecedor 
+	 * Cadastra um produto comercializado pelo fornecedor.
 	 * 
 	 * @param nome é o nome do produto.
 	 * @param descricao é a descrição do produto.
-	 * @param preco é o preço do produto.
-	 * 
-	 * @return Um boolean informando se foi ou não bem sucedido o cadastro.
+	 * @param preco é o preco do produto.
 	 */
 	public void cadastraProduto(String nome, String descricao, double preco) {
 		if (nome == null || nome.trim().equals("")) {
@@ -152,6 +150,12 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		return this.produtos.get(key).toString();
 	}
 	
+	/**
+	 * Permite editar o preço do produto
+	 * 
+	 * @param key é o identificador do produto.
+	 * @param preco é o novo preço do produto.
+	 */
 	public void editaPrecoProduto(String key, double preco) {
 		if (!this.produtos.containsKey(key)) {
 			throw new IllegalArgumentException("Erro na edicao de produto: produto nao existe.");
@@ -163,7 +167,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	/**
 	 * Método que informa todos os produtos comercializados pelo fornecedor.
 	 * 
-	 * @return Uma string com todos os produtos comercializados pelo fornecedor.
+	 * @return Uma string com todos os produtos comercializados pelo fornecedor, em ordem alfabética.
 	 */
 	public String exibeProdutosFornecedor() {
 		List<Produto> lista = new ArrayList<>(this.produtos.values());
@@ -171,6 +175,14 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		return lista.stream().map(p -> this.nome + " - " + p.toString()).collect(Collectors.joining(" | "));		
 	}
 	
+	/**
+	 * Permite visualizar o preço de um produto.
+	 * 
+	 * @param nome é o nome do produto.
+	 * @param descricao é a descrição do produto.
+	 * 
+	 * @return Uma string com o preço do produto.
+	 */
 	public String getPrecoProduto(String nome, String descricao) {
 		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
@@ -185,10 +197,16 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		return this.produtos.get(nome.trim() + " " + descricao.trim()).getPreco();
 	}
 	
+	/**
+	 * Método que remove um produto.
+	 * 
+	 * @param nome é o nome do produto a ser removido.
+	 * @param descricao é a descrição do produto a ser removido.
+	 */
 	public void removeProduto(String nome, String descricao) {
-		if (nome.trim().equals("") || nome.equals(null)) {
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
-		} else if (descricao.trim().equals("") || descricao.trim().equals(null)) {
+		} else if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
 		}
 		
