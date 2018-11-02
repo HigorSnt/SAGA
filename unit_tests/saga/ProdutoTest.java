@@ -24,8 +24,8 @@ class ProdutoTest {
 		assertThrows(IllegalArgumentException.class, ()-> new Produto("", "Hamburguer de frango com queijo e calabresa", 5.00));
 		assertThrows(IllegalArgumentException.class, ()-> new Produto("X-frango", "", 5.00));
 		assertThrows(IllegalArgumentException.class, ()-> new Produto("X-frango", "Hamburguer de frango com queijo e calabresa", 0.0));
-		assertThrows(NullPointerException.class, ()-> new Produto(null, "Hamburguer de frango com queijo e calabresa", 5.00));
-		assertThrows(NullPointerException.class, ()-> new Produto("X-frango", null, 5.00));
+		assertThrows(IllegalArgumentException.class, ()-> new Produto(null, "Hamburguer de frango com queijo e calabresa", 5.00));
+		assertThrows(IllegalArgumentException.class, ()-> new Produto("X-frango", null, 5.00));
 		
 		assertEquals("Coxao de Pizza - Coxao de frango com presunto e queijo - R$2,50", p2.toString());
 		assertEquals("X-frango Hamburguer de frango com queijo e calabresa", p1.getNomeDescricao());

@@ -38,7 +38,6 @@ public class ClienteController {
 	 * @return Retorna o cpf.
 	 */
 	public String cadastraCliente(String cpf, String nome, String email, String localizacao) {
-		// verificando se o cliente já foi cadastrado.
 		if (cpf == null || contemCliente(cpf) || cpf.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: cliente ja existe.");
 		}
@@ -48,10 +47,10 @@ public class ClienteController {
 	}
 	
 	/**
-	 * Dado um cert5o CPF esse método permitirá modificar o nome de um cliente já cadastrado.
+	 * Dado um certo CPF esse método permitirá modificar o nome de um cliente já cadastrado.
 	 * 
 	 * @param cpf é o identificador do cliente.
-	 * @param atributo é o que será modificado.
+	 * @param atributo é o indicador de qual atributo que será modificado.
 	 * @param novoValor é o valor que substituirá o antigo.
 	 */
 	public void editaCliente(String cpf, String atributo, String novoValor) {

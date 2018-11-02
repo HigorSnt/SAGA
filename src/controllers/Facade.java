@@ -64,7 +64,7 @@ public class Facade {
 	 * Método que permite a edição do nome de um cliente.
 	 * 
 	 * @param cpf é o identificador de um cliente.
-	 * @param atributo é o que será modificado.
+	 * @param atributo é o indicador de qual atributo que será modificado.
 	 * @param novoValor é o valor que substituirá o antigo.
 	 */
 	public void editaCliente(String cpf, String atributo, String novoValor) {
@@ -99,6 +99,7 @@ public class Facade {
 	 * Dado um nome será solicitado a representação de um certo cliente.
 	 * 
 	 * @param nome é o identificador do fornecedor.
+	 * 
 	 * @return Uma string com a representação textual de um fornecedor.
 	 */
 	public String exibeFornecedor(String nome) {
@@ -106,7 +107,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Lista todos os funcionários cadastrados com seus dados.
+	 * Lista todos os fornecedores cadastrados com seus dados.
 	 * 
 	 * @return A representação de todos os fornecedores.
 	 */
@@ -115,10 +116,10 @@ public class Facade {
 	}
 	
 	/**
-	 * Método que permite editar um fornecedor
+	 * Método que permite editar um fornecedor.
 	 * 
 	 * @param nome é o fornecedor que terá alguma informação atualizada. 
-	 * @param atributo é o que irá ser atualizado.
+	 * @param atributo é o indicador de qual atributo que será modificado.
 	 * @param novoValor é o valor que irá substituir o antigo.
 	 */
 	public void editaFornecedor(String nome, String atributo, String novoValor) {
@@ -197,7 +198,7 @@ public class Facade {
 	}
 	
 	/**
-	 * remove o produto de um fornecedor.
+	 * Remove o produto de um fornecedor.
 	 * 
 	 * @param nome é o nome do produto.
 	 * @param descricao é a descrição do produto.

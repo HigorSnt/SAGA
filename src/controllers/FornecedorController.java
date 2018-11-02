@@ -50,7 +50,7 @@ public class FornecedorController {
 	 * Permite editar o email e telefone de um fornecedor.
 	 * 
 	 * @param nome é o identificador do fornecedor.
-	 * @param atributo é o que será alterado.
+	 * @param atributo é o indicador de qual atributo que será modificado.
 	 * @param novoValor é o valor que irá substituir o antigo.
 	 */
 	public void editaFornecedor(String nome, String atributo, String novoValor) {
@@ -77,7 +77,7 @@ public class FornecedorController {
 	/**
 	 * Remove um fornecedor pelo nome.
 	 * 
-	 * @param nome é o identificador do fornecedor
+	 * @param nome é o identificador do fornecedor.
 	 */
 	public void removeFornecedor(String nome) {
 		if (nome == null || nome.trim().equals("")) {

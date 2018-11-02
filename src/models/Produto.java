@@ -22,9 +22,9 @@ public class Produto  implements Comparable <Produto> {
 	 * @param preco é o preço do produto.
 	 */
 	public Produto(String nome, String descricao, double preco){
-		if (nome.trim().equals("") || nome.equals(null)) {
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
-		} else if (descricao.trim().equals("") || descricao.equals(null)) {
+		} else if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
 		} else if (preco <= 0) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: preco invalido.");

@@ -189,7 +189,6 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		} else if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
 		}
-		
 		if(!this.produtos.containsKey(nome.trim() + " " + descricao.trim())) {
 			throw new IllegalArgumentException("Erro na exibicao de produto: produto nao existe.");
 		}
