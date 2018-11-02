@@ -189,7 +189,7 @@ public class FornecedorController {
 	 * @param fornecedor é o identificador do fornecedor que comercializa o produto.
 	 * @param novoPreco é o novo preço do produto.
 	 */
-	public void editaPrecoProduto(String nome, String descricao, String fornecedor, double novoPreco) {
+	public void editaProduto(String nome, String descricao, String fornecedor, double novoPreco) {
 		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao de produto: nome nao pode ser vazio ou nulo.");
 		} else if (descricao == null || descricao.trim().equals("")) {
@@ -202,7 +202,7 @@ public class FornecedorController {
 			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao existe.");
 		}
 		
-		this.fornecedores.get(fornecedor).editaPrecoProduto(nome.trim() + " " + descricao.trim(), novoPreco);
+		this.fornecedores.get(fornecedor).editaProduto(nome.trim() + " " + descricao.trim(), novoPreco);
 	}
 	
 	/**

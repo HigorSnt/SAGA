@@ -194,7 +194,7 @@ public class Facade {
 	 * @param novoPreco é o valor que irá substituir o antigo.
 	 */
 	public void editaProduto(String nome, String descricao, String fornecedor, double novoPreco) {
-		this.fc.editaPrecoProduto(nome, descricao, fornecedor, novoPreco);
+		this.fc.editaProduto(nome, descricao, fornecedor, novoPreco);
 	}
 	
 	/**

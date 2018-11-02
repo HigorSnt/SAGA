@@ -75,10 +75,10 @@ class FornecedorTest {
 	
 	@Test
 	public void testEditaPrecoProduto() {
-		assertThrows(IllegalArgumentException.class, ()-> f1.editaPrecoProduto("X-frango Hamburguer de frango com queijo e calabresa", 0.0));
-		assertThrows(IllegalArgumentException.class, ()-> f1.editaPrecoProduto("X-frango", 0.0));
+		assertThrows(IllegalArgumentException.class, ()-> f1.editaProduto("X-frango Hamburguer de frango com queijo e calabresa", 0.0));
+		assertThrows(IllegalArgumentException.class, ()-> f1.editaProduto("X-frango", 0.0));
 		
-		f1.editaPrecoProduto("X-frango Hamburguer de frango com queijo e calabresa", 4.00);
+		f1.editaProduto("X-frango Hamburguer de frango com queijo e calabresa", 4.00);
 		assertEquals("R$4,00", f1.getPrecoProduto("X-frango", "Hamburguer de frango com queijo e calabresa"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("", "Hamburguer de frango com queijo e calabresa"));

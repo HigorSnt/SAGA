@@ -156,7 +156,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @param key é o identificador do produto.
 	 * @param preco é o novo preço do produto.
 	 */
-	public void editaPrecoProduto(String key, double preco) {
+	public void editaProduto(String key, double preco) {
 		if (!this.produtos.containsKey(key)) {
 			throw new IllegalArgumentException("Erro na edicao de produto: produto nao existe.");
 		}

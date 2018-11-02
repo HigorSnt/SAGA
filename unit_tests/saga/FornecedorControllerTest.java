@@ -122,17 +122,17 @@ class FornecedorControllerTest {
 		fc.adicionaProduto("Marcos", "Coxao de Pizza", "Coxao de frango com presunto e queijo", 2.50);
 		fc.adicionaProduto("Marcos", "Coxao de Frango", "Coxao de frango com cheddar", 2.50);
 	
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto(null, "Coxao de frango com presunto e queijo", "Marcos", 3.00));
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto("        ", "Coxao de frango com presunto e queijo", "Marcos", 3.00));
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto("Coxao de Pizza", null, "Marcos", 3.00));
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto("Coxao de Pizza", "    ", "Marcos", 3.00));
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", null, 3.00));
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "    ", 3.00));
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos", 0.00));
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos", -3.00));
-		assertThrows(IllegalArgumentException.class, ()-> fc.editaPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Helhao", 3.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto(null, "Coxao de frango com presunto e queijo", "Marcos", 3.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("        ", "Coxao de frango com presunto e queijo", "Marcos", 3.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("Coxao de Pizza", null, "Marcos", 3.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("Coxao de Pizza", "    ", "Marcos", 3.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", null, 3.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "    ", 3.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos", 0.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos", -3.00));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Helhao", 3.00));
 		
-		fc.editaPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos", 3.00);
+		fc.editaProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos", 3.00);
 		assertEquals("Coxao de Pizza - Coxao de frango com presunto e queijo - R$3,00", fc.exibeProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos"));
 		
 		assertThrows(IllegalArgumentException.class, ()-> fc.removeProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", null));
