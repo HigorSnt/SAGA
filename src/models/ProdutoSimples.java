@@ -6,7 +6,7 @@ package models;
  * @author Higor Santos - 118110808.
  *
  */
-public class Produto  implements Comparable <Produto> {
+public class ProdutoSimples  implements Comparable <ProdutoSimples> {
 	/** Nome do produto */
 	private String nome;
 	/** Descrição do produto */
@@ -21,7 +21,7 @@ public class Produto  implements Comparable <Produto> {
 	 * @param descricao é a descrição do produto.
 	 * @param preco é o preço do produto.
 	 */
-	public Produto(String nome, String descricao, double preco){
+	public ProdutoSimples(String nome, String descricao, double preco){
 		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
 		} else if (descricao == null || descricao.trim().equals("")) {
@@ -67,7 +67,7 @@ public class Produto  implements Comparable <Produto> {
 	}
 	
 	@Override
-	public int compareTo(Produto o) {
+	public int compareTo(ProdutoSimples o) {
 		return this.getNomeDescricao().compareTo(o.getNomeDescricao());
 	}
 	
@@ -93,7 +93,7 @@ public class Produto  implements Comparable <Produto> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		ProdutoSimples other = (ProdutoSimples) obj;
 		if (descricao == null) {
 			if (other.descricao != null)
 				return false;

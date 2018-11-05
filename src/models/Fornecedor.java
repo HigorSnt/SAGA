@@ -22,7 +22,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	/** Telefone do fornecedor. */
 	private String telefone;
 	/** Produtos que são comercializados pelo fornecedor. */
-	private Map <String, Produto> produtos;
+	private Map <String, ProdutoSimples> produtos;
 	
 	/**
 	 * Constrói um Fornecedor.
@@ -132,7 +132,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 			throw new IllegalArgumentException("Erro no cadastro de produto: produto ja existe.");
 		}
 		
-		this.produtos.put(key, new Produto(nome, descricao, preco));
+		this.produtos.put(key, new ProdutoSimples(nome, descricao, preco));
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @return Uma string com todos os produtos comercializados pelo fornecedor, em ordem alfabética.
 	 */
 	public String exibeProdutosFornecedor() {
-		List<Produto> lista = new ArrayList<>(this.produtos.values());
+		List<ProdutoSimples> lista = new ArrayList<>(this.produtos.values());
 		Collections.sort(lista);
 		return lista.stream().map(p -> this.nome + " - " + p.toString()).collect(Collectors.joining(" | "));		
 	}
