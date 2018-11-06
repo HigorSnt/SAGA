@@ -123,7 +123,7 @@ public class FornecedorController {
 		}
 		
 		this.fornecedores.get(fornecedor).cadastraProduto(nome, descricao, preco);
-		return nome + " " + descricao;
+		return nome + " - " + descricao;
 	}
 	
 	/**
@@ -202,7 +202,7 @@ public class FornecedorController {
 			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao existe.");
 		}
 		
-		this.fornecedores.get(fornecedor).editaProduto(nome.trim() + " " + descricao.trim(), novoPreco);
+		this.fornecedores.get(fornecedor).editaProduto(nome.trim() + " - " + descricao.trim(), novoPreco);
 	}
 	
 	/**
@@ -231,6 +231,19 @@ public class FornecedorController {
 		List <Fornecedor> lista = new ArrayList<>(this.fornecedores.values());
 		Collections.sort(lista);
 		return lista.stream().map(f -> f.toString()).collect(Collectors.joining(" | "));
+	}
+	
+	public String adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
+		if (fornecedor == null || fornecedor.trim().equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao pode ser vazio ou nulo.");
+		}
+		if (!contemFornecedor(fornecedor)) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao existe.");
+		}
+		
+		fornecedor = fornecedor.trim();
+		
+		return this.fornecedores.get(fornecedor).adicionaCombo(nome, descricao, fator, produtos);
 	}
 	
 	/**

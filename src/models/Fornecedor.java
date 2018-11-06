@@ -22,7 +22,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	/** Telefone do fornecedor. */
 	private String telefone;
 	/** Produtos que são comercializados pelo fornecedor. */
-	private Map <String, ProdutoSimples> produtos;
+	private Map <String, Produto> produtos;
 	
 	/**
 	 * Constrói um Fornecedor.
@@ -127,12 +127,12 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		nome = nome.trim();
 		descricao = descricao.trim();
 		
-		String key = nome + " " + descricao;
+		String key = nome + " - " + descricao;
 		if (this.produtos.containsKey(key)) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: produto ja existe.");
 		}
 		
-		this.produtos.put(key, new ProdutoSimples(nome, descricao, preco));
+		this.produtos.put(key, new Simples(nome, descricao, preco));
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * @return Uma string com todos os produtos comercializados pelo fornecedor, em ordem alfabética.
 	 */
 	public String exibeProdutosFornecedor() {
-		List<ProdutoSimples> lista = new ArrayList<>(this.produtos.values());
+		List<Produto> lista = new ArrayList<>(this.produtos.values());
 		Collections.sort(lista);
 		return lista.stream().map(p -> this.nome + " - " + p.toString()).collect(Collectors.joining(" | "));		
 	}
@@ -193,7 +193,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 			throw new IllegalArgumentException("Erro na exibicao de produto: produto nao existe.");
 		}
 		
-		return this.produtos.get(nome.trim() + " " + descricao.trim()).getPreco();
+		return this.produtos.get(nome.trim() + " - " + descricao.trim()).mostraPreco();
 	}
 	
 	/**
@@ -209,13 +209,45 @@ public class Fornecedor implements Comparable<Fornecedor>{
 			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
 		}
 		
-		String key = nome.trim() + " " + descricao.trim();
+		String key = nome.trim() + " - " + descricao.trim();
 		
 		if (!this.produtos.containsKey(key)) {
 			throw new IllegalArgumentException("Erro na remocao de produto: produto nao existe.");
 		}
 		
 		this.produtos.remove(key);
+	}
+	
+	///////////////////////////////////			ÁREA DO COMBO			\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
+	public String adicionaCombo(String nome, String descricao, double fator, String produtos) {
+		if (produtos == null || produtos.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (fator <= 0 || fator >= 1) {
+			throw new IllegalArgumentException();
+		}
+		
+		String[] p = produtos.trim().replace(", ", " ").split(" ");
+		double preco = 0;
+		fator = 1 - fator;
+		List<Produto> prod = new ArrayList<>();
+		
+		for (String s : p) {
+			if (s == null || s.trim().equals("")) {
+				throw new IllegalArgumentException("Erro no cadastro de combo: produto nao existe.");
+			}
+			if (!this.produtos.containsKey(s)) {
+				throw new IllegalArgumentException();
+			}
+			preco += this.produtos.get(s).getPreco();
+			prod.add(this.produtos.get(s));
+		}
+		
+		preco *= fator;
+		
+		this.produtos.put(nome + " - " + descricao, new Combo(nome, descricao, preco, prod));
+		return nome + " - " + descricao;
 	}
 	
 	@Override

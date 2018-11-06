@@ -207,5 +207,11 @@ public class Facade {
 	public void removeProduto(String nome, String descricao, String fornecedor) {
 		this.fc.removeProduto(nome, descricao, fornecedor);
 	}
+	
+	///////////////////////////////////        MÉTODOS REFERENTES AO COMBO        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+	public String adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
+		return this.fc.adicionaCombo(fornecedor, nome, descricao, fator, produtos);
+	}
 
 }
