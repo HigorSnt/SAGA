@@ -147,7 +147,7 @@ public class FornecedorController {
 		}
 		
 		fornecedor = fornecedor.trim();
-		String key = nome.trim() + " " + descricao.trim();
+		String key = nome.trim() + " - " + descricao.trim();
 		
 		return this.fornecedores.get(fornecedor).retornaProduto(key);
 	}
@@ -237,6 +237,21 @@ public class FornecedorController {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao pode ser vazio ou nulo.");
 		}
+		if (produtos == null || produtos.trim().equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: combo deve ter produtos.");
+		}
+		if (nome == null || nome.trim().equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: nome nao pode ser vazio ou nulo.");
+		}
+		if (descricao == null || descricao.trim().equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: descricao nao pode ser vazia ou nula.");
+		}
+		if (fator <= 0 || fator >= 1) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: fator invalido.");
+		}
+		if (produtos == null || produtos.trim().equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: combo deve ter produtos.");
+		}
 		if (!contemFornecedor(fornecedor)) {
 			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao existe.");
 		}
@@ -248,13 +263,13 @@ public class FornecedorController {
 	
 	public void editaCombo(String nome, String descricao, String fornecedor, double novoFator) {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao pode ser vazio ou nulo.");
 		}
 		if (!this.fornecedores.containsKey(fornecedor)) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao existe.");
 		}
 		
-		return this.fornecedores.get(fornecedor).editaCombo(nome, descricao, novoFator);
+		this.fornecedores.get(fornecedor).editaCombo(nome, descricao, novoFator);
 	}
 	
 	/**

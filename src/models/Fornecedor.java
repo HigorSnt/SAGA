@@ -23,7 +23,6 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	private String telefone;
 	/** Produtos que são comercializados pelo fornecedor. */
 	private Map <String, Produto> produtos;
-	private Map <String, Combo> combos;
 	
 	/**
 	 * Constrói um Fornecedor.
@@ -51,7 +50,6 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		this.email = email;
 		this.telefone = telefone;
 		this.produtos = new HashMap<>();
-		this.combos = new HashMap<>();
 	}
 	
 	/**
@@ -134,7 +132,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 			throw new IllegalArgumentException("Erro no cadastro de produto: produto ja existe.");
 		}
 		
-		this.produtos.put(key, new Simples(nome, descricao, preco));
+		this.produtos.put(key, new Produto(nome, descricao, preco));
 	}
 	
 	/**
@@ -223,16 +221,12 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	///////////////////////////////////			ÁREA DO COMBO			\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public String adicionaCombo(String nome, String descricao, double fator, String produtos) {
-		if (produtos == null || produtos.trim().equals("")) {
-			throw new IllegalArgumentException();
-		}
-		if (fator <= 0 || fator >= 1) {
-			throw new IllegalArgumentException();
+		if (this.produtos.containsKey(nome + " - " + descricao)) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: combo ja existe.");
 		}
 		
 		String[] p = produtos.trim().split(", ");
 		double preco = 0;
-		fator = 1 - fator;
 		List<Produto> prod = new ArrayList<>();
 		
 		for (String s : p) {
@@ -243,7 +237,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 			prod.add(this.produtos.get(s));
 		}
 		
-		this.combos.put(nome + " - " + descricao, new Combo(nome, descricao, preco, fator, prod));
+		this.produtos.put(nome + " - " + descricao, new Combo(nome, descricao, preco, fator, prod));
 		return nome + " - " + descricao;
 	}
 	
@@ -254,11 +248,12 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException();
 		}
-		if (!this.combos.containsKey(nome + " - " + descricao)) {
+		if (!this.produtos.containsKey(nome + " - " + descricao)) {
 			throw new IllegalArgumentException();
 		}
 		
-		this.combos.get(nome + " - " +  descricao).setFator(novoFator);
+		Combo c = (Combo)this.produtos.get(nome + " - " +  descricao);
+		c.setFator(novoFator);
 	}
 	
 	@Override

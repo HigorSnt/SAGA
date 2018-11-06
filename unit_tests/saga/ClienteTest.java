@@ -6,8 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import models.Cliente;
-import models.Fornecedor;
-import models.Simples;
+import models.Produto;
 
 class ClienteTest {
 
@@ -72,7 +71,7 @@ class ClienteTest {
 	public void testEquals() {
 		assertFalse(c1.equals(c2));
 		assertFalse(c1.equals(null));
-		assertFalse(c1.equals(new Simples("Comida", "Boa", 2.00)));
+		assertFalse(c1.equals(new Produto("Comida", "Boa", 2.00)));
 		assertTrue(c1.equals(c1));
 		assertFalse(c1.equals(new Cliente("08274904781", "Victor Emanuel", "vitao@ccc.ufcg.edu.br", "Labarc")));
 	}
