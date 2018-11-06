@@ -9,14 +9,14 @@ public class Combo extends Produto {
 	public Combo(String nome, String descricao, double preco, double fator, List<Produto> produtos) {
 		super(nome, descricao, preco);
 		this.fator = 1 - fator;
-		super.preco *= fator;
 	}
 	
 	public void setFator(double fator) {
 		this.fator = 1 - fator;
-		super.preco *= fator;
 	}
 	
-	
-
+	@Override
+	public double getPreco() {
+		return this.preco * this.fator;
+	}
 }

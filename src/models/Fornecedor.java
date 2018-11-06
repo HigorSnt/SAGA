@@ -231,7 +231,10 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		
 		for (String s : p) {
 			if (!this.produtos.containsKey(s)) {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Erro no cadastro de combo: produto nao existe.");
+			}
+			if (this.produtos.get(s).getClass() == Combo.class) {
+				throw new IllegalArgumentException("Erro no cadastro de combo: um combo nao pode possuir combos na lista de produtos.");
 			}
 			preco += this.produtos.get(s).getPreco();
 			prod.add(this.produtos.get(s));
@@ -243,13 +246,16 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	
 	public void editaCombo(String nome, String descricao, double novoFator) {
 		if (nome == null || nome.trim().equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro na edicao de combo: nome nao pode ser vazio ou nulo.");
 		}
 		if (descricao == null || descricao.trim().equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro na edicao de combo: descricao nao pode ser vazia ou nula.");
 		}
 		if (!this.produtos.containsKey(nome + " - " + descricao)) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro na edicao de combo: produto nao existe.");
+		}
+		if (novoFator <= 0 || novoFator >= 1) {
+			throw new IllegalArgumentException("Erro na edicao de combo: fator invalido.");
 		}
 		
 		Combo c = (Combo)this.produtos.get(nome + " - " +  descricao);

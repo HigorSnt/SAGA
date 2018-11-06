@@ -4,7 +4,7 @@ public class Produto implements Comparable<Produto>{
 	
 	private String nome;
 	private String descricao;
-	double preco;
+	protected double preco;
 	
 	/**
 	 * Constrói um produto.
@@ -16,9 +16,11 @@ public class Produto implements Comparable<Produto>{
 	public Produto(String nome, String descricao, double preco){
 		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
-		} else if (descricao == null || descricao.trim().equals("")) {
+		}
+		if (descricao == null || descricao.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
-		} else if (preco <= 0) {
+		}
+		if (preco <= 0) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: preco invalido.");
 		}
 		
@@ -26,14 +28,13 @@ public class Produto implements Comparable<Produto>{
 		this.descricao = descricao;
 		this.preco = preco;
 	}
+
+	public String getNome() {
+		return this.nome;
+	}
 	
-	/**
-	 * Informa o nome e a descrição do produto.
-	 * 
-	 * @return Uma string com o nome e a descrição do produto.
-	 */
-	public String getNomeDescricao() {
-		return this.nome + " - " + this.descricao;
+	public String getDescricao() {
+		return this.descricao;
 	}
 	
 	/**
@@ -42,7 +43,7 @@ public class Produto implements Comparable<Produto>{
 	 * @return Uma string com o preço do produto.
 	 */
 	public String mostraPreco() {
-		return "R$" + String.format("%.2f", this.preco);
+		return "R$" + String.format("%.2f", this.getPreco());
 	}
 	
 	public double getPreco() {
@@ -59,12 +60,15 @@ public class Produto implements Comparable<Produto>{
 	
 	@Override
 	public int compareTo(Produto o) {
-		return this.getNomeDescricao().compareTo(o.getNomeDescricao());
+		if (this.getNome().equals(o.getNome())) {
+			return this.getDescricao().compareTo(o.getDescricao());
+		}
+		return this.getNome().compareTo(o.getNome());
 	}
 	
 	@Override
 	public String toString() {
-		return this.nome + " - " + this.descricao + " - R$" + String.format("%.2f", this.preco);
+		return this.nome + " - " + this.descricao + " - R$" + String.format("%.2f", this.getPreco());
 	}
 
 	@Override
