@@ -28,7 +28,8 @@ class ProdutoTest{
 		assertThrows(IllegalArgumentException.class, ()-> new Produto("X-frango", null, 5.00));
 		
 		assertEquals("Coxao de Pizza - Coxao de frango com presunto e queijo - R$2,50", p2.toString());
-		assertEquals("X-frango Hamburguer de frango com queijo e calabresa", p1.getNomeDescricao());
+		assertEquals("X-frango", p1.getNome());
+		assertEquals("Hamburguer de frango com queijo e calabresa", p1.getDescricao());
 		assertEquals("R$5,00", p1.getPreco());
 	}
 	
