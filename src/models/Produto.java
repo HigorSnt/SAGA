@@ -49,11 +49,6 @@ public class Produto implements Comparable<Produto>{
 		return this.preco;
 	}
 	
-	/**
-	 * Atualiza o preço do produto.
-	 * 
-	 * @param preco é o preço de um determinado produto.
-	 */
 	public void setPreco(double preco) {
 		if (preco <= 0) {
 			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
@@ -66,4 +61,42 @@ public class Produto implements Comparable<Produto>{
 	public int compareTo(Produto o) {
 		return this.getNomeDescricao().compareTo(o.getNomeDescricao());
 	}
+	
+	@Override
+	public String toString() {
+		return this.nome + " - " + this.descricao + " - R$" + String.format("%.2f", this.preco);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		return true;
+	}
+	
+	
 }

@@ -23,6 +23,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	private String telefone;
 	/** Produtos que são comercializados pelo fornecedor. */
 	private Map <String, Produto> produtos;
+	private Map <String, Combo> combos;
 	
 	/**
 	 * Constrói um Fornecedor.
@@ -50,6 +51,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		this.email = email;
 		this.telefone = telefone;
 		this.produtos = new HashMap<>();
+		this.combos = new HashMap<>();
 	}
 	
 	/**
@@ -228,15 +230,12 @@ public class Fornecedor implements Comparable<Fornecedor>{
 			throw new IllegalArgumentException();
 		}
 		
-		String[] p = produtos.trim().replace(", ", " ").split(" ");
+		String[] p = produtos.trim().split(", ");
 		double preco = 0;
 		fator = 1 - fator;
 		List<Produto> prod = new ArrayList<>();
 		
 		for (String s : p) {
-			if (s == null || s.trim().equals("")) {
-				throw new IllegalArgumentException("Erro no cadastro de combo: produto nao existe.");
-			}
 			if (!this.produtos.containsKey(s)) {
 				throw new IllegalArgumentException();
 			}
@@ -244,10 +243,22 @@ public class Fornecedor implements Comparable<Fornecedor>{
 			prod.add(this.produtos.get(s));
 		}
 		
-		preco *= fator;
-		
-		this.produtos.put(nome + " - " + descricao, new Combo(nome, descricao, preco, prod));
+		this.combos.put(nome + " - " + descricao, new Combo(nome, descricao, preco, fator, prod));
 		return nome + " - " + descricao;
+	}
+	
+	public void editaCombo(String nome, String descricao, double novoFator) {
+		if (nome == null || nome.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (descricao == null || descricao.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (!this.combos.containsKey(nome + " - " + descricao)) {
+			throw new IllegalArgumentException();
+		}
+		
+		this.combos.get(nome + " - " +  descricao).setFator(novoFator);
 	}
 	
 	@Override

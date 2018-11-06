@@ -213,5 +213,9 @@ public class Facade {
 	public String adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
 		return this.fc.adicionaCombo(fornecedor, nome, descricao, fator, produtos);
 	}
+	
+	public void editaCombo(String nome, String descricao, String fornecedor, double novoFator) {
+		this.fc.editaCombo(nome, descricao, fornecedor, novoFator);
+	}
 
 }

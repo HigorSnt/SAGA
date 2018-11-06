@@ -246,6 +246,17 @@ public class FornecedorController {
 		return this.fornecedores.get(fornecedor).adicionaCombo(nome, descricao, fator, produtos);
 	}
 	
+	public void editaCombo(String nome, String descricao, String fornecedor, double novoFator) {
+		if (fornecedor == null || fornecedor.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (!this.fornecedores.containsKey(fornecedor)) {
+			throw new IllegalArgumentException();
+		}
+		
+		return this.fornecedores.get(fornecedor).editaCombo(nome, descricao, novoFator);
+	}
+	
 	/**
 	 * Verifica se um determinado nome já foi cadastrado.
 	 * 
