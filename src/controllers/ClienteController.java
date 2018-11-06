@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import models.Cliente;
+import models.Conta;
+import models.Fornecedor;
 
 /**
  * Controla todas as atividades realizadas referentes à um cliente.
@@ -19,12 +21,14 @@ public class ClienteController {
 	
 	/** Armazena cada cliente com um identificador único. */
 	private Map <String, Cliente> clientes;
+	private Conta conta;
 	
 	/**
 	 * Inicializa o local onde os clientes serão cadastrados.
 	 */
 	public ClienteController() {
 		this.clientes = new HashMap<>();
+		this.conta = new Conta();
 	}
 	
 	/**
@@ -117,6 +121,17 @@ public class ClienteController {
 		Collections.sort(lista);
 		
 		 return lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
+	}
+	
+	public Cliente getCliente(String cpf) {
+		if (!contemCliente(cpf)) {
+			throw new IllegalArgumentException();
+		}
+		return this.clientes.get(cpf);
+	}
+	
+	public void adicionaCompra(String cpf, Fornecedor fornecedor, String data, String nomeProd, String descProd) {
+		
 	}
 	
 	/**

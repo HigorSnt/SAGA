@@ -15,6 +15,7 @@ public class Cliente implements Comparable<Cliente>{
 	private String email;
 	/** Localização onde o cliente trabalha. */
 	private String localizacao;
+	private Conta conta;
 	
 	/**
 	 * Constrói um cliente.
@@ -105,6 +106,10 @@ public class Cliente implements Comparable<Cliente>{
 		}
 		
 		this.localizacao = localizacao;
+	}
+	
+	public void adicionaConta() {
+		
 	}
 	
 	/**

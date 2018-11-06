@@ -181,6 +181,13 @@ public class FornecedorController {
 		return lista.stream().map(p -> p.exibeProdutosFornecedor()).collect(Collectors.joining(" | "));
 	}
 	
+	public Fornecedor getFornecedor(String nome) {
+		if (!contemFornecedor(nome)) {
+			throw new IllegalArgumentException();
+		}
+		return this.fornecedores.get(nome);
+	}
+	
 	/**
 	 * Permite editar o preço de um produto.
 	 * 
