@@ -16,6 +16,9 @@ public class Compra {
 	public double getPreco() {
 		return preco;
 	}
+	public String getData() {
+		return data;
+	}
 	
 	@Override
 	public String toString() {

@@ -17,7 +17,8 @@ public class Facade {
 	
 	public static void main(String[] args) {
 		args = new String[] {"controllers.Facade", "acceptance_tests/use_case_1.txt", "acceptance_tests/use_case_2.txt",
-				"acceptance_tests/use_case_3.txt", "acceptance_tests/use_case_4.txt", "acceptance_tests/use_case_5.txt"};
+				"acceptance_tests/use_case_3.txt", "acceptance_tests/use_case_4.txt", "acceptance_tests/use_case_5.txt",
+				"acceptance_tests/use_case_6.txt"};
 		EasyAccept.main(args);
 	}
 	
@@ -109,8 +110,8 @@ public class Facade {
 		return this.gc.exibeContasClientes(cpf);
 	}
 	
-	public void realizaPagamento(String cpf, String nome) {
-		this.gc.
+	public void realizaPagamento(String cpf, String fornecedor) {
+		this.gc.realizaPagamento(cpf, fornecedor);
 	}
 	
 }

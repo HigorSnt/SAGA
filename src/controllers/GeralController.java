@@ -322,15 +322,21 @@ public class GeralController {
 	
 	public void realizaPagamento(String cpf, String fornecedor) {
 		if (cpf == null || cpf.trim().equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro no pagamento de conta: cpf nao pode ser vazio ou nulo.");
 		}
 		if (fornecedor == null || fornecedor.trim().equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro no pagamento de conta: fornecedor nao pode ser vazio ou nulo.");
 		}
 		if (cpf.length() != 11) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro no pagamento de conta: cpf invalido.");
 		}
-		
+		if (!this.cc.contemCliente(cpf)) {
+			throw new IllegalArgumentException("Erro no pagamento de conta: cliente nao existe.");
+		}
+		if (!this.fc.contemFornecedor(fornecedor)) {
+			throw new IllegalArgumentException("Erro no pagamento de conta: fornecedor nao existe.");
+		}
+		this.cc.realizaPagamento(cpf, fornecedor);
 	}
 	
 }

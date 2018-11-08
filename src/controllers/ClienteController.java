@@ -1,7 +1,4 @@
 package controllers;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -135,6 +132,10 @@ public class ClienteController {
 	
 	public String exibeContasClientes(String cpf) {
 		return this.clientes.get(cpf).exibeContasClientes();
+	}
+	
+	public void realizaPagamento(String cpf, String fornecedor) {
+		this.clientes.get(cpf).realizaPagamento(fornecedor);
 	}
 	
 	/**

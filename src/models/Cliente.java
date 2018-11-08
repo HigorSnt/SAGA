@@ -120,7 +120,7 @@ public class Cliente implements Comparable<Cliente>{
 		if (this.contas.containsKey(fornecedor)) {
 			this.contas.get(fornecedor).adicionaCompra(nomeProd, data, preco);
 		} else {
-			this.contas.put(fornecedor, new Conta(fornecedor));
+			this.contas.put(fornecedor, new Conta(this.getNome(), fornecedor));
 			this.contas.get(fornecedor).adicionaCompra(nomeProd, data, preco);
 		}
 		return fornecedor;
@@ -158,6 +158,13 @@ public class Cliente implements Comparable<Cliente>{
 		List<Conta> lista = new ArrayList<>(this.contas.values());
 		Collections.sort(lista);
 		return "Cliente: " + this.nome + " | " + lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
+	}
+	
+	public void realizaPagamento(String fornecedor) {
+		if (!this.contas.containsKey(fornecedor)) {
+			throw new IllegalArgumentException("Erro no pagamento de conta: nao ha debito do cliente associado a este fornecedor.");
+		}
+		this.contas.remove(fornecedor);
 	}
 
 	@Override
