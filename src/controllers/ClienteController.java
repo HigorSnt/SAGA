@@ -129,16 +129,6 @@ public class ClienteController {
 	}
 	
 	public String  adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd, double preco) {
-		if (cpf == null || cpf.trim().equals("")) {
-			throw new IllegalArgumentException();
-		}
-		if (cpf.length() != 11) {
-			throw new IllegalArgumentException();
-		}
-		if (!isDataValida(data)) {
-			throw new IllegalArgumentException();
-		}
-		
 		return this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProd, preco);
 	}
 	
@@ -152,17 +142,6 @@ public class ClienteController {
 		return this.clientes.get(cpf).getDebito(fornecedor);
 	}
 	
-	public boolean isDataValida(String data) {
-        try {
-        	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        	sdf.setLenient(false);
-        	sdf.parse(data);
-        	return true;
-        } catch (ParseException ex) {
-        	return false;
-        }
-    }
-	
 	public String exibeContas(String cpf, String fornecedor){
 		return this.clientes.get(cpf).exibeContas(fornecedor);
 	}
@@ -173,7 +152,7 @@ public class ClienteController {
 	 * 
 	 * @return Um boolean informando se o cliente existe. 
 	 */
-	private boolean contemCliente(String cpf) {
+	public boolean contemCliente(String cpf) {
 		return this.clientes.containsKey(cpf);
 	}
 

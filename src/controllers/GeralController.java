@@ -1,5 +1,8 @@
 package controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class GeralController {
 	/** Variável que invoca o responsável por mexer com cada objeto do tipo Cliente. */
 	private ClienteController cc = new ClienteController();
@@ -204,24 +207,59 @@ public class GeralController {
 	
 	public String adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd) {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
 		}
 		if (nomeProd == null || nomeProd.trim().equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro ao cadastrar compra: nome do produto nao pode ser vazio ou nulo.");
 		}
 		if (descProd == null || descProd.trim().equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Erro ao cadastrar compra: descricao do produto nao pode ser vazio ou nulo.");
 		}
-		if(!fc.contemFornecedor(fornecedor)) {
-			throw new IllegalArgumentException();
+		if (cpf == null || cpf.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf nao pode ser vazio ou nulo.");
+		}
+		if (cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf invalido.");
+		}
+		if (data == null || data.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf nao pode ser vazia ou nula.");
 		}
 		
-		if (!fc.contemProduto(fornecedor, nomeProd, descProd)) {
-			throw new IllegalArgumentException();
+		data = data.trim();
+		
+		if (!ehDataValida(data)) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: data invalida.");
 		}
-		double preco = fc.getPreco(fornecedor, nomeProd, descProd);
+		
+		cpf = cpf.trim();
+		fornecedor = fornecedor.trim();
+		data = data.trim();
+		nomeProd = nomeProd.trim();
+		descProd = descProd.trim();
+		
+		if (!this.cc.contemCliente(cpf)) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cliente nao existe.");
+		}
+		if(!this.fc.contemFornecedor(fornecedor)) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao existe.");
+		}
+		if (!this.fc.contemProduto(fornecedor, nomeProd, descProd)) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: produto nao existe.");
+		}
+		double preco = this.fc.getPreco(fornecedor, nomeProd, descProd);
 		return this.cc.adicionaCompra(cpf, fornecedor, data, nomeProd, descProd, preco);
 	}
+	
+	public boolean ehDataValida(String data) {
+        try {
+        	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        	sdf.setLenient(false);
+        	sdf.parse(data);
+        	return true;
+        } catch (ParseException ex) {
+        	return false;
+        }
+    }
 	
 	public double getDebito(String cpf, String fornecedor) {
 		return this.cc.getDebito(cpf, fornecedor);
