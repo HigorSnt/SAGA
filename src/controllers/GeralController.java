@@ -213,16 +213,16 @@ public class GeralController {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: nome do produto nao pode ser vazio ou nulo.");
 		}
 		if (descProd == null || descProd.trim().equals("")) {
-			throw new IllegalArgumentException("Erro ao cadastrar compra: descricao do produto nao pode ser vazio ou nulo.");
+			throw new IllegalArgumentException("Erro ao cadastrar compra: descricao do produto nao pode ser vazia ou nula.");
+		}
+		if (data == null || data.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: data nao pode ser vazia ou nula.");
 		}
 		if (cpf == null || cpf.trim().equals("")) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf nao pode ser vazio ou nulo.");
 		}
 		if (cpf.length() != 11) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf invalido.");
-		}
-		if (data == null || data.trim().equals("")) {
-			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf nao pode ser vazia ou nula.");
 		}
 		
 		data = data.trim();
@@ -261,8 +261,25 @@ public class GeralController {
         }
     }
 	
-	public double getDebito(String cpf, String fornecedor) {
-		return this.cc.getDebito(cpf, fornecedor);
+	public String getDebito(String cpf, String fornecedor) {
+		if (cpf == null || cpf.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf nao pode ser vazio ou nulo.");
+		}
+		if (fornecedor == null || fornecedor.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
+		}
+		
+		cpf = cpf.trim();
+		fornecedor = fornecedor.trim();
+		
+		if (!this.cc.contemCliente(cpf)) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cliente nao existe.");
+		}
+		if(!this.fc.contemFornecedor(fornecedor)) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao existe.");
+		}
+		
+		return String.format("%.2f", this.cc.getDebito(cpf, fornecedor)).replace(",", ".");
 	}
 	
 	public String exibeContas(String cpf, String fornecedor) {

@@ -97,4 +97,8 @@ public class Facade {
 		this.gc.adicionaCompra(cpf, fornecedor, data, nomeProd, descProd);
 	}
 	
+	public String getDebito(String cpf, String fornecedor) {
+		return this.gc.getDebito(cpf, fornecedor);
+	}
+	
 }
