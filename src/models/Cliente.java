@@ -1,7 +1,11 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Classe que molda um objeto do tipo Cliente.
@@ -123,6 +127,10 @@ public class Cliente implements Comparable<Cliente>{
 	}
 	
 	public double getDebito(String fornecedor) {
+		if(!this.contas.containsKey(fornecedor)) {
+			throw new IllegalArgumentException("Erro ao recuperar debito: cliente nao tem debito com fornecedor.");
+		}
+		
 		return this.contas.get(fornecedor).getDebito();
 	}
 	
@@ -136,7 +144,20 @@ public class Cliente implements Comparable<Cliente>{
 	}
 	
 	public String exibeContas(String fornecedor) {
+		if (!this.contas.containsKey(fornecedor)) {
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cliente nao tem nenhuma conta com o fornecedor.");
+		}
+		
 		return "Cliente: " + this.nome + " | " + this.contas.get(fornecedor).toString();
+	}
+	
+	public String exibeContasClientes() {
+		if (this.contas.size() == 0) {
+			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cliente nao tem nenhuma conta.");
+		}
+		List<Conta> lista = new ArrayList<>(this.contas.values());
+		Collections.sort(lista);
+		return "Cliente: " + this.nome + " | " + lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
 
 	@Override

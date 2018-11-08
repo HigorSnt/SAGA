@@ -263,27 +263,74 @@ public class GeralController {
 	
 	public String getDebito(String cpf, String fornecedor) {
 		if (cpf == null || cpf.trim().equals("")) {
-			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf nao pode ser vazio ou nulo.");
+			throw new IllegalArgumentException("Erro ao recuperar debito: cpf nao pode ser vazio ou nulo.");
 		}
 		if (fornecedor == null || fornecedor.trim().equals("")) {
-			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
+			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao pode ser vazio ou nulo.");
+		}
+		if (cpf == null || cpf.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao recuperar debito: cpf nao pode ser vazio ou nulo.");
 		}
 		
 		cpf = cpf.trim();
 		fornecedor = fornecedor.trim();
 		
+		if (cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro ao recuperar debito: cpf invalido.");
+		}
 		if (!this.cc.contemCliente(cpf)) {
-			throw new IllegalArgumentException("Erro ao cadastrar compra: cliente nao existe.");
+			throw new IllegalArgumentException("Erro ao recuperar debito: cliente nao existe.");
 		}
 		if(!this.fc.contemFornecedor(fornecedor)) {
-			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao existe.");
+			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao existe.");
 		}
 		
 		return String.format("%.2f", this.cc.getDebito(cpf, fornecedor)).replace(",", ".");
 	}
 	
 	public String exibeContas(String cpf, String fornecedor) {
+		if (cpf == null || cpf.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cpf nao pode ser vazio ou nulo.");
+		}
+		if (fornecedor == null || fornecedor.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: fornecedor nao pode ser vazio ou nulo.");
+		}
+		if (cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cpf invalido.");
+		}
+		if (!this.cc.contemCliente(cpf)) {
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cliente nao existe.");
+		}
+		if(!this.fc.contemFornecedor(fornecedor)) {
+			throw new IllegalArgumentException("Erro ao exibir conta do cliente: fornecedor nao existe.");
+		}
 		return this.cc.exibeContas(cpf, fornecedor);
+	}
+	
+	public String exibeContasClientes(String cpf) {
+		if (cpf == null || cpf.trim().equals("")) {
+			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cpf nao pode ser vazio ou nulo.");
+		}
+		if (cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cpf invalido.");
+		}
+		if (!this.cc.contemCliente(cpf)) {
+			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cliente nao existe.");
+		}
+		return this.cc.exibeContasClientes(cpf);
+	}
+	
+	public void realizaPagamento(String cpf, String fornecedor) {
+		if (cpf == null || cpf.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (fornecedor == null || fornecedor.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (cpf.length() != 11) {
+			throw new IllegalArgumentException();
+		}
+		
 	}
 	
 }

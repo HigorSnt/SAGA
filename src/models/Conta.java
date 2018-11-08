@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Conta {
+public class Conta implements Comparable<Conta> {
 	
 	private String fornecedor;
 	private List<Compra> compras;
@@ -31,5 +31,8 @@ public class Conta {
 	public String toString() {
 		return this.fornecedor + " | " + this.compras.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
-	
+	@Override
+	public int compareTo(Conta o) {
+		return this.fornecedor.compareTo(o.fornecedor);
+	}
 }

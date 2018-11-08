@@ -121,30 +121,22 @@ public class ClienteController {
 		 return lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
 	
-	public Cliente getCliente(String cpf) {
-		if (!contemCliente(cpf)) {
-			throw new IllegalArgumentException();
-		}
-		return this.clientes.get(cpf);
-	}
-	
 	public String  adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd, double preco) {
 		return this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProd, preco);
 	}
 	
 	public double getDebito(String cpf, String fornecedor) {
-		if (cpf == null || cpf.trim().equals("")) {
-			throw new IllegalArgumentException();
-		}
-		if (cpf.length() != 11) {
-			throw new IllegalArgumentException();
-		}
 		return this.clientes.get(cpf).getDebito(fornecedor);
 	}
 	
 	public String exibeContas(String cpf, String fornecedor){
 		return this.clientes.get(cpf).exibeContas(fornecedor);
 	}
+	
+	public String exibeContasClientes(String cpf) {
+		return this.clientes.get(cpf).exibeContasClientes();
+	}
+	
 	/**
 	 * Método que verifica se existe algum cliente com determinado CPF.
 	 * 

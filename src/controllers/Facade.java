@@ -101,4 +101,16 @@ public class Facade {
 		return this.gc.getDebito(cpf, fornecedor);
 	}
 	
+	public String exibeContas(String cpf, String fornecedor) {
+		return this.gc.exibeContas(cpf, fornecedor);
+	}
+	
+	public String exibeContasClientes(String cpf) {
+		return this.gc.exibeContasClientes(cpf);
+	}
+	
+	public void realizaPagamento(String cpf, String nome) {
+		this.gc.
+	}
+	
 }
