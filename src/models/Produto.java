@@ -37,15 +37,6 @@ public class Produto implements Comparable<Produto>{
 		return this.descricao;
 	}
 	
-	/**
-	 * Informa o preço do produto.
-	 * 
-	 * @return Uma string com o preço do produto.
-	 */
-	public String mostraPreco() {
-		return "R$" + String.format("%.2f", this.getPreco());
-	}
-	
 	public double getPreco() {
 		return this.preco;
 	}

@@ -2,13 +2,23 @@ package models;
 
 public class Compra {
 	
-	private Fornecedor fornecedor;
-	private Cliente cliente;
+	private String nomeProd;
 	private double preco;
+	private String data;
 	
-	public Compra(Fornecedor fornecedor, Cliente cliente, double preco) {
-		this.fornecedor = fornecedor;
-		this.cliente = cliente;
+	
+	public Compra(String nomeProd, String data, double preco) {
+		this.nomeProd = nomeProd;
+		this.data = data.replace("/", "-");
 		this.preco = preco;
+	}
+	
+	public double getPreco() {
+		return preco;
+	}
+	
+	@Override
+	public String toString() {
+		return this.nomeProd + " - " + this.data;
 	}
 }

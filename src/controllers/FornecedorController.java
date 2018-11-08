@@ -286,7 +286,15 @@ public class FornecedorController {
 	 * 
 	 * @return Um boolean informando se existe ou não determinado nome cadatrado.
 	 */
-	private boolean contemFornecedor(String nome) {
+	public boolean contemFornecedor(String nome) {
 		return this.fornecedores.containsKey(nome);
+	}
+	
+	public boolean contemProduto(String fornecedor, String nome, String descricao) {
+		return this.fornecedores.get(fornecedor).contemProduto(nome, descricao);
+	}
+	
+	public double getPreco(String fornecedor, String nomeProd, String descProd) {
+		return this.fornecedores.get(fornecedor).getPrecoProduto(nomeProd, descProd);
 	}
 }

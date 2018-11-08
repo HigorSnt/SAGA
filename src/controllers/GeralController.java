@@ -202,11 +202,33 @@ public class GeralController {
 	
 	///////////////////////////////////        MÉTODOS REFERENTES A COMPRA        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	public void adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd) {
+	public String adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd) {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException();
 		}
+		if (nomeProd == null || nomeProd.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (descProd == null || descProd.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if(!fc.contemFornecedor(fornecedor)) {
+			throw new IllegalArgumentException();
+		}
 		
-		this.cc.adicionaCompra(cpf, this.fc.getFornecedor(fornecedor), data, nomeProd, descProd);
+		if (!fc.contemProduto(fornecedor, nomeProd, descProd)) {
+			throw new IllegalArgumentException();
+		}
+		double preco = fc.getPreco(fornecedor, nomeProd, descProd);
+		return this.cc.adicionaCompra(cpf, fornecedor, data, nomeProd, descProd, preco);
 	}
+	
+	public double getDebito(String cpf, String fornecedor) {
+		return this.cc.getDebito(cpf, fornecedor);
+	}
+	
+	public String exibeContas(String cpf, String fornecedor) {
+		return this.cc.exibeContas(cpf, fornecedor);
+	}
+	
 }

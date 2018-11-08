@@ -1,5 +1,7 @@
 package controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,8 +10,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import models.Cliente;
-import models.Conta;
-import models.Fornecedor;
 
 /**
  * Controla todas as atividades realizadas referentes à um cliente.
@@ -21,14 +21,12 @@ public class ClienteController {
 	
 	/** Armazena cada cliente com um identificador único. */
 	private Map <String, Cliente> clientes;
-	private Conta conta;
 	
 	/**
 	 * Inicializa o local onde os clientes serão cadastrados.
 	 */
 	public ClienteController() {
 		this.clientes = new HashMap<>();
-		this.conta = new Conta();
 	}
 	
 	/**
@@ -130,10 +128,44 @@ public class ClienteController {
 		return this.clientes.get(cpf);
 	}
 	
-	public void adicionaCompra(String cpf, Fornecedor fornecedor, String data, String nomeProd, String descProd) {
+	public String  adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd, double preco) {
+		if (cpf == null || cpf.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (cpf.length() != 11) {
+			throw new IllegalArgumentException();
+		}
+		if (!isDataValida(data)) {
+			throw new IllegalArgumentException();
+		}
 		
+		return this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProd, preco);
 	}
 	
+	public double getDebito(String cpf, String fornecedor) {
+		if (cpf == null || cpf.trim().equals("")) {
+			throw new IllegalArgumentException();
+		}
+		if (cpf.length() != 11) {
+			throw new IllegalArgumentException();
+		}
+		return this.clientes.get(cpf).getDebito(fornecedor);
+	}
+	
+	public boolean isDataValida(String data) {
+        try {
+        	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        	sdf.setLenient(false);
+        	sdf.parse(data);
+        	return true;
+        } catch (ParseException ex) {
+        	return false;
+        }
+    }
+	
+	public String exibeContas(String cpf, String fornecedor){
+		return this.clientes.get(cpf).exibeContas(fornecedor);
+	}
 	/**
 	 * Método que verifica se existe algum cliente com determinado CPF.
 	 * 

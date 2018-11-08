@@ -1,5 +1,8 @@
 package models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Classe que molda um objeto do tipo Cliente.
  * 
@@ -15,7 +18,7 @@ public class Cliente implements Comparable<Cliente>{
 	private String email;
 	/** Localização onde o cliente trabalha. */
 	private String localizacao;
-	private Conta conta;
+	private Map <String, Conta> contas;
 	
 	/**
 	 * Constrói um cliente.
@@ -40,6 +43,7 @@ public class Cliente implements Comparable<Cliente>{
 		this.nome = nome.trim();
 		this.email = email.trim();
 		this.localizacao = localizacao.trim();
+		this.contas = new HashMap<>();
 	}
 	
 	/**
@@ -108,8 +112,18 @@ public class Cliente implements Comparable<Cliente>{
 		this.localizacao = localizacao;
 	}
 	
-	public void adicionaConta() {
-		
+	public String adicionaCompra(String fornecedor, String data, String nomeProd, double preco) {
+		if (this.contas.containsKey(fornecedor)) {
+			this.contas.get(fornecedor).adicionaCompra(nomeProd, data, preco);
+		} else {
+			this.contas.put(fornecedor, new Conta(fornecedor));
+			this.contas.get(fornecedor).adicionaCompra(nomeProd, data, preco);
+		}
+		return fornecedor;
+	}
+	
+	public double getDebito(String fornecedor) {
+		return this.contas.get(fornecedor).getDebito();
 	}
 	
 	/**
@@ -119,6 +133,10 @@ public class Cliente implements Comparable<Cliente>{
 	 */
 	public String getCpf() {
 		return this.cpf;
+	}
+	
+	public String exibeContas(String fornecedor) {
+		return "Cliente: " + this.nome + " | " + this.contas.get(fornecedor).toString();
 	}
 
 	@Override

@@ -172,7 +172,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	public String exibeProdutosFornecedor() {
 		List<Produto> lista = new ArrayList<>(this.produtos.values());
 		Collections.sort(lista);
-		return lista.stream().map(p -> this.nome + " - " + p.toString()).collect(Collectors.joining(" | "));		
+		return lista.stream().map(p -> this.nome + " - " + p.toString()).collect(Collectors.joining(" | "));
 	}
 	
 	/**
@@ -183,7 +183,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * 
 	 * @return Uma string com o preço do produto.
 	 */
-	public String getPrecoProduto(String nome, String descricao) {
+	public double getPrecoProduto(String nome, String descricao) {
 		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na remocao de produto: nome nao pode ser vazio ou nulo.");
 		} else if (descricao == null || descricao.trim().equals("")) {
@@ -193,7 +193,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 			throw new IllegalArgumentException("Erro na exibicao de produto: produto nao existe.");
 		}
 		
-		return this.produtos.get(nome.trim() + " - " + descricao.trim()).mostraPreco();
+		return this.produtos.get(nome.trim() + " - " + descricao.trim()).getPreco();
 	}
 	
 	/**
@@ -216,6 +216,10 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		}
 		
 		this.produtos.remove(key);
+	}
+	
+	public boolean contemProduto(String nome, String descricao) {
+		return this.produtos.containsKey(nome + " - " + descricao);
 	}
 	
 	///////////////////////////////////			ÁREA DO COMBO			\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
