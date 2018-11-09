@@ -339,4 +339,12 @@ public class GeralController {
 		this.cc.realizaPagamento(cpf, fornecedor);
 	}
 	
+	public void ordenaPor(String criterio) {
+		this.cc.ordenaPor(criterio);
+	}
+	
+	public String listarCompras() {
+		return this.cc.listarCompras();
+	}
+	
 }

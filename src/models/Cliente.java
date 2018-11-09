@@ -166,6 +166,11 @@ public class Cliente implements Comparable<Cliente>{
 		}
 		this.contas.remove(fornecedor);
 	}
+	
+	public String listarCompras(String ordenaPor) {
+		List<Conta> lista = new ArrayList<>(this.contas.values());
+		return lista.stream().map(c -> c.listarCompras(ordenaPor)).collect(Collectors.joining(" | "));
+	}
 
 	@Override
 	public int compareTo(Cliente c) {

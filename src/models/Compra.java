@@ -1,8 +1,6 @@
 package models;
 
-import java.util.Comparator;
-
-public class Compra implements Comparator<Compra>{
+public class Compra {
 	
 	private String fornecedor;
 	private String cliente;
@@ -34,14 +32,12 @@ public class Compra implements Comparator<Compra>{
 		return data;
 	}
 	
+	public String getNomeProd() {
+		return nomeProd;
+	}
+	
 	@Override
 	public String toString() {
 		return this.nomeProd + " - " + this.data;
-	}
-
-	@Override
-	public int compare(Compra o1, Compra o2) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

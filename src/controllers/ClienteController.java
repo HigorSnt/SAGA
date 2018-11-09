@@ -18,6 +18,7 @@ public class ClienteController {
 	
 	/** Armazena cada cliente com um identificador único. */
 	private Map <String, Cliente> clientes;
+	private String ordenaPor;
 	
 	/**
 	 * Inicializa o local onde os clientes serão cadastrados.
@@ -147,6 +148,26 @@ public class ClienteController {
 	 */
 	public boolean contemCliente(String cpf) {
 		return this.clientes.containsKey(cpf);
+	}
+	
+	public void ordenaPor(String criterio) {
+		if (criterio == null || criterio.trim().toUpperCase().equals("")) {
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
+		}
+		criterio = criterio.trim().toUpperCase();
+		if (!criterio.equals("CLIENTE") && !criterio.equals("FORNECEDOR") && !criterio.equals("DATA")) {
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
+		}
+		this.ordenaPor = criterio;
+	}
+	
+	public String listarCompras() {
+		if (ordenaPor == null) {
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
+		}
+		
+		List<Cliente> lista = new ArrayList<>(this.clientes.values());
+		return lista.stream().map(c -> c.listarCompras(this.ordenaPor)).collect(Collectors.joining(" | "));
 	}
 
 }
