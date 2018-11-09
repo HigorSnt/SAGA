@@ -118,10 +118,10 @@ public class Cliente implements Comparable<Cliente>{
 	
 	public String adicionaCompra(String fornecedor, String data, String nomeProd, double preco) {
 		if (this.contas.containsKey(fornecedor)) {
-			this.contas.get(fornecedor).adicionaCompra(nomeProd, data, preco);
+			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, data, preco);
 		} else {
-			this.contas.put(fornecedor, new Conta(this.getNome(), fornecedor));
-			this.contas.get(fornecedor).adicionaCompra(nomeProd, data, preco);
+			this.contas.put(fornecedor, new Conta(fornecedor));
+			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, data, preco);
 		}
 		return fornecedor;
 	}

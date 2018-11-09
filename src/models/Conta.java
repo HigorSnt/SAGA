@@ -1,25 +1,26 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Conta implements Comparable<Conta> {
+import comparators.ComparaPorData;
+
+public class Conta implements Comparable <Conta>{
 	
 	private String fornecedor;
-	private String cliente;
 	private List<Compra> compras;
 	private String ordenaPor;
 	
-	public Conta(String fornecedor, String cliente) {
+	public Conta(String fornecedor) {
 		this.fornecedor = fornecedor;
-		this.cliente = cliente;
 		this.ordenaPor = "FORNECEDOR";
 		this.compras = new ArrayList<>();
 	}
 	
-	public void adicionaCompra(String nomeProd, String data, double preco) {
-		this.compras.add(new Compra(nomeProd, data, preco));
+	public void adicionaCompra(String fornecedor, String cliente, String nomeProd, String data, double preco) {
+		this.compras.add(new Compra(fornecedor, cliente, nomeProd, data, preco));
 	}
 	
 	public void setOrdenaPor(String ordenaPor) {
@@ -45,6 +46,7 @@ public class Conta implements Comparable<Conta> {
 	public String toString() {
 		return this.fornecedor + " | " + this.compras.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
+	
 	@Override
 	public int compareTo(Conta o) {
 		return this.fornecedor.compareTo(o.fornecedor);
