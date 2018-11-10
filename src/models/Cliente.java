@@ -116,24 +116,6 @@ public class Cliente implements Comparable<Cliente>{
 		this.localizacao = localizacao;
 	}
 	
-	public String adicionaCompra(String fornecedor, String data, String nomeProd, double preco) {
-		if (this.contas.containsKey(fornecedor)) {
-			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, data, preco);
-		} else {
-			this.contas.put(fornecedor, new Conta(fornecedor));
-			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, data, preco);
-		}
-		return fornecedor;
-	}
-	
-	public double getDebito(String fornecedor) {
-		if(!this.contas.containsKey(fornecedor)) {
-			throw new IllegalArgumentException("Erro ao recuperar debito: cliente nao tem debito com fornecedor.");
-		}
-		
-		return this.contas.get(fornecedor).getDebito();
-	}
-	
 	/**
 	 * Informa o CPF do cliente.
 	 * 
@@ -156,7 +138,6 @@ public class Cliente implements Comparable<Cliente>{
 			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cliente nao tem nenhuma conta.");
 		}
 		List<Conta> lista = new ArrayList<>(this.contas.values());
-		Collections.sort(lista);
 		return "Cliente: " + this.nome + " | " + lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
 	

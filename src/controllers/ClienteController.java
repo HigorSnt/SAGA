@@ -119,12 +119,8 @@ public class ClienteController {
 		 return lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
 	
-	public String  adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd, double preco) {
-		return this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProd, preco);
-	}
-	
-	public double getDebito(String cpf, String fornecedor) {
-		return this.clientes.get(cpf).getDebito(fornecedor);
+	public String getCliente(String cpf) {
+		return this.clientes.get(cpf).getNome();
 	}
 	
 	public String exibeContas(String cpf, String fornecedor){
@@ -162,12 +158,13 @@ public class ClienteController {
 	}
 	
 	public String listarCompras() {
-		if (ordenaPor == null) {
+		if (this.ordenaPor == null) {
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
 		}
 		
 		List<Cliente> lista = new ArrayList<>(this.clientes.values());
-		return lista.stream().map(c -> c.listarCompras(this.ordenaPor)).collect(Collectors.joining(" | "));
+		Collections.sort(lista);
+		return lista.stream().map(c -> c.listarCompras(this.ordenaPor)).collect(Collectors.joining(""));
 	}
 
 }

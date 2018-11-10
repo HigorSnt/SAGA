@@ -13,7 +13,7 @@ public class Compra {
 		this.fornecedor = fornecedor;
 		this.cliente = cliente;
 		this.nomeProd = nomeProd;
-		this.data = data.replace("/", "-");
+		this.data = data;
 		this.preco = preco;
 	}
 	
@@ -28,6 +28,7 @@ public class Compra {
 	public double getPreco() {
 		return preco;
 	}
+	
 	public String getData() {
 		return data;
 	}
