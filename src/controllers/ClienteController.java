@@ -18,7 +18,6 @@ public class ClienteController {
 	
 	/** Armazena cada cliente com um identificador único. */
 	private Map <String, Cliente> clientes;
-	private String ordenaPor;
 	
 	/**
 	 * Inicializa o local onde os clientes serão cadastrados.
@@ -119,8 +118,12 @@ public class ClienteController {
 		 return lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
 	
-	public String getCliente(String cpf) {
-		return this.clientes.get(cpf).getNome();
+	public String  adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd, double preco) {
+		return this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProd, preco);
+	}
+	
+	public double getDebito(String cpf, String fornecedor) {
+		return this.clientes.get(cpf).getDebito(fornecedor);
 	}
 	
 	public String exibeContas(String cpf, String fornecedor){
@@ -144,27 +147,6 @@ public class ClienteController {
 	 */
 	public boolean contemCliente(String cpf) {
 		return this.clientes.containsKey(cpf);
-	}
-	
-	public void ordenaPor(String criterio) {
-		if (criterio == null || criterio.trim().toUpperCase().equals("")) {
-			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
-		}
-		criterio = criterio.trim().toUpperCase();
-		if (!criterio.equals("CLIENTE") && !criterio.equals("FORNECEDOR") && !criterio.equals("DATA")) {
-			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
-		}
-		this.ordenaPor = criterio;
-	}
-	
-	public String listarCompras() {
-		if (this.ordenaPor == null) {
-			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
-		}
-		
-		List<Cliente> lista = new ArrayList<>(this.clientes.values());
-		Collections.sort(lista);
-		return lista.stream().map(c -> c.listarCompras(this.ordenaPor)).collect(Collectors.joining(""));
 	}
 
 }

@@ -8,7 +8,6 @@ public class GeralController {
 	private ClienteController cc = new ClienteController();
 	/** Variável que invoca o responsável por mexer com cada objeto do tipo Fornecedor. */
 	private FornecedorController fc = new FornecedorController();
-	private ContaController ctc = new ContaController();
 	
 	///////////////////////////////////        MÉTODOS REFERENTES À CLIENTE        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
@@ -247,10 +246,8 @@ public class GeralController {
 		if (!this.fc.contemProduto(fornecedor, nomeProd, descProd)) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: produto nao existe.");
 		}
-		
 		double preco = this.fc.getPreco(fornecedor, nomeProd, descProd);
-		String cliente = this.cc.getCliente(cpf);
-		return this.ctc.adicionaCompra(cliente, fornecedor, data, nomeProd, preco);
+		return this.cc.adicionaCompra(cpf, fornecedor, data, nomeProd, descProd, preco);
 	}
 	
 	public boolean ehDataValida(String data) {
@@ -288,9 +285,7 @@ public class GeralController {
 			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao existe.");
 		}
 		
-		String cliente = this.cc.getCliente(cpf);
-		
-		return String.format("%.2f", this.ctc.getDebito(cliente, fornecedor)).replace(",", ".");
+		return String.format("%.2f", this.cc.getDebito(cpf, fornecedor)).replace(",", ".");
 	}
 	
 	public String exibeContas(String cpf, String fornecedor) {
@@ -342,14 +337,6 @@ public class GeralController {
 			throw new IllegalArgumentException("Erro no pagamento de conta: fornecedor nao existe.");
 		}
 		this.cc.realizaPagamento(cpf, fornecedor);
-	}
-	
-	public void ordenaPor(String criterio) {
-		this.cc.ordenaPor(criterio);
-	}
-	
-	public String listarCompras() {
-		return this.cc.listarCompras();
 	}
 	
 }
