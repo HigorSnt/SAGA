@@ -15,15 +15,15 @@ public class Conta implements Comparable <Conta>{
 	
 	public Conta(String fornecedor) {
 		this.fornecedor = fornecedor;
-		this.ordenaPor = "FORNECEDOR";
 		this.compras = new ArrayList<>();
 	}
 	
-	public void adicionaCompra(String fornecedor, String cliente, String nomeProd, String data, double preco) {
-		this.compras.add(new Compra(fornecedor, cliente, nomeProd, data, preco));
+	public void adicionaCompra(String fornecedor, String cliente, String nomeProd, 
+			String descProd, String data, double preco) {
+		this.compras.add(new Compra(fornecedor, cliente, nomeProd, descProd, data, preco));
 	}
 	
-	public void setOrdenaPor(String ordenaPor) {
+	/*public void setOrdenaPor(String ordenaPor) {
 		if (!ordenaPor.trim().toUpperCase().equals("cliente")) {
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
 		}
@@ -32,7 +32,7 @@ public class Conta implements Comparable <Conta>{
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
 		}
 		this.ordenaPor = ordenaPor;
-	}
+	}*/
 	
 	public double getDebito() {
 		double soma = 0;
@@ -40,6 +40,10 @@ public class Conta implements Comparable <Conta>{
 			soma += compra.getPreco();
 		}
 		return soma;
+	}
+	
+	public List<Compra> listarCompras() {
+		return this.compras;
 	}
 	
 	@Override

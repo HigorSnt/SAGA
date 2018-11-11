@@ -2,20 +2,22 @@ package models;
 
 import java.util.Comparator;
 
-public class Compra implements Comparator<Compra>{
+public class Compra {
 	
 	private String fornecedor;
 	private String cliente;
 	private String nomeProd;
+	private String descProd;
 	private double preco;
 	private String data;
 	
 	
-	public Compra(String fornecedor, String cliente, String nomeProd, String data, double preco) {
+	public Compra(String fornecedor, String cliente, String nomeProd, String descProd, String data, double preco) {
 		this.fornecedor = fornecedor;
 		this.cliente = cliente;
 		this.nomeProd = nomeProd;
-		this.data = data.replace("/", "-");
+		this.descProd = descProd;
+		this.data = data;
 		this.preco = preco;
 	}
 	
@@ -36,12 +38,14 @@ public class Compra implements Comparator<Compra>{
 	
 	@Override
 	public String toString() {
-		return this.nomeProd + " - " + this.data;
+		return this.nomeProd + " - " + this.data.replace("/", "-");
 	}
 
-	@Override
-	public int compare(Compra o1, Compra o2) {
-		// TODO Auto-generated method stub
-		return 0;
+	public String getNomeProd() {
+		return this.nomeProd;
+	}
+	
+	public String getDescProd() {
+		return descProd;
 	}
 }

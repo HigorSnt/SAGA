@@ -181,6 +181,10 @@ public class FornecedorController {
 		return lista.stream().map(p -> p.exibeProdutosFornecedor()).collect(Collectors.joining(" | "));
 	}
 	
+	public String getDescProd(String nomeProd) {
+		return this.getDescProd(nomeProd);
+	}
+	
 	public Fornecedor getFornecedor(String nome) {
 		if (!contemFornecedor(nome)) {
 			throw new IllegalArgumentException();

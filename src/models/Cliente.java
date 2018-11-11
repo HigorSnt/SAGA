@@ -116,12 +116,12 @@ public class Cliente implements Comparable<Cliente>{
 		this.localizacao = localizacao;
 	}
 	
-	public String adicionaCompra(String fornecedor, String data, String nomeProd, double preco) {
+	public String adicionaCompra(String fornecedor, String data, String nomeProd, String descProd, double preco) {
 		if (this.contas.containsKey(fornecedor)) {
-			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, data, preco);
+			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, descProd, data, preco);
 		} else {
 			this.contas.put(fornecedor, new Conta(fornecedor));
-			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, data, preco);
+			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, descProd, data, preco);
 		}
 		return fornecedor;
 	}
@@ -165,6 +165,15 @@ public class Cliente implements Comparable<Cliente>{
 			throw new IllegalArgumentException("Erro no pagamento de conta: nao ha debito do cliente associado a este fornecedor.");
 		}
 		this.contas.remove(fornecedor);
+	}
+	
+	public List<Compra> listarCompras() {
+		List<Compra> lista = new ArrayList<>();
+		
+		for (Conta c : this.contas.values()) {
+			lista.addAll(c.listarCompras());
+		}
+		return lista;
 	}
 
 	@Override

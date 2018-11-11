@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import comparators.ComparaPorCliente;
+import comparators.ComparaPorData;
+import comparators.ComparaPorFornecedor;
 import models.Cliente;
+import models.Compra;
 
 /**
  * Controla todas as atividades realizadas referentes à um cliente.
@@ -18,6 +22,7 @@ public class ClienteController {
 	
 	/** Armazena cada cliente com um identificador único. */
 	private Map <String, Cliente> clientes;
+	private String ordenaPor;
 	
 	/**
 	 * Inicializa o local onde os clientes serão cadastrados.
@@ -119,7 +124,7 @@ public class ClienteController {
 	}
 	
 	public String  adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd, double preco) {
-		return this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProd, preco);
+		return this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProd, descProd, preco);
 	}
 	
 	public double getDebito(String cpf, String fornecedor) {
@@ -147,6 +152,38 @@ public class ClienteController {
 	 */
 	public boolean contemCliente(String cpf) {
 		return this.clientes.containsKey(cpf);
+	}
+	
+	public void setOrdenaPor(String criterio) {
+		if (criterio == null || criterio.trim().equals("")) {
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
+		}
+		criterio = criterio.trim().toUpperCase();
+		if (!criterio.equals("CLIENTE") && !criterio.equals("FORNECEDOR") && !criterio.equals("DATA")) {
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao oferecido pelo sistema.");
+		}
+		this.ordenaPor = criterio;
+	}
+	
+	public String listarCompras() {
+		List<Compra> lista = new ArrayList<>();
+		for (Cliente c : this.clientes.values()) {
+			lista.addAll(c.listarCompras());
+		}
+		
+		if (ordenaPor.equals("CLIENTE")) {
+			Collections.sort(lista, new ComparaPorCliente());
+			return lista.stream().map(p -> p.getCliente() + ", " + p.getFornecedor() + ", "
+					+ p.getDescProd() + ", " + p.getData()).collect(Collectors.joining(" | "));
+		} else if (ordenaPor.equals("FORNECEDOR")) {
+			Collections.sort(lista, new ComparaPorFornecedor());
+			return lista.stream().map(p -> p.getFornecedor() + ", " + p.getCliente() + ", "
+					+ p.getDescProd() + ", " + p.getData()).collect(Collectors.joining(" | "));
+		} else {
+			Collections.sort(lista, new ComparaPorData());
+			return lista.stream().map(p -> p.getData() + ", " + p.getCliente() + ", "
+					+ p.getFornecedor() + ", " + p.getDescProd()).collect(Collectors.joining(" | "));
+		}
 	}
 
 }

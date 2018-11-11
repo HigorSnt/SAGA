@@ -246,6 +246,7 @@ public class GeralController {
 		if (!this.fc.contemProduto(fornecedor, nomeProd, descProd)) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: produto nao existe.");
 		}
+		
 		double preco = this.fc.getPreco(fornecedor, nomeProd, descProd);
 		return this.cc.adicionaCompra(cpf, fornecedor, data, nomeProd, descProd, preco);
 	}
@@ -337,6 +338,14 @@ public class GeralController {
 			throw new IllegalArgumentException("Erro no pagamento de conta: fornecedor nao existe.");
 		}
 		this.cc.realizaPagamento(cpf, fornecedor);
+	}
+	
+	public void ordenaPor(String criterio) {
+		this.cc.setOrdenaPor(criterio);
+	}
+	
+	public String listarCompras() {
+		return this.cc.listarCompras();
 	}
 	
 }

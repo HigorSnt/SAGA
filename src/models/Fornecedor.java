@@ -60,7 +60,11 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	public String getNome() {
 		return this.nome;
 	}
-
+	
+	public String getDescProd(String nomeProd) {
+		return this.produtos.get(nomeProd).getDescricao();
+	}
+	
 	/**
 	 * Informa o email do fornecedor.
 	 * 
