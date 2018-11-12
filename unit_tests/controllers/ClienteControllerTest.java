@@ -1,4 +1,4 @@
-package saga;
+package controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,11 +10,17 @@ import controllers.ClienteController;
 class ClienteControllerTest {
 	
 	private ClienteController cc = new ClienteController();
+	private FornecedorController fc = new FornecedorController();
 	
 	@BeforeEach
 	public void Cadastra() {
 		cc.cadastraCliente("58217738123", "Lucio Correia", "lucio_correia@ccc.ufcg.edu.br", "SPLab");
 		cc.cadastraCliente("64269141198", "Ana Amari", "ana_amari@ccc.ufcg.edu.br", "SPG");
+		fc.adicionaFornecedor("Seu Olavo", "olavo@gmail.com", "83 99348-1092");
+		fc.adicionaFornecedor("Marcos","marcos@gmail.com", "83 99151-3570");
+		fc.adicionaProduto("Seu Olavo", "Coxao de Pizza", "Coxao de frango com presunto e queijo", 2.50);
+		fc.adicionaProduto("Seu Olavo", "X-burguer", "Hamburguer de carne com queijo e calabresa", 4.50);
+		fc.adicionaProduto("Marcos", "Coxao de Frango", "Coxao de frango com cheddar", 2.50);
 	}
 	
 	@Test
@@ -75,6 +81,38 @@ class ClienteControllerTest {
 		assertEquals("Ana Amari - SPG - ana_amari@ccc.ufcg.edu.br", cc.exibeCliente("64269141198"));
 		cc.removeCliente("64269141198");
 		assertThrows(IllegalArgumentException.class, ()-> cc.removeCliente("64269141198"));
+	}
+	
+	@Test
+	public void testeAdicionaCompra() {
+		assertEquals("Seu Olavo", cc.adicionaCompra("58217738123", "Seu Olavo", "02/04/2015", "X-burguer", "Hamburguer de carne com queijo e calabresa", 4.50));
+		assertEquals(4.50, cc.getDebito("58217738123", "Seu Olavo"));
+		assertThrows(IllegalArgumentException.class, ()-> cc.getDebito("58217738123", "Marcos"));
+	}
+	
+	@Test
+	public void testeExibeContas() {
+		cc.adicionaCompra("58217738123", "Seu Olavo", "02/04/2015", "X-burguer", "Hamburguer de carne com queijo e calabresa", 4.50);
+		cc.adicionaCompra("58217738123", "Seu Olavo", "07/04/1998", "Coxao de Pizza", "Coxao de frango com presunto e queijo", 2.50);
+		assertEquals("Cliente: Lucio Correia | Seu Olavo | X-burguer - 02-04-2015"
+				+ " | Coxao de Pizza - 07-04-1998", cc.exibeContas("58217738123", "Seu Olavo"));
+		assertThrows(IllegalArgumentException.class, ()-> cc.exibeContas("58217738123", "Marcos"));
+	}
+	
+	@Test
+	public void testeExibeContasClientes() {
+		assertThrows(IllegalArgumentException.class, ()-> cc.exibeContasClientes("58217738123"));
+		cc.adicionaCompra("58217738123", "Seu Olavo", "02/04/2015", "X-burguer", "Hamburguer de carne com queijo e calabresa", 4.50);
+		cc.adicionaCompra("58217738123", "Seu Olavo", "07/04/1998", "Coxao de Pizza", "Coxao de frango com presunto e queijo", 2.50);
+		cc.adicionaCompra("58217738123", "Marcos", "03/12/2013", "Coxao de Frango", "Coxao de frango com cheddar", 2.50);
+		
+		String s = "Cliente: Lucio Correia | Marcos | Coxao de Frango - 03-12-2013 | "
+				+ "Seu Olavo | X-burguer - 02-04-2015 | Coxao de Pizza - 07-04-1998";
+		assertEquals(s, cc.exibeContasClientes("58217738123"));
+		
+		cc.realizaPagamento("58217738123", "Marcos");
+		assertEquals("Cliente: Lucio Correia | Seu Olavo | X-burguer - 02-04-2015 | "
+				+ "Coxao de Pizza - 07-04-1998", cc.exibeContasClientes("58217735123"));
 	}
 
 }
