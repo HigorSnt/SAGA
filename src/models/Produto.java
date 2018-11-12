@@ -1,9 +1,18 @@
 package models;
 
+/**
+ * Classe que molda um objeto do tipo produto.
+ * 
+ * @author Higor Santos - 118110808.
+ *
+ */
 public class Produto implements Comparable<Produto>{
 	
+	/** O nome do produto. */
 	private String nome;
+	/** A descrição do produto. */
 	private String descricao;
+	/** O preço do produto. */
 	protected double preco;
 	
 	/**
@@ -28,19 +37,39 @@ public class Produto implements Comparable<Produto>{
 		this.descricao = descricao;
 		this.preco = preco;
 	}
-
+	
+	/**
+	 * Exibe o nome do produto.
+	 * 
+	 * @return Retorna o nome do produto.
+	 */
 	public String getNome() {
 		return this.nome;
 	}
 	
+	/**
+	 * Exibe a descrição do produto.
+	 * 
+	 * @return Retorna a descrição do produto.
+	 */
 	public String getDescricao() {
 		return this.descricao;
 	}
 	
+	/**
+	 * Exibe o preço do produto.
+	 * 
+	 * @return Retorna o preço do produto
+	 */
 	public double getPreco() {
 		return this.preco;
 	}
 	
+	/**
+	 * Permite alterar o preço de um produto.
+	 * 
+	 * @param preco é o novo preço do produto.
+	 */
 	public void setPreco(double preco) {
 		if (preco <= 0) {
 			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");

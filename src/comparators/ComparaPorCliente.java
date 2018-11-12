@@ -4,6 +4,12 @@ import java.util.Comparator;
 
 import models.Compra;
 
+/**
+ * Define a ordenação de cada compra por meio do nome do cliente.
+ * 
+ * @author Higor Santos - 118110808.
+ *
+ */
 public class ComparaPorCliente implements Comparator <Compra> {
 
 	@Override

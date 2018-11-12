@@ -1,4 +1,5 @@
 package controllers;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class ClienteController {
 	
 	/** Armazena cada cliente com um identificador único. */
 	private Map <String, Cliente> clientes;
+	/** Variável que define a forma de ordenação das compras. */
 	private String ordenaPor;
 	
 	/**
@@ -123,22 +125,63 @@ public class ClienteController {
 		 return lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
 	
+	/**
+	 * Adiciona uma compra pra um cliente.
+	 * 
+	 * @param cpf é o identificador do cliente.
+	 * @param fornecedor é o identificador do fornecedor.
+	 * @param data é a data onde a compra foi realizada.
+	 * @param nomeProd é o nome do produto.
+	 * @param descProd é a descrição do produto.
+	 * @param preco é o preço da compra.
+	 * 
+	 * @return O fornecedor da compra.
+	 */
 	public String  adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd, double preco) {
 		return this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProd, descProd, preco);
 	}
 	
+	/**
+	 * Totaliza da conta de um fornecedor para um dado cliente.
+	 * 
+	 * @param cpf é o identificador do cliente.
+	 * @param fornecedor é o identificador do fornecedor.
+	 * 
+	 * @return O total da conta de um fornecedor para um dado cliente.
+	 */
 	public double getDebito(String cpf, String fornecedor) {
 		return this.clientes.get(cpf).getDebito(fornecedor);
 	}
 	
+	/**
+	 * Exibe as contas de um cliente com um fornecedor.
+	 * 
+	 * @param cpf é o identificador do cliente.
+	 * @param fornecedor é o identificador do fornecedor.
+	 * 
+	 * @return Retorna a representação textual da conta de um cliente com um fornecedor.
+	 */
 	public String exibeContas(String cpf, String fornecedor){
 		return this.clientes.get(cpf).exibeContas(fornecedor);
 	}
 	
+	/**
+	 * Exibe a representação textual de todas as contas de um cliente.
+	 * 
+	 * @param cpf é o identificador de um cliente.
+	 * 
+	 * @return Retorna a representação textual de todas as contas de um cliente.
+	 */
 	public String exibeContasClientes(String cpf) {
 		return this.clientes.get(cpf).exibeContasClientes();
 	}
 	
+	/**
+	 * Realiza a quitação do débito de um cliente com um fornecedor.
+	 * 
+	 * @param cpf é o identificador do cliente.
+	 * @param fornecedor é o identificador do fornecedor.
+	 */
 	public void realizaPagamento(String cpf, String fornecedor) {
 		this.clientes.get(cpf).realizaPagamento(fornecedor);
 	}
@@ -154,6 +197,11 @@ public class ClienteController {
 		return this.clientes.containsKey(cpf);
 	}
 	
+	/**
+	 * Define critério de ordenação.
+	 * 
+	 * @param criterio é a forma que as compras serão ordenadas.
+	 */
 	public void setOrdenaPor(String criterio) {
 		if (criterio == null || criterio.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
@@ -165,6 +213,11 @@ public class ClienteController {
 		this.ordenaPor = criterio;
 	}
 	
+	/**
+	 * Lista as compras de acordo com o critério de ordenação.
+	 * 
+	 * @return Retorna a listagem das compras de acordo com o critério de ordenação que deverá ser definido anteriormente.
+	 */
 	public String listarCompras() {
 		List<Compra> lista = new ArrayList<>();
 		for (Cliente c : this.clientes.values()) {

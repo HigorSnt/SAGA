@@ -3,7 +3,14 @@ package controllers;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * Classe que faz uma ligação entre os dois outros controllers.
+ * 
+ * @author Higor Santos - 118110808.
+ *
+ */
 public class GeralController {
+	
 	/** Variável que invoca o responsável por mexer com cada objeto do tipo Cliente. */
 	private ClienteController cc = new ClienteController();
 	/** Variável que invoca o responsável por mexer com cada objeto do tipo Fornecedor. */
@@ -194,17 +201,48 @@ public class GeralController {
 	}
 	
 	///////////////////////////////////        MÉTODOS REFERENTES AO COMBO        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
+	
+	/**
+	 *  Adiciona um produto do tipo combo a um fornecedor.
+	 * 
+	 * @param fornecedor é o fornecedor que terá um combo cadastrado.
+	 * @param nome é o nome do combo.
+	 * @param descricao é a descrição do combo.
+	 * @param fator é o fator de desconto que o combo terá.
+	 * @param produtos são os produtos contidos no combo.
+	 * 
+	 * @return O nome e a descrição do combo concatenados.
+	 */
 	public String adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
 		return this.fc.adicionaCombo(fornecedor, nome, descricao, fator, produtos);
 	}
 	
+	/**
+	 * Permite editar o fator de desconto de um combo.
+	 * 
+	 * @param nome é o nome do combo.
+	 * @param descricao é a descrição do combo.
+	 * @param fornecedor é o fornecedor que possui o combo.
+	 * @param novoFator é o novo valor que será descontado do combo.
+	 */
 	public void editaCombo(String nome, String descricao, String fornecedor, double novoFator) {
 		this.fc.editaCombo(nome, descricao, fornecedor, novoFator);
 	}
 	
 	///////////////////////////////////        MÉTODOS REFERENTES A COMPRA        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
+	/**
+	 * Adiciona uma compra pra um cliente.
+	 * 
+	 * @param cpf é o identificador do cliente.
+	 * @param fornecedor é o identificador do fornecedor.
+	 * @param data é a data onde a compra foi realizada.
+	 * @param nomeProd é o nome do produto.
+	 * @param descProd é a descrição do produto.
+	 * @param preco é o preço da compra.
+	 * 
+	 * @return O fornecedor da compra.
+	 */
 	public String adicionaCompra(String cpf, String fornecedor, String data, String nomeProd, String descProd) {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
@@ -251,7 +289,14 @@ public class GeralController {
 		return this.cc.adicionaCompra(cpf, fornecedor, data, nomeProd, descProd, preco);
 	}
 	
-	public boolean ehDataValida(String data) {
+	/**
+	 * Analisa se uma data é válida.
+	 * 
+	 * @param data é a data a ser analisada.
+	 * 
+	 * @return Retorna um boolean informando se a data é válida.
+	 */
+	private boolean ehDataValida(String data) {
         try {
         	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         	sdf.setLenient(false);
@@ -262,6 +307,14 @@ public class GeralController {
         }
     }
 	
+	/**
+	 * Totaliza da conta de um fornecedor para um dado cliente.
+	 * 
+	 * @param cpf é o identificador do cliente.
+	 * @param fornecedor é o identificador do fornecedor.
+	 * 
+	 * @return O total da conta de um fornecedor para um dado cliente.
+	 */
 	public String getDebito(String cpf, String fornecedor) {
 		if (cpf == null || cpf.trim().equals("")) {
 			throw new IllegalArgumentException("Erro ao recuperar debito: cpf nao pode ser vazio ou nulo.");
@@ -289,6 +342,14 @@ public class GeralController {
 		return String.format("%.2f", this.cc.getDebito(cpf, fornecedor)).replace(",", ".");
 	}
 	
+	/**
+	 * Exibe as contas de um cliente com um fornecedor.
+	 * 
+	 * @param cpf é o identificador do cliente.
+	 * @param fornecedor é o identificador do fornecedor.
+	 * 
+	 * @return Retorna a representação textual da conta de um cliente com um fornecedor.
+	 */
 	public String exibeContas(String cpf, String fornecedor) {
 		if (cpf == null || cpf.trim().equals("")) {
 			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cpf nao pode ser vazio ou nulo.");
@@ -308,6 +369,13 @@ public class GeralController {
 		return this.cc.exibeContas(cpf, fornecedor);
 	}
 	
+	/**
+	 * Exibe a representação textual de todas as contas de um cliente.
+	 * 
+	 * @param cpf é o identificador de um cliente.
+	 * 
+	 * @return Retorna a representação textual de todas as contas de um cliente.
+	 */
 	public String exibeContasClientes(String cpf) {
 		if (cpf == null || cpf.trim().equals("")) {
 			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cpf nao pode ser vazio ou nulo.");
@@ -321,6 +389,12 @@ public class GeralController {
 		return this.cc.exibeContasClientes(cpf);
 	}
 	
+	/**
+	 * Realiza a quitação do débito de um cliente com um fornecedor.
+	 * 
+	 * @param cpf é o identificador do cliente.
+	 * @param fornecedor é o identificador do fornecedor.
+	 */
 	public void realizaPagamento(String cpf, String fornecedor) {
 		if (cpf == null || cpf.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no pagamento de conta: cpf nao pode ser vazio ou nulo.");
@@ -340,10 +414,20 @@ public class GeralController {
 		this.cc.realizaPagamento(cpf, fornecedor);
 	}
 	
+	/**
+	 * Define critério de ordenação.
+	 * 
+	 * @param criterio é a forma que as compras serão ordenadas.
+	 */
 	public void ordenaPor(String criterio) {
 		this.cc.setOrdenaPor(criterio);
 	}
 	
+	/**
+	 * Lista as compras de acordo com o critério de ordenação.
+	 * 
+	 * @return Retorna a listagem das compras de acordo com o critério de ordenação que deverá ser definido anteriormente.
+	 */
 	public String listarCompras() {
 		return this.cc.listarCompras();
 	}

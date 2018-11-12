@@ -181,17 +181,6 @@ public class FornecedorController {
 		return lista.stream().map(p -> p.exibeProdutosFornecedor()).collect(Collectors.joining(" | "));
 	}
 	
-	public String getDescProd(String nomeProd) {
-		return this.getDescProd(nomeProd);
-	}
-	
-	public Fornecedor getFornecedor(String nome) {
-		if (!contemFornecedor(nome)) {
-			throw new IllegalArgumentException();
-		}
-		return this.fornecedores.get(nome);
-	}
-	
 	/**
 	 * Permite editar o preço de um produto.
 	 * 
@@ -244,6 +233,17 @@ public class FornecedorController {
 		return lista.stream().map(f -> f.toString()).collect(Collectors.joining(" | "));
 	}
 	
+	/**
+	 *  Adiciona um produto do tipo combo a um fornecedor.
+	 * 
+	 * @param fornecedor é o fornecedor que terá um combo cadastrado.
+	 * @param nome é o nome do combo.
+	 * @param descricao é a descrição do combo.
+	 * @param fator é o fator de desconto que o combo terá.
+	 * @param produtos são os produtos contidos no combo.
+	 * 
+	 * @return O nome e a descrição do combo concatenados.
+	 */
 	public String adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao pode ser vazio ou nulo.");
@@ -272,6 +272,14 @@ public class FornecedorController {
 		return this.fornecedores.get(fornecedor).adicionaCombo(nome, descricao, fator, produtos);
 	}
 	
+	/**
+	 * Permite editar o fator de desconto de um combo.
+	 * 
+	 * @param nome é o nome do combo.
+	 * @param descricao é a descrição do combo.
+	 * @param fornecedor é o fornecedor que possui o combo.
+	 * @param novoFator é o novo valor que será descontado do combo.
+	 */
 	public void editaCombo(String nome, String descricao, String fornecedor, double novoFator) {
 		if (fornecedor == null || fornecedor.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao de combo: fornecedor nao pode ser vazio ou nulo.");
@@ -294,10 +302,27 @@ public class FornecedorController {
 		return this.fornecedores.containsKey(nome);
 	}
 	
+	/**
+	 * Verifica se um determinado produto já foi cadastrado.
+	 * 
+	 * @param fornecedor é o identificador do fornecedor.
+	 * @param nome é o nome do produto.
+	 * @param descricao é a descrição do produto.
+	 * 
+	 * @return Retorna um boolean informando se existe o produto.
+	 */
 	public boolean contemProduto(String fornecedor, String nome, String descricao) {
 		return this.fornecedores.get(fornecedor).contemProduto(nome, descricao);
 	}
 	
+	/**
+	 * Exibe o preço de um produto.
+	 * 
+	 * @param fornecedor é o identificador do fornecedor.
+	 * @param nomeProd é o nome do produto.
+	 * @param descProd é a descrição do produto.
+	 * @return
+	 */
 	public double getPreco(String fornecedor, String nomeProd, String descProd) {
 		return this.fornecedores.get(fornecedor).getPrecoProduto(nomeProd, descProd);
 	}

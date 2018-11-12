@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  *
  */
 public class Cliente implements Comparable<Cliente>{
+	
 	/** CPF do cliente. */
 	private String cpf;
 	/** Nome do cliente. */
@@ -22,6 +23,7 @@ public class Cliente implements Comparable<Cliente>{
 	private String email;
 	/** Localização onde o cliente trabalha. */
 	private String localizacao;
+	/** Coleção com todas as contas de um cliente. */
 	private Map <String, Conta> contas;
 	
 	/**
@@ -116,6 +118,17 @@ public class Cliente implements Comparable<Cliente>{
 		this.localizacao = localizacao;
 	}
 	
+	/**
+	 * Adiciona uma compra pra um cliente.
+	 * 
+	 * @param fornecedor é o identificador do fornecedor.
+	 * @param data é a data onde a compra foi realizada.
+	 * @param nomeProd é o nome do produto.
+	 * @param descProd é a descrição do produto.
+	 * @param preco é o preço da compra.
+	 * 
+	 * @return Retorna o fornecedor.
+	 */
 	public String adicionaCompra(String fornecedor, String data, String nomeProd, String descProd, double preco) {
 		if (this.contas.containsKey(fornecedor)) {
 			this.contas.get(fornecedor).adicionaCompra(fornecedor, this.getNome(), nomeProd, descProd, data, preco);
@@ -126,6 +139,13 @@ public class Cliente implements Comparable<Cliente>{
 		return fornecedor;
 	}
 	
+	/**
+	 * Totaliza da conta de um fornecedor para um dado cliente.
+	 * 
+	 * @param fornecedor é o identificador do fornecedor.
+	 * 
+	 * @return O total da conta de um fornecedor com o cliente.
+	 */
 	public double getDebito(String fornecedor) {
 		if(!this.contas.containsKey(fornecedor)) {
 			throw new IllegalArgumentException("Erro ao recuperar debito: cliente nao tem debito com fornecedor.");
@@ -143,6 +163,13 @@ public class Cliente implements Comparable<Cliente>{
 		return this.cpf;
 	}
 	
+	/**
+	 * Exibe as contas de um cliente com um fornecedor.
+	 * 
+	 * @param fornecedor é o identificador do fornecedor.
+	 * 
+	 * @return Retorna a representação textual da conta do cliente com um fornecedor.
+	 */
 	public String exibeContas(String fornecedor) {
 		if (!this.contas.containsKey(fornecedor)) {
 			throw new IllegalArgumentException("Erro ao exibir conta do cliente: cliente nao tem nenhuma conta com o fornecedor.");
@@ -151,6 +178,11 @@ public class Cliente implements Comparable<Cliente>{
 		return "Cliente: " + this.nome + " | " + this.contas.get(fornecedor).toString();
 	}
 	
+	/**
+	 * Exibe a representação textual de todas as contas do cliente.
+	 * 
+	 * @return Retorna a representação textual de todas as contas do cliente.
+	 */
 	public String exibeContasClientes() {
 		if (this.contas.size() == 0) {
 			throw new IllegalArgumentException("Erro ao exibir contas do cliente: cliente nao tem nenhuma conta.");
@@ -160,6 +192,11 @@ public class Cliente implements Comparable<Cliente>{
 		return "Cliente: " + this.nome + " | " + lista.stream().map(p -> p.toString()).collect(Collectors.joining(" | "));
 	}
 	
+	/**
+	 * Realiza a quitação do débito do cliente com um fornecedor.
+	 * 
+	 * @param fornecedor é o identificador do fornecedor.
+	 */
 	public void realizaPagamento(String fornecedor) {
 		if (!this.contas.containsKey(fornecedor)) {
 			throw new IllegalArgumentException("Erro no pagamento de conta: nao ha debito do cliente associado a este fornecedor.");
@@ -167,6 +204,11 @@ public class Cliente implements Comparable<Cliente>{
 		this.contas.remove(fornecedor);
 	}
 	
+	/**
+	 * Lista todas as compras do cliente, idependente do fornecedor.
+	 * 
+	 * @return Uma lista com todas as compras do cliente.
+	 */
 	public List<Compra> listarCompras() {
 		List<Compra> lista = new ArrayList<>();
 		

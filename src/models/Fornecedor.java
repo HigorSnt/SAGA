@@ -21,7 +21,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	private String email;
 	/** Telefone do fornecedor. */
 	private String telefone;
-	/** Produtos que são comercializados pelo fornecedor. */
+	/** Coleção dos produtos que são comercializados pelo fornecedor. */
 	private Map <String, Produto> produtos;
 	
 	/**
@@ -61,9 +61,6 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		return this.nome;
 	}
 	
-	public String getDescProd(String nomeProd) {
-		return this.produtos.get(nomeProd).getDescricao();
-	}
 	
 	/**
 	 * Informa o email do fornecedor.
@@ -116,7 +113,7 @@ public class Fornecedor implements Comparable<Fornecedor>{
 	 * 
 	 * @param nome é o nome do produto.
 	 * @param descricao é a descrição do produto.
-	 * @param preco é o preco do produto.
+	 * @param preco é o preço do produto.
 	 */
 	public void cadastraProduto(String nome, String descricao, double preco) {
 		if (nome == null || nome.trim().equals("")) {
@@ -152,6 +149,17 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		}
 		
 		return this.produtos.get(key).toString();
+	}
+	
+	/**
+	 * Exibe a descrição do produto.
+	 * 
+	 * @param nomeProd é o nome do produto que quero a descrição.
+	 * 
+	 * @return Retorna a descrição do produto.
+	 */
+	public String getDescProd(String nomeProd) {
+		return this.produtos.get(nomeProd).getDescricao();
 	}
 	
 	/**
@@ -222,12 +230,30 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		this.produtos.remove(key);
 	}
 	
+	/**
+	 * Verifica se o fornecedor comercializa determinado produto.
+	 * 
+	 * @param nome é o nome do produto.
+	 * @param descricao é a descrição do produto.
+	 * 
+	 * @return Retorna um boolean informando se existe ou não.
+	 */
 	public boolean contemProduto(String nome, String descricao) {
 		return this.produtos.containsKey(nome + " - " + descricao);
 	}
 	
 	///////////////////////////////////			ÁREA DO COMBO			\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
+	/**
+	 * Adiciona um produto do tipo combo ao fornecedor.
+	 * 
+	 * @param nome é o nome do combo.
+	 * @param descricao é a descrição do combo
+	 * @param fator é o fator de desconto que o combo recebe.
+	 * @param produtos são os produtos contidos no combo.
+	 * 
+	 * @return O nome e a descrição do combo concatenados.
+	 */
 	public String adicionaCombo(String nome, String descricao, double fator, String produtos) {
 		if (this.produtos.containsKey(nome + " - " + descricao)) {
 			throw new IllegalArgumentException("Erro no cadastro de combo: combo ja existe.");
@@ -235,7 +261,6 @@ public class Fornecedor implements Comparable<Fornecedor>{
 		
 		String[] p = produtos.trim().split(", ");
 		double preco = 0;
-		List<Produto> prod = new ArrayList<>();
 		
 		for (String s : p) {
 			if (!this.produtos.containsKey(s)) {
@@ -245,13 +270,19 @@ public class Fornecedor implements Comparable<Fornecedor>{
 				throw new IllegalArgumentException("Erro no cadastro de combo: um combo nao pode possuir combos na lista de produtos.");
 			}
 			preco += this.produtos.get(s).getPreco();
-			prod.add(this.produtos.get(s));
 		}
 		
-		this.produtos.put(nome + " - " + descricao, new Combo(nome, descricao, preco, fator, prod));
+		this.produtos.put(nome + " - " + descricao, new Combo(nome, descricao, preco, fator));
 		return nome + " - " + descricao;
 	}
 	
+	/**
+	 * Permite a edição de um combo.
+	 * 
+	 * @param nome é o nome do combo, que serve como identificador.
+	 * @param descricao é a descrição do combo, que serve como identificador. 
+	 * @param novoFator é o valor que será descontado do valor total do combo.
+	 */
 	public void editaCombo(String nome, String descricao, double novoFator) {
 		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Erro na edicao de combo: nome nao pode ser vazio ou nulo.");

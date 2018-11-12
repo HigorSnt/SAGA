@@ -11,6 +11,7 @@ import easyaccept.EasyAccept;
  */
 public class Facade {
 	
+	/** Variável que invoca a classe que faz a ligação entre os demais controllers. */
 	private GeralController gc = new GeralController();
 	
 	///////////////////////////////////       MÉTODO QUE CHAMA O EASYACCEPT        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
