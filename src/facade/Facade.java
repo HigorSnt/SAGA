@@ -1,5 +1,6 @@
-package controllers;
+package facade;
 
+import controllers.GeralController;
 import easyaccept.EasyAccept;
 
 /**
@@ -17,7 +18,7 @@ public class Facade {
 	///////////////////////////////////       MÉTODO QUE CHAMA O EASYACCEPT        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public static void main(String[] args) {
-		args = new String[] {"controllers.Facade", "acceptance_tests/use_case_1.txt", "acceptance_tests/use_case_2.txt",
+		args = new String[] {"facade.Facade", "acceptance_tests/use_case_1.txt", "acceptance_tests/use_case_2.txt",
 				"acceptance_tests/use_case_3.txt", "acceptance_tests/use_case_4.txt", "acceptance_tests/use_case_5.txt",
 				"acceptance_tests/use_case_6.txt", "acceptance_tests/use_case_7.txt"};
 		EasyAccept.main(args);
