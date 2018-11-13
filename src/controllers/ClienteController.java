@@ -219,16 +219,20 @@ public class ClienteController {
 	 * @return Retorna a listagem das compras de acordo com o critério de ordenação que deverá ser definido anteriormente.
 	 */
 	public String listarCompras() {
+		if (this.ordenaPor == null) {
+			throw new IllegalArgumentException("Erro na listagem de compras: criterio ainda nao definido pelo sistema.");
+		}
+		
 		List<Compra> lista = new ArrayList<>();
 		for (Cliente c : this.clientes.values()) {
 			lista.addAll(c.listarCompras());
 		}
 		
-		if (ordenaPor.equals("CLIENTE")) {
+		if (this.ordenaPor.equals("CLIENTE")) {
 			Collections.sort(lista, new ComparaPorCliente());
 			return lista.stream().map(p -> p.getCliente() + ", " + p.getFornecedor() + ", "
 					+ p.getDescProd() + ", " + p.getData()).collect(Collectors.joining(" | "));
-		} else if (ordenaPor.equals("FORNECEDOR")) {
+		} else if (this.ordenaPor.equals("FORNECEDOR")) {
 			Collections.sort(lista, new ComparaPorFornecedor());
 			return lista.stream().map(p -> p.getFornecedor() + ", " + p.getCliente() + ", "
 					+ p.getDescProd() + ", " + p.getData()).collect(Collectors.joining(" | "));

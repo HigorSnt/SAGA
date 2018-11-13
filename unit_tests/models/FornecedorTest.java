@@ -68,18 +68,18 @@ class FornecedorTest {
 	
 	@Test
 	public void testRetornaProduto() {
-		assertEquals("X-frango - Hamburguer de frango com queijo e calabresa - R$5,00", f1.retornaProduto("X-frango Hamburguer de frango com queijo e calabresa"));
-		assertEquals("X-burguer - Hamburguer de carne com queijo e calabresa - R$4,50", f1.retornaProduto("X-burguer Hamburguer de carne com queijo e calabresa"));
-		assertEquals("Rubacao - Feijao com arroz e queijo coalho - R$14,00", f2.retornaProduto("Rubacao Feijao com arroz e queijo coalho"));
+		assertEquals("X-frango - Hamburguer de frango com queijo e calabresa - R$5,00", f1.retornaProduto("X-frango - Hamburguer de frango com queijo e calabresa"));
+		assertEquals("X-burguer - Hamburguer de carne com queijo e calabresa - R$4,50", f1.retornaProduto("X-burguer - Hamburguer de carne com queijo e calabresa"));
+		assertEquals("Rubacao - Feijao com arroz e queijo coalho - R$14,00", f2.retornaProduto("Rubacao - Feijao com arroz e queijo coalho"));
 	}
 	
 	@Test
 	public void testEditaPrecoProduto() {
-		assertThrows(IllegalArgumentException.class, ()-> f1.editaProduto("X-frango Hamburguer de frango com queijo e calabresa", 0.0));
+		assertThrows(IllegalArgumentException.class, ()-> f1.editaProduto("X-frango - Hamburguer de frango com queijo e calabresa", 0.0));
 		assertThrows(IllegalArgumentException.class, ()-> f1.editaProduto("X-frango", 0.0));
 		
-		f1.editaProduto("X-frango Hamburguer de frango com queijo e calabresa", 4.00);
-		assertEquals("R$4,00", f1.getPrecoProduto("X-frango", "Hamburguer de frango com queijo e calabresa"));
+		f1.editaProduto("X-frango - Hamburguer de frango com queijo e calabresa", 4.00);
+		assertEquals(4.00, f1.getPrecoProduto("X-frango", "Hamburguer de frango com queijo e calabresa"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("", "Hamburguer de frango com queijo e calabresa"));
 		assertThrows(IllegalArgumentException.class, ()-> f1.getPrecoProduto("X-frango", ""));
@@ -103,9 +103,9 @@ class FornecedorTest {
 		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto("X-frango", null));
 		assertThrows(IllegalArgumentException.class, ()-> f1.removeProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo"));
 		
-		assertEquals("X-burguer - Hamburguer de carne com queijo e calabresa - R$4,50", f1.retornaProduto("X-burguer Hamburguer de carne com queijo e calabresa"));
+		assertEquals("X-burguer - Hamburguer de carne com queijo e calabresa - R$4,50", f1.retornaProduto("X-burguer - Hamburguer de carne com queijo e calabresa"));
 		f1.removeProduto("X-burguer", "Hamburguer de carne com queijo e calabresa");
-		assertThrows(IllegalArgumentException.class, ()-> f1.retornaProduto("X-burguer Hamburguer de carne com queijo e calabresa"));
+		assertThrows(IllegalArgumentException.class, ()-> f1.retornaProduto("X-burguer - Hamburguer de carne com queijo e calabresa"));
 	}
 	
 	@Test

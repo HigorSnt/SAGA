@@ -30,15 +30,15 @@ class ProdutoTest{
 		assertEquals("Coxao de Pizza - Coxao de frango com presunto e queijo - R$2,50", p2.toString());
 		assertEquals("X-frango", p1.getNome());
 		assertEquals("Hamburguer de frango com queijo e calabresa", p1.getDescricao());
-		assertEquals("R$5,00", p1.getPreco());
+		assertEquals(5.00, p1.getPreco());
 	}
 	
 	@Test
 	public void testSetPreco() {
 		assertThrows(IllegalArgumentException.class, ()-> p1.setPreco(0.0));
-		assertEquals("R$5,00", p1.getPreco());
+		assertEquals(5.00, p1.getPreco());
 		p1.setPreco(4.00);
-		assertEquals("R$4,00", p1.getPreco());
+		assertEquals(4.00, p1.getPreco());
 	}
 	
 	@Test

@@ -239,7 +239,6 @@ public class GeralController {
 	 * @param data é a data onde a compra foi realizada.
 	 * @param nomeProd é o nome do produto.
 	 * @param descProd é a descrição do produto.
-	 * @param preco é o preço da compra.
 	 * 
 	 * @return O fornecedor da compra.
 	 */

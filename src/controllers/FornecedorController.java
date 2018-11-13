@@ -260,9 +260,6 @@ public class FornecedorController {
 		if (fator <= 0 || fator >= 1) {
 			throw new IllegalArgumentException("Erro no cadastro de combo: fator invalido.");
 		}
-		if (produtos == null || produtos.trim().equals("")) {
-			throw new IllegalArgumentException("Erro no cadastro de combo: combo deve ter produtos.");
-		}
 		if (!contemFornecedor(fornecedor)) {
 			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao existe.");
 		}
@@ -321,7 +318,7 @@ public class FornecedorController {
 	 * @param fornecedor é o identificador do fornecedor.
 	 * @param nomeProd é o nome do produto.
 	 * @param descProd é a descrição do produto.
-	 * @return
+	 * @return O preço do produto.
 	 */
 	public double getPreco(String fornecedor, String nomeProd, String descProd) {
 		return this.fornecedores.get(fornecedor).getPrecoProduto(nomeProd, descProd);

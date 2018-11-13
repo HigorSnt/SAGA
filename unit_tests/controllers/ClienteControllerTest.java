@@ -36,6 +36,7 @@ class ClienteControllerTest {
 		assertThrows(IllegalArgumentException.class, ()-> cc.cadastraCliente("       ", "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
 		assertThrows(IllegalArgumentException.class, ()-> cc.cadastraCliente("1250", "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
 		
+		assertTrue(cc.contemCliente("58217738123"));
 		assertThrows(IllegalArgumentException.class,()-> cc.exibeCliente("88888888888"));
 		assertEquals("00023827490", cc.cadastraCliente("00023827490", "Victor Emanuel", "vitao@ccc.ufcg.edu.br", "Labarc"));
 		assertThrows(IllegalArgumentException.class,()-> cc.cadastraCliente("00023827490", "Wilson Andre", "wilson_andre@ccc.ufcg.edu.br", "Embedded"));
@@ -81,6 +82,10 @@ class ClienteControllerTest {
 		assertEquals("Ana Amari - SPG - ana_amari@ccc.ufcg.edu.br", cc.exibeCliente("64269141198"));
 		cc.removeCliente("64269141198");
 		assertThrows(IllegalArgumentException.class, ()-> cc.removeCliente("64269141198"));
+		assertThrows(IllegalArgumentException.class, ()-> cc.removeCliente(null));
+		assertThrows(IllegalArgumentException.class, ()-> cc.removeCliente("     "));
+		assertThrows(IllegalArgumentException.class, ()-> cc.removeCliente("123"));
+		assertThrows(IllegalArgumentException.class, ()-> cc.removeCliente("12345678900000000"));
 	}
 	
 	@Test
@@ -112,7 +117,78 @@ class ClienteControllerTest {
 		
 		cc.realizaPagamento("58217738123", "Marcos");
 		assertEquals("Cliente: Lucio Correia | Seu Olavo | X-burguer - 02-04-2015 | "
-				+ "Coxao de Pizza - 07-04-1998", cc.exibeContasClientes("58217735123"));
+				+ "Coxao de Pizza - 07-04-1998", cc.exibeContasClientes("58217738123"));
+	}
+	
+	@Test
+	public void testeListarCompras() {
+		ClienteController clientec = new ClienteController();
+		FornecedorController fornecedorc = new FornecedorController();
+		
+		fornecedorc.adicionaFornecedor("Joabe", "joabecompena@gmail.com", "83 90036-5012");
+		fornecedorc.adicionaFornecedor("Severo", "seusevero@hotmail.com", "83 7898-4565");
+		fornecedorc.adicionaFornecedor("Dona Alba", "alba@gmail.com", "83 99945-1294");
+		fornecedorc.adicionaFornecedor("Marcos", "marcos@gmail.com", "83 99151-3570");
+		
+		clientec.cadastraCliente("12312312312", "Joao Neto", "joao.neto@ccc.ufcg.edu.br", "LIA");
+		clientec.cadastraCliente("45645645645", "Dalto", "dalto@gmail.com", "SPLAB");
+		clientec.cadastraCliente("78978978978", "Zana", "zanazaninha@bol.com", "LSI");
+		clientec.cadastraCliente("58217738123", "Lucio Correia", "lucio_correia@ccc.ufcg.edu.br", "SPLab");
+		clientec.cadastraCliente("19418510068", "Amigao Fernandes", "amigao_fernandes@ccc.ufcg.edu.br", "LSD");
+		
+		fornecedorc.adicionaProduto("Marcos", "Batata frita", "Porcao de batata frita", 4.00);
+		fornecedorc.adicionaProduto("Marcos", "Refrigerante", "Refrigerante (lata)", 2.50);
+		fornecedorc.adicionaProduto("Joabe", "Bolo de Chocolate", "Bolo de trigo com cobertura de chocolate", 2.00);
+		fornecedorc.adicionaProduto("Joabe", "Trufa de Beijinho", "Doce sabor beijinho", 1.50);
+		fornecedorc.adicionaProduto("Severo", "Cocada de Amendoin", "Cocada de doce de leite com pedacos de amendoin", 1.50);
+		fornecedorc.adicionaProduto("Severo", "Agua", "Garrafa de agua 500ml", 1.00);
+		fornecedorc.adicionaProduto("Marcos", "Coxao de Frango", "Coxao de frango com cheddar", 2.50);
+		fornecedorc.adicionaProduto("Dona Alba", "Rubacao", "Feijao com arroz e queijo coalho", 14.00);
+		fornecedorc.adicionaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)");
+		fornecedorc.adicionaCombo("Joabe", "Bolo de Chocolate + Trufa de Beijinho", "Um Bolo e uma Trufa", 0.10, "Bolo de Chocolate - Bolo de trigo com cobertura de chocolate, Trufa de Beijinho - Doce sabor beijinho");
+		fornecedorc.adicionaCombo("Severo", "Cocada com Agua", "Cocada de doce de leite com amendoin e agua gelada", 0.25, "Cocada de Amendoin - Cocada de doce de leite com pedacos de amendoin, Agua - Garrafa de agua 500ml");
+		
+		clientec.adicionaCompra("12312312312", "Joabe", "08/11/2018", "Bolo de Chocolate", "Bolo de trigo com cobertura de chocolate", 2.00);
+		clientec.adicionaCompra("12312312312", "Joabe", "07/11/2018", "Trufa de Beijinho", "Doce sabor beijinho", 1.50);
+		clientec.adicionaCompra("12312312312", "Severo", "08/11/2018", "Agua", "Garrafa de agua 500ml", 1.00);
+		clientec.adicionaCompra("45645645645", "Joabe", "06/11/2018", "Bolo de Chocolate + Trufa de Beijinho", "Um Bolo e uma Trufa", 3.15);
+		clientec.adicionaCompra("78978978978", "Severo", "05/11/2018", "Cocada de Amendoin", "Cocada de doce de leite com pedacos de amendoin", 1.50);
+		clientec.adicionaCompra("45645645645", "Severo", "04/11/2018", "Cocada com Agua", "Cocada de doce de leite com amendoin e agua gelada", 1.88);
+		clientec.adicionaCompra("58217738123", "Dona Alba", "11/11/2011", "Rubacao", "Feijao com arroz e queijo coalho", 0);
+		clientec.adicionaCompra("19418510068", "Marcos", "08/11/2018", "Coxao com batata", "Coxao de frango com batata frita", 4.55);
+		
+		assertThrows(IllegalArgumentException.class, ()-> clientec.setOrdenaPor(null));
+		assertThrows(IllegalArgumentException.class, ()-> clientec.setOrdenaPor("            "));
+		assertThrows(IllegalArgumentException.class, ()-> clientec.setOrdenaPor("produto"));
+		assertThrows(IllegalArgumentException.class, ()-> clientec.listarCompras());
+		
+		String s1 = "Amigao Fernandes, Marcos, Coxao de frango com batata frita, 08/11/2018 | "
+				+ "Dalto, Joabe, Um Bolo e uma Trufa, 06/11/2018 | Dalto, Severo, Cocada de doce de leite com amendoin e agua gelada, 04/11/2018"
+				+ " | Joao Neto, Joabe, Bolo de trigo com cobertura de chocolate, 08/11/2018 | "
+				+ "Joao Neto, Joabe, Doce sabor beijinho, 07/11/2018 | Joao Neto, Severo, Garrafa de agua 500ml, 08/11/2018 | "
+				+ "Lucio Correia, Dona Alba, Feijao com arroz e queijo coalho, 11/11/2011 | "
+				+ "Zana, Severo, Cocada de doce de leite com pedacos de amendoin, 05/11/2018";
+		
+		String s2 = "Dona Alba, Lucio Correia, Feijao com arroz e queijo coalho, 11/11/2011 | Joabe, Dalto, Um Bolo e uma Trufa, 06/11/2018 | "
+				+ "Joabe, Joao Neto, Bolo de trigo com cobertura de chocolate, 08/11/2018 | Joabe, Joao Neto, Doce sabor beijinho, 07/11/2018 | "
+				+ "Marcos, Amigao Fernandes, Coxao de frango com batata frita, 08/11/2018 | "
+				+ "Severo, Dalto, Cocada de doce de leite com amendoin e agua gelada, 04/11/2018 | "
+				+ "Severo, Joao Neto, Garrafa de agua 500ml, 08/11/2018 | "
+				+ "Severo, Zana, Cocada de doce de leite com pedacos de amendoin, 05/11/2018";
+		
+		String s3 = "11/11/2011, Lucio Correia, Dona Alba, Feijao com arroz e queijo coalho | "
+				+ "04/11/2018, Dalto, Severo, Cocada de doce de leite com amendoin e agua gelada | "
+				+ "05/11/2018, Zana, Severo, Cocada de doce de leite com pedacos de amendoin | 06/11/2018, Dalto, Joabe, Um Bolo e uma Trufa | "
+				+ "07/11/2018, Joao Neto, Joabe, Doce sabor beijinho | 08/11/2018, Amigao Fernandes, Marcos, Coxao de frango com batata frita | "
+				+ "08/11/2018, Joao Neto, Joabe, Bolo de trigo com cobertura de chocolate | 08/11/2018, Joao Neto, Severo, Garrafa de agua 500ml";
+		
+		clientec.setOrdenaPor("cliente");
+		assertEquals(s1, clientec.listarCompras());
+		clientec.setOrdenaPor("fornecedor");
+		assertEquals(s2, clientec.listarCompras());
+		clientec.setOrdenaPor("data");
+		assertEquals(s3, clientec.listarCompras());
+		
 	}
 
 }

@@ -72,7 +72,7 @@ class FornecedorControllerTest {
 		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaProduto("Marcos","           ", null, 0.0));
 		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaProduto("Marcos","           ", null, -2.50));
 	
-		assertEquals("Coxao de Pizza Coxao de frango com presunto e queijo", fc.adicionaProduto("Marcos", "Coxao de Pizza", "Coxao de frango com presunto e queijo", 2.50));
+		assertEquals("Coxao de Pizza - Coxao de frango com presunto e queijo", fc.adicionaProduto("Marcos", "Coxao de Pizza", "Coxao de frango com presunto e queijo", 2.50));
 	}
 	
 	@Test
@@ -121,7 +121,9 @@ class FornecedorControllerTest {
 	public void testEditaPrecoProdutoERemoveProduto() {
 		fc.adicionaProduto("Marcos", "Coxao de Pizza", "Coxao de frango com presunto e queijo", 2.50);
 		fc.adicionaProduto("Marcos", "Coxao de Frango", "Coxao de frango com cheddar", 2.50);
-	
+		assertTrue(fc.contemProduto("Marcos", "Coxao de Pizza", "Coxao de frango com presunto e queijo"));
+		assertEquals(2.50, fc.getPreco("Marcos", "Coxao de Frango", "Coxao de frango com cheddar"));
+		
 		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto(null, "Coxao de frango com presunto e queijo", "Marcos", 3.00));
 		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("        ", "Coxao de frango com presunto e queijo", "Marcos", 3.00));
 		assertThrows(IllegalArgumentException.class, ()-> fc.editaProduto("Coxao de Pizza", null, "Marcos", 3.00));
@@ -141,9 +143,61 @@ class FornecedorControllerTest {
 		assertThrows(IllegalArgumentException.class, ()-> fc.removeProduto("Coxao de Pizza", null, "Marcos"));
 		assertThrows(IllegalArgumentException.class, ()-> fc.removeProduto("        ", "Coxao de frango com presunto e queijo", "Marcos"));
 		assertThrows(IllegalArgumentException.class, ()-> fc.removeProduto(null, "Coxao de frango com presunto e queijo", "Marcos"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.removeProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Joabe"));
 		
 		fc.removeProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos");
 		assertThrows(IllegalArgumentException.class, ()-> fc.exibeProduto("Coxao de Pizza", "Coxao de frango com presunto e queijo", "Marcos"));
+	}
+	
+	@Test
+	public void testAdicionaEditaCombo() {
+		fc.adicionaProduto("Marcos","Coxao de Frango", "Coxao de frango com cheddar", 2.50);
+		fc.adicionaProduto("Marcos", "Refrigerante", "Refrigerante (lata)", 2.50);
+		
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo(null, "Coxao com batata", "Coxao de frango com batata frita", 
+				0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("", "Coxao com batata", "Coxao de frango com batata frita", 
+				0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "       ", "Coxao de frango com batata frita", 
+				0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", null, "Coxao de frango com batata frita", 
+				0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "Coxao com batata", "       ", 
+				0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "Coxao com batata", null, 
+				0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 
+				0.0, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 
+				-1.00, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 
+				1.00, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 
+				4.00, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 
+				0.30, null));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 
+				0.30, "                 "));
+		assertThrows(IllegalArgumentException.class, ()-> fc.adicionaCombo("Joabe", "Coxao com batata", "Coxao de frango com batata frita", 
+				0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)"));
+		
+		fc.adicionaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 
+				0.30, "Coxao de Frango - Coxao de frango com cheddar, Refrigerante - Refrigerante (lata)");
+		assertEquals("Coxao com batata - Coxao de frango com batata frita - R$3,50", fc.exibeProduto("Coxao com batata", "Coxao de frango com batata frita", "Marcos"));
+		
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo(null, "Coxao com batata", "Coxao de frango com batata frita", 0.4));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("      ", "Coxao com batata", "Coxao de frango com batata frita", 0.4));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("Marcos", null, "Coxao de frango com batata frita", 0.4));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("Marcos", "     ", "Coxao de frango com batata frita", 0.4));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("Marcos", "Coxao com batata", null, 0.4));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("Marcos", "Coxao com batata", "       ", 0.4));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 0.0));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", -4.0));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 1.0));
+		assertThrows(IllegalArgumentException.class, ()-> fc.editaCombo("Marcos", "Coxao com batata", "Coxao de frango com batata frita", 1.4));
+		
+		fc.editaCombo("Coxao com batata", "Coxao de frango com batata frita", "Marcos", 0.40);
+		assertEquals(3.00, fc.getPreco("Marcos", "Coxao com batata", "Coxao de frango com batata frita"));
 	}
 
 }
